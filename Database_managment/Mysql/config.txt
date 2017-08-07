@@ -1,0 +1,111 @@
+#################   Mysql CONFIG   ###################
+
+## Configuration file :
+
+/usr/local/mysql/support-files/my.cnf
+
+## Problem changing SQL_MODE :
+
+Each time restarting Mysql run this :
+SET GLOBAL sql_mode = '';  // To disabled
+
+## Todo if lost root password !
+# Launch this comand
+sudo service mysql stop
+mysqld_safe --skip-grant-tables 
+
+# In other terminal you can connect now without password
+mysql --user=root mysql
+
+use mysql;
+update user set Password=PASSWORD('new-password') where user='root';
+flush privileges;
+exit;
+
+# Find pid of mysqld_safe and kill it
+
+## Create user with permission a concern database
+
+GRANT ALL PRIVILEGES ON database.table TO 'user'@'localhost' IDENTIFIED BY 'password';
+FLUSH PRIVILEGES;
+
+## Delete user
+DROM USER 'username'@'localhost';
+
+## Create user with remote access to your DB
+GRANT [ACCESS OPTION] ON <database>.* TO 'username'@'<ip-mysql-use>' IDENTIFIED BY 'password';
+FLUSH PRIVILEGES;
+
+## Remove all privilege fro a given user
+REVOKE ALL PRIVILEGES ON *.* FROM '<user>'@'<ip>'
+
+# ACCESS OPTION possible value :
+
+ALL [PRIVILEGES]	Grant all privileges at specified access level except GRANT OPTION and PROXY.
+ALTER	            Enable use of ALTER TABLE. Levels: Global, database, table.
+ALTER ROUTINE	    Enable stored routines to be altered or dropped. Levels: Global, database, procedure.
+CREATE              Enable database and table creation. Levels: Global, database, table.
+CREATE ROUTINE	    Enable stored routine creation. Levels: Global, database.
+CREATE TABLESPACE	Enable tablespaces and log file groups to be created, altered, or dropped. Level: Global.
+CREATE TEMPORARY TABLES	Enable use of CREATE TEMPORARY TABLE. Levels: Global, database.
+CREATE USER	        Enable use of CREATE USER, DROP USER, RENAME USER, and REVOKE ALL PRIVILEGES. Level: Global.
+CREATE VIEW	        Enable views to be created or altered. Levels: Global, database, table.
+DELETE	            Enable use of DELETE. Level: Global, database, table.
+DROP	            Enable databases, tables, and views to be dropped. Levels: Global, database, table.
+EVENT	            Enable use of events for the Event Scheduler. Levels: Global, database.
+EXECUTE	            Enable the user to execute stored routines. Levels: Global, database, table.
+FILE	            Enable the user to cause the server to read or write files. Level: Global.
+GRANT OPTION	    Enable privileges to be granted to or removed from other accounts. Levels: Global, database, table, procedure, proxy.
+INDEX	            Enable indexes to be created or dropped. Levels: Global, database, table.
+INSERT	            Enable use of INSERT. Levels: Global, database, table, column.
+LOCK TABLES	        Enable use of LOCK TABLES on tables for which you have the SELECT privilege. Levels: Global, database.
+PROCESS	            Enable the user to see all processes with SHOW PROCESSLIST. Level: Global.
+PROXY	            Enable user proxying. Level: From user to user.
+REFERENCES	        Enable foreign key creation. Levels: Global, database, table, column.
+RELOAD	            Enable use of FLUSH operations. Level: Global.
+REPLICATION CLIENT	Enable the user to ask where master or slave servers are. Level: Global.
+REPLICATION SLAVE	Enable replication slaves to read binary log events from the master. Level: Global.
+SELECT	            Enable use of SELECT. Levels: Global, database, table, column.
+SHOW DATABASES	    Enable SHOW DATABASES to show all databases. Level: Global.
+SHOW VIEW	        Enable use of SHOW CREATE VIEW. Levels: Global, database, table.
+SHUTDOWN	        Enable use of mysqladmin shutdown. Level: Global.
+SUPER	            Enable use of other administrative operations such as CHANGE MASTER TO, KILL, PURGE BINARY LOGS, SET GLOBAL, and mysqladmin debug command. Level: Global.
+TRIGGER	            Enable trigger operations. Levels: Global, database, table.
+UPDATE	            Enable use of UPDATE. Levels: Global, database, table, column.
+USAGE	            Synonym for “no privileges”
+
+# Remove permission to user
+REVOKE permission ON database.table FROM 'user'@'localhost';
+
+# Show warning
+SHOW WARNINGS
+
+###  Mysql dump process
+
+# Create username for mysqldump
+GRANT SELECT, RELOAD, PROCESS, SUPER, REPLICATION SLAVE ON *.* TO 'username'@'<ip-where-dump-will-be>' IDENTIFIED BY 'password'
+
+# Mysql dump in tar gz
+mysqldump --user=abc --password=abc | gzip > backup.sql.gz
+
+# Deployment
+zcat backup.sql.gz | mysql --user=abc --password=abc
+
+###  Dump  ###
+
+# Dump database with log
+mysqldump --databases <DB-to-export> -t --insert-ignore --skip-opt --master-data -v -u<username> -p<password> -h<ip-mysql-server> 2>>mysql_dump.log > db.sql
+
+-t --insert-ignore --skip-opt : options will give you a sql dump file with no DROP TABLE or CREATE TABLE
+--master-data                 : If exoprt from master, export CHANGE MASTER TO statement
+-v                            : Verbose mode
+--skip-comments --skip-extended-insert : Better dump on small databases
+
+# To export to file (data only)
+mysqldump -u [user] -p[pass] --no-create-info mydb > mydb.sql
+
+# To export to file (structure only)
+mysqldump -u [user] -p[pass] --no-data mydb > mydb.sql
+
+# To import to database
+mysql -u [user] -p[pass] mydb < mydb.sql

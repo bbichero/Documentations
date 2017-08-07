@@ -1,0 +1,12 @@
+###########################   REACT   ###########################
+
+## AJAX react : http://andrewhfarmer.com/react-ajax-best-practices/#4-relay
+
+## GraphSQL : http://graphql.org/code/
+
+## Relay : https://facebook.github.io/relay/
+
+
+## Axios : https://github.com/mzabriskie/axios
+
+## Request : https://github.com/request/request

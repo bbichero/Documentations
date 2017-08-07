@@ -1,0 +1,26 @@
+@Author: Bicheron
+@Date:   2016-07-24 03:50:24 +02:00
+@Last modified by:   Bicheron
+@Last modified time: 2016-08-07 12:06:13 +02:00
+
+#########   HHVM CONFIG  #######
+
+## Installation : (https://docs.hhvm.com/hhvm/installation/introduction)
+
+## Config :
+
+Run these command line :
+
+%(root project directory) touch .hhconfig
+# Then run the typechecker client.
+%(root project directory) hh_client
+
+## Now you can start the HHVM Virtual Machine :
+
+- hhvm -m server -p 8080
+
+# Every file must start with : '<?hh' BUT NO END WITH '?>' like in PHP
+
+# HHVM configuration files PATH
+
+- /usr/local/etc/hhvm

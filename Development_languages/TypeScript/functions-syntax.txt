@@ -1,0 +1,37 @@
+#######################  Code syntax and function details  ######################
+
+## ngFor : is a repeater directive — a way to customize data display.
+
+ex : *ngFor="let hero of heroes"
+
+The string assigned to *ngFor is not a template expression.
+It’s a microsyntax — a little language of its own that Angular interprets.
+In this example, the string "let hero of heroes" means:
+
+Take each hero in the heroes array, store it in the local hero variable, and make it available to the templated HTML for each iteration.
+
+## onSelect: method that sets the selecteditem property to the item the user clicked.
+
+@Component structure :
+
+- selector: 'selector-name',
+- template: `template...`,
+- styles: [`some styles ...`],
+- directives : [Component-name]
+
+## Creating roote : Routes tell the router which views to display when a user clicks a link or pastes a URL into the browser address bar.
+
+This route definition has two parts:
+
+- path: the router matches this route's path to the URL in the browser address bar (/heroes).
+- component: the component that the router should create when navigating to this route (HeroesComponent).
+
+{{selectedHero.name | uppercase}} is my hero
+
+Pipes are a good way to format strings, currency amounts, dates and other display data. Angular ships with several pipes and we can write our own.
+
+In the promise's then callback we call the json method of the http Response to extract the data within the response.
+
+- .then(response => response.json().data)
+
+- .catch(this.handleError); Permit to handle error

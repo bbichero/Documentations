@@ -1,0 +1,32 @@
+@Author: Bicheron
+@Date:   2016-08-08 06:39:37 +02:00
+@Last modified by:   bbicheron
+@Last modified time: 2016-09-09 15:01:37
+
+
+###############  PHP CONFIG  ################
+
+## php.ini location :
+
+/private/etc/php.ini
+
+## hhvm.ini location :
+
+/usr/local/etc/hhvm
+
+## mysql conf :
+
+/usr/local/mysql/support-files/
+
+## CONFIGURE apache2 php, mysql, phpmyadmin localy on El capitan : https://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/
+
+## If error : PID file can't be found :
+
+ps aux | grep mysql
+
+And kill process
+
+## If error "Invalid CSRF token. Send the form again"
+
+mkdir /tmp/sessions
+chmod 0777 /tmp/sessions

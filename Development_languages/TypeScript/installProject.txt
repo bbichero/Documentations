@@ -1,0 +1,54 @@
+
+###############################################################################
+#        Initial config for a new TypeScript / Angular 2 project              #
+###############################################################################
+
+## In root directory project you must have :
+
+- tsconfig.json : contain compilling configuration for your project like target, source, ... and all .ts files
+
+- package.json : contain all angular2 configuration
+
+- typings.json : tell the compiler what library we load
+
+- systemjs.config.js : systemJS configuration more information at : https://angular.io/docs/ts/latest/quickstart.html
+
+Run : npm install to intall all dependencies, library and file from the package.json to make work our project
+
+If typings folder isn't display please run : npm run typings install
+
+## Just make sure there are no npm ERR! messages at the end of npm install.
+
+Now create the root directory of your app/project
+In this directory add a file like : your_project_name.component.ts
+
+    import { Component } from '@angular/core';        # Component is a decorator function that takes a metadata object as argument and we load the @ class
+    @Component({                                      # @Component object with 2 field a selector and a template
+    selector: 'my-app',                             # The selector represent a css selector for a HTML element
+    template: '<h1>My First Angular 2 App</h1>'     # HTML code template
+    })
+    export class AppComponent { }                     # We export AppComponent so that we can import it elsewhere in our application
+
+Now we need something to tell Angular to load the root component. Create the file app/main.ts with the following content:
+
+app/main.ts :
+
+    import { bootstrap }    from '@angular/platform-browser-dynamic';
+    import { AppComponent } from './app.component';
+    bootstrap(AppComponent);
+
+We import the two things we need to launch the application:
+
+- Angular's browser bootstrap function
+- The application root component, AppComponent.
+- Then we call bootstrap with AppComponent.
+
+Now you must create a index.html file :
+
+The index.html file defines the web page that hosts the application.
+
+## The noteworthy sections of HTML are:
+
+- The JavaScript libraries
+- Configuration file for SystemJS, and a script where we import and run the app module which refers to the main file that we just wrote.
+- The <my-app> tag in the <body> which is where our app lives!

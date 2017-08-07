@@ -1,0 +1,73 @@
+##########################  LDAP  ##########################
+
+# Modify entry in ldap dir (client usage)
+ldapmodify -x -W -D "uid=username,dc=hostname,dc=domain"
+dn: uid=username,ou=People,dc=hostname,dc=domain
+changetype: modify
+replace: entryname
+entryname: New entry value
+CTRL-D
+
+# Install package
+apt install slapd ldap-utils ldapscripts
+
+# Create or modify /etc/ldap/slapd.conf to contain the following:
+index   objectClass             eq
+index   cn                      pres,sub,eq
+index   sn                      pres,sub,eq
+index   uid                     pres,sub,eq
+index   displayName             pres,sub,eq
+index   default                 sub
+index   uidNumber               eq
+index   gidNumber               eq
+index   mail,givenName          eq,subinitial
+index   dc                      eq
+
+# Stop ldap service
+service slapd stop
+sudo -u openldap slapindex
+service slapd start
+
+# 
+vi /etc/ldap/olcDbIndex.ldif
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcDbIndex
+olcDbIndex: cn pres,sub,eq
+-
+add: olcDbIndex
+olcDbIndex: sn pres,sub,eq
+-
+add: olcDbIndex
+olcDbIndex: uid pres,sub,eq
+-
+add: olcDbIndex
+olcDbIndex: displayName pres,sub,eq
+-
+add: olcDbIndex
+olcDbIndex: default sub
+-
+add: olcDbIndex
+olcDbIndex: uidNumber eq
+-
+add: olcDbIndex
+olcDbIndex: gidNumber eq
+-
+add: olcDbIndex
+olcDbIndex: mail,givenName eq,subinitial
+-
+add: olcDbIndex
+olcDbIndex: dc eq
+
+# Use ldapmodify to add the indexing settings to the ldap
+ldapmodify -Y EXTERNAL -H ldapi:/// -f ./olcDbIndex.ldif
+
+# Add to end to /etc/ldap/sldap.conf file
+access to attrs=loginShell,gecos
+      by dn="cn=admin,dc=example,dc=com" write
+      by self write
+      by * read
+
+via dynamic configuration
+
+#

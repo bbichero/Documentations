@@ -1,0 +1,17 @@
+###############################  PERL CPAN  ###########################
+
+# Check you got last version of Perl 5
+# make must be install, will be used by cpan to compile package
+sudo apt install perl
+
+# Install cpanminus package
+sudo apt install cpanminus
+
+# Configure cpan library manager (with sudoer user)
+sudo cpan
+
+# Now you can install any package form CPAN library
+sudo cpan install <package-name>
+
+# How to include new package install ?
+use <package-name>;

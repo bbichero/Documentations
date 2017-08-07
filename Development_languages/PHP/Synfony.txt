@@ -1,0 +1,6 @@
+############################  SYMFONY  ###########################
+
+# Start server :
+php bin/console server:start 0.0.0.0:<port> --force
+
+# Put 127.0.0.1 if you want to have localhost server with no access to outside

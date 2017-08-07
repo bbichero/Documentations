@@ -1,0 +1,39 @@
+###########################  ANSIBLE  ###########################
+
+# Install necessary package
+sudo apt-get install --no-install-recommends python-yaml python-jinja2 python-paramiko python-crypto make fakeroot cdbs python-support python-sphinx git
+
+# Clone github repository
+git clone git://github.com/ansible/ansible.git
+
+# Load ansible environment
+cd ansible
+source ./hacking/env-setup
+
+# Ansible is ready but not entire installed, you do not remove the
+# repository you have clone previously
+
+# Follow entire tuto of : https://github.com/leucos/ansible-tuto
+
+# On Ansible machine download ssh_rsa_connection.sh file
+https://github.com/bbichero/shell-script/blob/master/ssh_rsa_connection.sh
+
+# On each machine you want to use ansible, open ssh port to master ansible machine
+iptables -A OUTPUT -p TCP --sport 22 -j ACCEPT
+iptables -t filter -i eth1 --src <ansible-mv>/32 -A INPUT -p TCP --dport 22 -j ACCEPT
+
+# Before executing ssh_rsa_connection.sh file, on each "slave" vm you must 
+# disabled ponctualy forbidden ssh root connection
+vi /etc/ssh/sshd_config
+-PermitRootLogin no
++PermitRootLogin yes
+
+# Restart sshd service for change take effect
+service sshd restart
+
+# execute ssh file on "master" vm
+./ssh_rsa_connection.sh -u root -i <ip-slave>
+
+# Now edit /etc/ssh/sshd_config file to disabled root login
+
+# You can start ansible tuto !

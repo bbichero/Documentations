@@ -1,0 +1,54 @@
+@Author: Bicheron
+@Date:   2016-07-03 04:16:48 +02:00
+@Last modified by:   Bicheron
+@Last modified time: 2016-08-10 09:24:33 +02:00
+
+############# SSH command line ############
+
+Nice bashrc --> https://github.com/twolfson/sexy-bash-prompt
+
+- ssh-keygen -r rsa : creation couple key public / private on local computer
+
+id_rsa : pivate key, with passphrase or not
+id_rsa.pub : public key, for other user and the server
+know_hosts : fingerprint list of update computer : server identity
+
+- ssh-add : memorize computer for ssh server unless tap password
+
+## install necessary package :
+
+sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev \
+libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
+
+## install brew : ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)"
+
+### Transfer data client to server
+
+- wget : download file from server to client
+
+## Push file to serveur :
+
+- scp <file> <username>@<IP address or hostname>:<Destination>
+
+### Create symbolic link
+
+- sudo ln -s /path-to-point/ /dir-location/
+
+### Create new config-server
+
+### list of all USERS ###
+
+- root/etc/passwd
+
+## Open port
+
+- iptables -t filter -A INPUT -p tcp --dport <your port number to open> -j ACCEPT
+- iptables-save
+
+## Uninstall program :
+
+- sudo apt-get purge <program name>
+
+- sudo apt-get autoremove <program name>
+
+- sudo apt-get autoclean <program name>

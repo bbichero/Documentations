@@ -1,0 +1,13 @@
+####################  PYTHON-PIP  INSTALL  ##################
+
+# Install last python package
+apt install python
+
+# Download python file
+wget https://bootstrap.pypa.io/get-pip.py
+
+# Install pip
+sudo python get-pip.py
+
+# Update pip
+pip update

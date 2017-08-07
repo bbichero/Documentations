@@ -1,0 +1,161 @@
+#########################  PUPPET  #########################
+# https://github.com/puppetlabs/puppet
+
+# Install ntpdate
+sudo apt install ntpdate
+sudo ntpdate pool.ntp.org
+
+## On master open port 8140 for slave node connection
+
+# Allow connection from slave puppet node
+iptables -A OUTPUT -o $INTERFACE -p tcp --sport 8140 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i $INTERFACE -p tcp --dport 8140 -m state --state ESTABLISHED -j ACCEPT
+
+## On slave open port 8140 for outcomming conneciton
+
+# Allow outcomming for master connection
+iptables -A OUTPUT -o $INTERFACE -p tcp --dport 8140 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i $INTERFACE -p tcp --sport 8140 -m state --state ESTABLISHED -j ACCEPT
+
+# Add java 8 repository to apt list
+echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
+
+# Update repository
+sudo apt update
+
+# Install openjdk-8-jdk
+sudo apt install --no-install-recommends openjdk-8-jdk
+
+## Install puppet master on Master machine
+sudo apt install puppetmaster-passenger
+
+# Stop apache to avoid conflic type between apache port and puppet port
+sudo systemctl stop apache2
+
+# Check version of puppet is running
+puppet resource package puppetmaster ensure=latest
+
+# Add this line to /etc/puppet/puppet.conf
+dns_alt_names=puppet,master.example.com
+
+# Start the master
+systemctl start puppetmaster
+
+# Check port 8140 is running on Master
+netstat -anpl | grep 8140
+
+# In master add a DNS for puppet master machine in /etc/host
++<ipv4-puppet-master>    puppet
+
+## In slave add master FQND in /etc/puppet/puppet.conf and restart puppet
+[main]
+certname = node.bbichero.com
+server = puppet
+
+systemctl restart puppet
+
+# On each nodes, generate a certificate for the Puppet master to sign:
+puppet agent -t
+
+## On master list all puppet that need approval
+puppet cert list
+
+# Approve the certificates
+puppet cert sign node.example.com
+
+# Return to the Puppet agent nodes and run the Puppet agent again
+puppet agent -t
+
+# On master create directory to store plugins
+mkdir /etc/puppet/modules/accounts
+cd /etc/puppet/modules/accounts
+
+## Create mandatory directory
+mkdir {examples,files,manifests,templates}
+
+The examples directory allows you to test the module locally.
+files contains any static files that may need to be edited or added.
+manifests contains the actual Puppet code for the module,
+and templates contains any non-static files that may be needed.
+
+# Move to manifest
+# Within the init.pp file, define a limited user to use instead of root,
+# replacing all instances of username with your chosen username
+cd manifests
+vi /etc/puppet/modules/accounts/manifests/init.pp
+
+---
+class accounts {
+
+  user { 'username':
+    ensure      => present,
+    home        => '/home/username',
+    shell       => '/bin/bash',
+    managehome  => true,
+    gid         => 'username',
+    }
+
+}
+---
+
+# This file will be used to create the user’s group.
+# Again, replace username with your chosen username
+vi /etc/puppet/modules/accounts/manifests/groups.pp
+
+---
+class accounts::groups {
+        
+  group { 'username':
+    ensure  => present,
+  }
+          
+}
+---
+
+# Include group in /etc/puppet/modules/accounts/manifests/init.pp
+---
+class accounts {
+        
+  include groups
+  ... 
+}
+---
+
+# Include conditional for privileges user following distribution
+---
+  $rootgroup = $osfamily ? {
+    'Debian'  => 'sudo',
+    'RedHat'  => 'wheel',
+    default   => warning('This distribution is not supported by the Accounts module'),
+  }
+          
+  user { 'username':
+  ...
+---
+
+# Add a key and value for user array
+---
+   ...
+   groups      => "$rootgroup",
+   ...
+---
+
+# Generate password for user
+openssl passwd -1
+
+# And add it to username array in previous file open
+---
+   ...
+   password    => '$1$07JUIM1HJKDSWm8.NJOqsP.blweQ..3L0',
+   ...
+---
+
+# Check that file is correct
+puppet parser validate init.pp
+
+# Go to examples directory and create an init.pp file
+cd ../examples
+vi /etc/puppet/modules/accounts/examples/init.pp
+---
+include accounts
+---

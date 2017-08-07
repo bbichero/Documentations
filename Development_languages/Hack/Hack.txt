@@ -1,0 +1,37 @@
+#################################   HACK TUTO    #####################################
+
+## Installation typechecker on Atom
+
+Package Nuclide
+
+## "Compilation" (.hhconfig must ba at the root to run this command)
+
+# On root directory run htis command to see type errro :
+hh_client
+
+## File
+
+All file must be start with :
+<?hh
+
+BUT not end with 
+?>
+
+## Run .php file :
+hhvm <file-name>.php
+
+## Server addresse : dev.bbichero.com (document root : /home/gitlab/dev/test/)
+
+## Hack introduction : http://hacklang.org/
+
+## Type documentation : https://docs.hhvm.com/hack/types/type-system
+
+## Array typping documentation : https://docs.hhvm.com/hack/collections/introduction
+
+## Type annotation documentation : https://docs.hhvm.com/hack/types/annotations
+
+## Async documentation : https://docs.hhvm.com/hack/overview/async (use for mysql)
+
+## XHP lib documentation : https://docs.hhvm.com/hack/XHP/introduction (XML like representation, creation XML balises, etc ..)
+
+## XHP JS documentation : https://github.com/hhvm/xhp-js (permit to create javascript or react element in HACK language)

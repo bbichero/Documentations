@@ -1,0 +1,19 @@
+######################  SCALA INSTALL  ######################
+
+# Download last binary on website : https://www.scala-lang.org/download/
+
+# Install add-repository package
+sudo apt-get install software-properties-common
+
+# Add java 8 repostory source
+sudo add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main"
+
+# Update source
+sudo apt-get update
+
+# Install oracel JDK 8
+sudo apt-get install oracle-java8-installer
+
+dpkg -i <scalabinary>
+
+# Getting started with tuto : https://www.scala-lang.org/documentation/getting-started.html#your-first-lines-of-code

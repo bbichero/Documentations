@@ -1,0 +1,61 @@
+################################  SYMFONY  DOCTRINE SQL  #####################################
+
+# To install doctrine, add this 3 lines in your composer.json file
+"require": {
+    ...
+    "doctrine/doctrine-bundle": "^1.6",
+    "doctrine/doctrine-cache-bundle": "^1.2",
+    "doctrine/orm": "^2.5"
+    }
+    
+# Update composer
+php composer.phar update
+
+# In <project-name>/src/AppBundle/Entity directory
+# Create php file with this template
+
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="<table-name>")
+ */
+class <Class-name>
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="<column-type>", length=<length>)
+     */
+    private $<column-name>;
+
+    ...
+
+}
+
+# Validate new file created
+php bin/console doctrine:schema:validate
+
+# Update schema
+php bin/console doctrine:schema:update --force
+
+# Check this line appear
+Database schema updated successfully! "1" query was executed
+
+# Generate public Setters and Getters
+php bin/console doctrine:generate:entities AppBundle/Entity/<Class-name>
+
+# Now you can use new controller with :
+use AppBundle/Entity/<Class-name>
+
+# Handle POST if Request is not in method parameter
+$request = Request::createFromGlobals();

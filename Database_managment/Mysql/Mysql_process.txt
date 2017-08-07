@@ -1,0 +1,157 @@
+#####################  Mysql Slave and Master  ######################
+
+# Usefull tuto : http://www.zem.fr/replication-entre-2-serveurs-mysql/
+# SSL tuto : https://lowendbox.com/blog/getting-started-with-mysql-over-ssl/
+
+# Install mysql
+sudo apt-get install --no-install-recommends mysql-server-5.5
+
+# On both side, launch mariadb client and execute : SET GLOBAL general_log = 'ON';
+SHOW VARIABLES LIKE "general_log%";
+
+# Get back general log file, default directory is : /var/lib/mysql
+
+# On Master edit /etc/mysql/my.cnf for enable binary logging
+[mysqld]
+log-bin=mysql-bin        # Log file name
+server-id=1              # Autorize connection from slave
+
+# For mariadb
+[mariadb]
+log-bin
+server_id=1
+log-basename=master1
+
+# Restart mysql server
+
+# On Master create user for Slave that will connect to master
+CREATE USER '<user-replication>'@'<ip-mysql-slave>' IDENTIFIED BY 'slavepass' REQUIRE SSL;
+GRANT REPLICATION SLAVE, REPLICATION CLIENT, SUPER ON *.* TO '<user-replication>'@'<ip-mysql-slave>';
+
+# Create user for mysql ansible
+GRANT SELECT, ALTER, RELOAD, PROCESS, SUPER, REPLICATION SLAVE ON *.* TO '<user-dump>'@'localhost' IDENTIFIED BY '<password>';
+
+# Create normal user for export databases
+GRANT USAGE ON *.* TO 'normal_user'@'localhost' IDENTIFIED BY '<password>'
+GRANT SELECT, LOCK TABLES, SHOW VIEW, EVENT, TRIGGER ON `bdd`.* TO 'normal_user'@'localhost';
+
+# Log to master mysql and flush all tables
+FLUSH TABLES WITH READ LOCK;
+
+# ! Don't leave client master !
+
+# In a different session on the master, use the SHOW MASTER STATUS statement
+# to determine the current binary log file name and position
+SHOW MASTER STATUS;
+
+# Restart slave mysql
+
+# See in /etc/mysql/my.cnf if the server id if define, if not add :
+[mysqld]
+server-id=2
+replicate-do-db=<db-name>  # This permit to replicate only a concern database
+                           # To avoid error when edit mysql tables (ex: DROP USER)
+
+# MariaDB
+skip-name-resolve  # Optional, for silent erro in log
+server-id=2
+replicate-do-db=<db-name>  # This permit to replicate only a concern database
+                           # To avoid error when edit mysql tables (ex: DROP USER)
+
+# If it's case check if the server id doesn't conflict with the master server id
+# Restart slave mysql
+
+# Setting up the Master Configuration on the Slave
+# Stop slave
+STOP SLAVE;
+
+# On slave mysql client, execute folowing commands:
+CHANGE MASTER TO
+        MASTER_HOST='master_host_name',
+        MASTER_USER='replication_user_name',
+        MASTER_PASSWORD='replication_password',
+        MASTER_LOG_FILE='recorded_log_file_name',
+        MASTER_LOG_POS=recorded_log_position;
+
+# On mysql slave
+START SLAVE;
+
+# On the master client release tables
+UNLOCK TABLES;
+
+# Secure connection can be done with SSL => https://dev.mysql.com/doc/refman/5.7/en/change-master-to.html
+# Generate ca-chain.cert.pem, cert and private key for slave and master mysql server
+# Place it respectively in /etc/ssl/certs and /etc/ssl/private
+# On mysql master edit /etc/mysql/my.cfg and add following lines in [mysqld] section :
+ssl-ca=cacert.pem
+ssl-cert=server-cert.pem
+ssl-key=server-key.pem
+
+# In master mysql conf file /etc/mysql/my.cnf command this line
+-bind_address = 127.0.0.1
++#bind_address = 127.0.0.1
+
+# On master to see what's going on
+SHOW PROCESSLIST \G;
+
+# On slave to see what's going on
+SHOW SLAVE STATUS \G
+
+# If an error occur on slave
+STOP SLAVE;
+SET GLOBAL SQL_SLAVE_SKIP_COUNTER = 1;  # Tell mysql to skip bad sql query
+START SLAVE;
+
+# Create database on Master
+CREATE DATABASE bdd;
+
+# Create user on Master and Slave for this database
+GRANT ALL PRIVILEGES ON bdd.* TO 'user'@'localhost' IDENTIFIED BY 'password';
+
+# Install php mysql package
+sudo apt-get install php5-common php5-mysql
+
+# In mysql client create table with on entrie
+CREATE TABLE my_table ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY);
+INSERT INTO my_table (id) VALUES (1);
+
+# Create user on Slave to authorize connection from Worker 1 and 2 to Slave mysql with SELECT option
+GRANT SELECT ON bdd.* TO 'skyline_ro'@'<ip-worker-1>' IDENTIFIED BY 'skyline-42';
+GRANT SELECT ON bdd.* TO 'skyline_ro'@'<ip-worker-2>' IDENTIFIED BY 'skyline-42';
+FLUSH PRIVILEGES;
+
+# Do the same in Master mysql and authorize only WRITE access to the workers
+GRANT CREATE, DROP, DELETE, UPDATE, INSERT ON bdd.* TO 'skyline_wo'@'<ip-worker-1>' IDENTIFIED BY 'skyline-42';
+GRANT CREATE, DROP, DELETE, UPDATE, INSERT ON bdd.* TO 'skyline_wo'@'<ip-worker-2>' IDENTIFIED BY 'skyline-42';
+
+# Check access on previous worker
+mysql -h <ip-mysql-slave> -u skyline -p
+
+###########################  GTIDs Conf  ###############################
+
+# On 2 server :
+SET @@global.read_only = ON;
+
+# Shutdown mysql servers
+mysqladmin -uroot -p shutdown
+
+# Restart both servers with GTIDs enabled
+
+# Command to start the master
+mysqld_safe --gtid_mode=ON --log-bin --log-slave-updates --enforce-gtid-consistency \
+--master-info-repository=TABLE --relay-log-info-repository=TABLE &
+
+# Command to start the slave
+mysqld_safe --gtid_mode=ON --log-bin --log-slave-updates --enforce-gtid-consistency
+
+# On slave client
+CHANGE MASTER TO
+    MASTER_HOST = '149.202.139.13',
+    MASTER_USER = 'replication_user',
+    MASTER_PASSWORD = 'motdepasse_replication42',
+    MASTER_AUTO_POSITION = 1;
+
+START SLAVE;
+
+# Disabled read only mode in Master 
+SET @@global.read_only = OFF;
