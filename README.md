@@ -1,9 +1,40 @@
 ### Documentation
 Fews documentation for software use (git, package installation, bash, AdminSys, compilation, etc ...)
 
-* Web server
-	- Apache
-	- Nginx
+* Centralized authentification
+	- LDAP
+
+* Centralized server managment
+	- Ansible
+	- Puppet
+	- Salt
+
+* Container deployment
+	- Docker
+
+* Database managment
+	- MongoDB
+	- Mysql
+	- PosgreSQL
+
+* Development languages
+	- Framwork
+		* NodeJS
+		* Socket IO
+	- Library
+		* React
+			
+	- C
+	- C++
+	- Hack
+	- Ruby
+	- Perl
+	- Python
+	- PHP
+	- Shell
+	- Scala
+	- TypeScript
+	- Yaml
 
 * DHCP
 	- ISC DHCP server
@@ -11,55 +42,73 @@ Fews documentation for software use (git, package installation, bash, AdminSys, 
 * DNS
 	- Bind9
 
-* Web versioning
-	- Gitlab
-	- Gogs
-
-* Database managment
-	- Mysql
-	- PosgreSQL
-	- MongoDB
-
-* Centralized authentification
-	- LDAP
+* Encryption
+	- GPG
+	- RSA
+	- SSL
 
 * File, directory stockage, managment
 	- Owncloud
 	- Samba ?
 
+* Hyperviseur
+	- Hyper v
+	- KVM
+	- VMware ESX
+	- Xen
+
+* Mail managment
+	- Amavis
+	- Dovecot
+	- Exim
+	- Postfix
+	- Spamassassin
+
+* Network
+	- Protocols
+		* IPv4
+		* IPv6
+		* UDP
+		* TCP
+	- Commands
+		* nc
+		* nmap
+		* ping
+
 * Package manager
-	- Composer
-	- Npm
 	- Apt
 	- Brew
+	- Composer
+	- Npm
 	- Yum
-
-* Development languages
-	- Scala
-	- Perl
-	- React
-	- Ruby
-	- NodeJS
-	- PHP
 
 * Shell interpreter
 	- Bash
 	- Zsh
 
-* Centralized server managment
-	- Ansible
-	- Puppet
+* Text editor
+	- Vim
+	- Emacs
+	- Nano	
+	- Atom
+	- Sublivim
+
+* Versionning
+	- git
+		* Github
+		* Gitlab
+		* Gogs
+	- svn
+	- mvs
+
+* Virtualizer
+	- Virtualbox
+	- Qemu
 
 * Virtualsation management
 	- Guestfish (filesystem)
 	- Libvirt
 
-* Hyperviseur
-	- KVM
-	- Xen
-	- Hyper v
-	- VMware ESX
-
-* Virtualizer
-	- Qemu
-	- Virtualbox
+* Web server
+	- Apache
+	- Nginx
