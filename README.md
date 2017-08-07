@@ -1,9 +1,9 @@
-# Documentation
+### Documentation
 Fews documentation for software use (git, package installation, bash, AdminSys, compilation, etc ...)
 
-*## Web server
--### Apache
--### Nginx
+* Web server
+  - Apache
+  - Nginx
 
 ## DHCP
 ### ISC DHCP server
