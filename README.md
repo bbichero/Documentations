@@ -36,22 +36,16 @@ Fews documentation for software use (git, package installation, bash, AdminSys, 
 	- TypeScript
 	- Yaml
 
-* DHCP
-	- ISC DHCP server
-
-* DNS
-	- Bind9
-
 * Encryption
 	- GPG
 	- RSA
 	- SSL
 
-* File, directory stockage, managment
+* Stockage service platform
 	- Owncloud
 	- Samba ?
 
-* Hyperviseur
+* Hypervisor
 	- Hyper v
 	- KVM
 	- VMware ESX
@@ -65,6 +59,11 @@ Fews documentation for software use (git, package installation, bash, AdminSys, 
 	- Spamassassin
 
 * Network
+	- Managing
+		* DHCP
+			- ISC DHCP server
+		* DNS
+			- Bind9
 	- Protocols
 		* IPv4
 		* IPv6
