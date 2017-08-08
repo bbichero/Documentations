@@ -18,23 +18,23 @@ Fews documentation for software use (git, package installation, bash, AdminSys, 
 	- [PosgreSQL](https://github.com/bbichero/Documentation/tree/master/Database_managment/PosgreSQL) (TODO)
 
 * Development languages
-	- Framwork
-		* NodeJS
-		* Socket IO
-	- Library
-		* React
+	- [Framwork](https://github.com/bbichero/Documentation/tree/master/Development_languages/Framwork)
+		* [NodeJS](https://github.com/bbichero/Documentation/tree/master/Development_languages/Framwork/NodeJS) (TODO)
+		* [Socket IO](https://github.com/bbichero/Documentation/tree/master/Development_languages/Framwork/Socket_IO) (TODO)
+	- [Library](https://github.com/bbichero/Documentation/tree/master/Development_languages/Library)
+		* [React](https://github.com/bbichero/Documentation/tree/master/Development_languages/Library/React)
 			
-	- C
-	- C++
-	- Hack
-	- Ruby
-	- Perl
-	- Python
-	- PHP
-	- Shell
-	- Scala
-	- TypeScript
-	- Yaml
+	- [C](https://github.com/bbichero/Documentation/tree/master/Development_languages/C)
+	- [C++](https://github.com/bbichero/Documentation/tree/master/Development_languages/C%2B%2B) (TODO)
+	- [Hack](https://github.com/bbichero/Documentation/tree/master/Development_languages/Hack)
+	- [Perl](https://github.com/bbichero/Documentation/tree/master/Development_languages/Perl)
+	- [PHP](https://github.com/bbichero/Documentation/tree/master/Development_languages/PHP)
+	- [Python](https://github.com/bbichero/Documentation/tree/master/Development_languages/Python)
+	- [Ruby](https://github.com/bbichero/Documentation/tree/master/Development_languages/Ruby) (TODO)
+	- [Scala](https://github.com/bbichero/Documentation/tree/master/Development_languages/Scala)
+	- [Shell](https://github.com/bbichero/Documentation/tree/master/Development_languages/Shell)
+	- [TypeScript](https://github.com/bbichero/Documentation/tree/master/Development_languages/TypeScript)
+	- [Yaml](https://github.com/bbichero/Documentation/tree/master/Development_languages/Yaml) (TODO)
 
 * Encryption
 	- GPG
