@@ -2,20 +2,20 @@
 Fews documentation for software use (git, package installation, bash, AdminSys, compilation, etc ...)
 
 * Centralized authentification
-	- LDAP
+	- [LDAP](https://github.com/bbichero/Documentation/tree/master/Centralized_authentification/LDAP)
 
 * Centralized server managment
-	- Ansible
-	- Puppet
-	- Salt
+	- [Ansible](https://github.com/bbichero/Documentation/tree/master/Centralized_server_management/Ansible)
+	- [Puppet](https://github.com/bbichero/Documentation/tree/master/Centralized_server_management/Puppet)
+	- [Salt](https://github.com/bbichero/Documentation/tree/master/Centralized_server_management/Salt) (TODO)
 
 * Container deployment
-	- Docker
+	- [Docker](https://github.com/bbichero/Documentation/tree/master/Container_deployment/Docker)
 
 * Database managment
-	- MongoDB
-	- Mysql
-	- PosgreSQL
+	- [MongoDB](https://github.com/bbichero/Documentation/tree/master/Database_managment/MongoDB) (TODO)
+	- [Mysql](https://github.com/bbichero/Documentation/tree/master/Database_managment/Mysql)
+	- [PosgreSQL](https://github.com/bbichero/Documentation/tree/master/Database_managment/PosgreSQL) (TODO)
 
 * Development languages
 	- Framwork
@@ -61,9 +61,9 @@ Fews documentation for software use (git, package installation, bash, AdminSys, 
 * Network
 	- Managing
 		* DHCP
-			- ISC DHCP server
+			* ISC DHCP server
 		* DNS
-			- Bind9
+			* Bind9
 	- Protocols
 		* IPv4
 		* IPv6
