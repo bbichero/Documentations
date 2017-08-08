@@ -1,5 +1,8 @@
-### Documentation
-Fews documentation for software use (git, package installation, bash, AdminSys, compilation, etc ...)
+## Documentation
+#### Fews documentation for software use (git, package installation, bash, AdminSys, compilation, etc ...)
+
+### This repository must contain as much documentation it can, please if you have small part of documentation on any linux  soft for installation or just few commented commands, make a pull request.
+### Each subdirectory, for example 'C' or 'KVM' must contain, an install_process, commented_commands and common_issues text file
 
 * Centralized authentification
 	- [LDAP](https://github.com/bbichero/Documentation/tree/master/Centralized_authentification/LDAP)
