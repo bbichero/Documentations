@@ -1,0 +1,27 @@
+##############################  EMBY  #########################
+# Platform for stream audio and video media
+
+# Add repository for Debian stretch
+echo 'deb http://download.opensuse.org/repositories/home:/emby/Debian_9.0/ /' > /etc/apt/sources.list.d/emby-server.list
+
+# Update repository and install emby-server
+apt-get update
+apt-get install emby-server
+
+# Download GPG key, and add them to apt
+wget -nv http://download.opensuse.org/repositories/home:emby/Debian_9.0/Release.key -O Release.key
+apt-key add - < Release.key
+apt-get update
+
+# Install media convertisor
+apt-get install --no-install-recommends libav-tools
+
+# Go to http://<your-ip>:8098
+# Follow instruction
+
+# Install apache2
+sudo apt install apache2
+
+# Active required mods
+a2enmod 
+proxy_connect proxy_html ssl rewrite proxy proxy_http
