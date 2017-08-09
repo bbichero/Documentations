@@ -1,0 +1,13 @@
+###########################  NODE JS  ##########################
+
+# Install required package
+sudo apt install curl
+
+# Download bash script and executing it to prepare installation of nodejs 8
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+
+# Install nodejs package
+sudo apt-get install --no-install-recommends -y nodejs
+
+# Check version installed
+node -v
