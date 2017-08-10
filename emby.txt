@@ -11,7 +11,7 @@ apt-get update
 
 # Update repository and install emby-server
 apt-get update
-apt-get install emby-server
+apt-get install --no-install-recommends emby-server
 
 # Install media convertisor
 apt-get install --no-install-recommends libav-tools
