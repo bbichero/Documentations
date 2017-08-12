@@ -7,7 +7,6 @@ echo 'deb http://download.opensuse.org/repositories/home:/emby/Debian_9.0/ /' > 
 # Download GPG key, and add them to apt
 wget -nv http://download.opensuse.org/repositories/home:emby/Debian_9.0/Release.key -O Release.key
 apt-key add - < Release.key
-apt-get update
 
 # Update repository and install emby-server
 apt-get update
