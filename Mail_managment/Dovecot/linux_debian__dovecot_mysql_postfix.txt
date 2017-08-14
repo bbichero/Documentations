@@ -1,0 +1,401 @@
+WARNING: Dovecot 2.0 and newer is required for SHA-512 password scheme.
+
+Note: Original configuration files are available: /usr/share/dovecot/
+
+Note: Postfix's mailbox_size_limit setting applies to all files that are written to. So if you have a limit of 50 MB, dovecot-lda can't write to log files larger than 50 MB and you'll start getting temporary failures.
+
+# apt-get install dovecot-imapd dovecot-mysql dovecot-sieve dovecot-managesieved
+
+Warning: Per default dovecot don't listen on IPv6.
+You must use
+listen = [::]
+for listen on IPv4 AND IPv6
+
+# vi /etc/dovecot/dovecot.conf
+---
+--- /etc/dovecot/dovecot.conf.org	2015-05-31 17:12:05.000000000 +0000
++++ /etc/dovecot/dovecot.conf	2015-05-31 17:12:33.000000000 +0000
+@@ -27,7 +27,7 @@
+ # "*" listens in all IPv4 interfaces, "::" listens in all IPv6 interfaces.
+ # If you want to specify non-default ports or anything more complex,
+ # edit conf.d/master.conf.
+-#listen = *, ::
++listen = *, ::
+ 
+ # Base directory where to store runtime data.
+ #base_dir = /var/run/dovecot/
+@@ -39,7 +39,7 @@
+ #instance_name = dovecot
+ 
+ # Greeting message for clients.
+-#login_greeting = Dovecot ready.
++login_greeting = yourdomain IMAP Server ready.
+ 
+ # Space separated list of trusted network ranges. Connections from these
+ # IPs are allowed to override their IP addresses and ports (for logging and
+---
+
+# vi /etc/dovecot/conf.d/10-auth.conf
+---
+--- /etc/dovecot/conf.d/10-auth.conf.org	2015-05-31 17:16:32.000000000 +0000
++++ /etc/dovecot/conf.d/10-auth.conf	2015-05-31 17:18:27.000000000 +0000
+@@ -7,7 +7,7 @@
+ # matches the local IP (ie. you're connecting from the same computer), the
+ # connection is considered secure and plaintext authentication is allowed.
+ # See also ssl=required setting.
+-#disable_plaintext_auth = yes
++disable_plaintext_auth = yes
+ 
+ # Authentication cache size (e.g. 10M). 0 means it's disabled. Note that
+ # bsdauth, PAM and vpopmail require cache_key to be set for caching to be used.
+@@ -119,10 +119,10 @@
+ #!include auth-deny.conf.ext
+ #!include auth-master.conf.ext
+ 
+-!include auth-system.conf.ext
+-#!include auth-sql.conf.ext
++#!include auth-system.conf.ext
++!include auth-sql.conf.ext
+ #!include auth-ldap.conf.ext
+ #!include auth-passwdfile.conf.ext
+ #!include auth-checkpassword.conf.ext
+ #!include auth-vpopmail.conf.ext
+-#!include auth-static.conf.ext
++!include auth-static.conf.ext
+---
+
+# vi /etc/dovecot/conf.d/10-mail.conf
+---
+--- /etc/dovecot/conf.d/10-mail.conf.org	2014-12-14 19:20:55.000000000 +0000
++++ /etc/dovecot/conf.d/10-mail.conf	2015-06-10 19:47:11.272660000 +0000
+@@ -27,7 +27,7 @@
+ #
+ # <doc/wiki/MailLocation.txt>
+ #
+-mail_location = mbox:~/mail:INBOX=/var/mail/%u
++mail_location = maildir:/home/vmail/%d/%n
+ 
+ # If you need to set multiple mailbox locations or want to change default
+ # namespace settings, you can do it by defining namespace sections.
+@@ -46,11 +46,11 @@
+   # Hierarchy separator to use. You should use the same separator for all
+   # namespaces or some clients get confused. '/' is usually a good one.
+   # The default however depends on the underlying mail storage format.
+-  #separator = 
++  separator = .
+ 
+   # Prefix required to access this namespace. This needs to be different for
+   # all namespaces. For example "Public/".
+-  #prefix = 
++  prefix = INBOX.
+ 
+   # Physical location of the mailbox. This is in same format as
+   # mail_location, which is also the default for it.
+@@ -103,8 +103,8 @@
+ # System user and group used to access mails. If you use multiple, userdb
+ # can override these by returning uid or gid fields. You can use either numbers
+ # or names. <doc/wiki/UserIds.txt>
+-#mail_uid =
+-#mail_gid =
++mail_uid = 200
++mail_gid = 200
+ 
+ # Group to enable temporarily for privileged operations. Currently this is
+ # used only with INBOX when either its initial creation or dotlocking fails.
+@@ -158,15 +158,15 @@
+ # to make sure that users can't log in as daemons or other system users.
+ # Note that denying root logins is hardcoded to dovecot binary and can't
+ # be done even if first_valid_uid is set to 0.
+-#first_valid_uid = 500
+-#last_valid_uid = 0
++first_valid_uid = 200
++last_valid_uid = 200
+ 
+ # Valid GID range for users, defaults to non-root/wheel. Users having
+ # non-valid GID as primary group ID aren't allowed to log in. If user
+ # belongs to supplementary groups with non-valid GIDs, those groups are
+ # not set.
+-#first_valid_gid = 1
+-#last_valid_gid = 0
++first_valid_gid = 200
++last_valid_gid = 200
+ 
+ # Maximum allowed length for mail keyword name. It's only forced when trying
+ # to create new keywords.
+---
+
+# vi /etc/dovecot/conf.d/10-ssl.conf
+---
+--- /etc/dovecot/conf.d/10-ssl.conf.org	2015-05-31 17:26:38.000000000 +0000
++++ /etc/dovecot/conf.d/10-ssl.conf	2015-05-31 17:27:40.000000000 +0000
+@@ -3,14 +3,14 @@
+ ##
+ 
+ # SSL/TLS support: yes, no, required. <doc/wiki/SSL.txt>
+-ssl = no
++ssl = required
+ 
+ # PEM encoded X.509 SSL/TLS certificate and private key. They're opened before
+ # dropping root privileges, so keep the key file unreadable by anyone but
+ # root. Included doc/mkcert.sh can be used to easily generate self-signed
+ # certificate, just make sure to update the domains in dovecot-openssl.cnf
+-#ssl_cert = </etc/dovecot/dovecot.pem
+-#ssl_key = </etc/dovecot/private/dovecot.pem
++ssl_cert = </etc/dovecot/mail.yourdomain.com.crt
++ssl_key = </etc/dovecot/mail.yourdomain.com.key
+ 
+ # If key file is password protected, give the password here. Alternatively
+ # give it when starting dovecot with -p parameter. Since this file is often
+@@ -46,10 +46,10 @@
+ #ssl_dh_parameters_length = 1024
+ 
+ # SSL protocols to use
+-#ssl_protocols = !SSLv2
++ssl_protocols = !SSLv2 !SSLv3
+ 
+ # SSL ciphers to use
+-#ssl_cipher_list = ALL:!LOW:!SSLv2:!EXP:!aNULL
++ssl_cipher_list = HIGH:MEDIUM:!LOW:!EXPORT:!eNULL:!aNULL:!ADH:!aECDH:!CAMELLIA:!3DES:!DES:!RC4:!RC2:!IDEA:!SEED:!MD5:!aGOST:!PSK
+ 
+ # Prefer the server's order of ciphers over client's.
+ #ssl_prefer_server_ciphers = no
+---
+
+# vi /etc/dovecot/conf.d/20-imap.conf
+---
+--- /etc/dovecot/conf.d/20-imap.conf.org	2015-05-31 17:30:40.000000000 +0000
++++ /etc/dovecot/conf.d/20-imap.conf	2015-05-31 17:31:33.000000000 +0000
+@@ -18,7 +18,7 @@
+ 
+ # How long to wait between "OK Still here" notifications when client is
+ # IDLEing.
+-#imap_idle_notify_interval = 2 mins
++imap_idle_notify_interval = 29 mins
+ 
+ # ID field names and values to send to clients. Using * as the value makes
+ # Dovecot use the default value. The following fields have default values
+---
+
+# vi /etc/dovecot/conf.d/15-lda.conf
+---
+--- /etc/dovecot/conf.d/15-lda.conf.org	2015-05-31 17:28:50.000000000 +0000
++++ /etc/dovecot/conf.d/15-lda.conf	2015-05-31 17:29:50.000000000 +0000
+@@ -8,11 +8,11 @@
+ 
+ # Hostname to use in various parts of sent mails (e.g. in Message-Id) and
+ # in LMTP replies. Default is the system's real hostname@domain.
+-#hostname = 
++hostname = mail.yourdomain.com 
+ 
+ # If user is over quota, return with temporary failure instead of
+ # bouncing the mail.
+-#quota_full_tempfail = no
++quota_full_tempfail = yes
+ 
+ # Binary to use for sending mails.
+ #sendmail_path = /usr/sbin/sendmail
+@@ -37,12 +37,12 @@
+ #lda_original_recipient_header =
+ 
+ # Should saving a mail to a nonexistent mailbox automatically create it?
+-#lda_mailbox_autocreate = no
++lda_mailbox_autocreate = yes
+ 
+ # Should automatically created mailboxes be also automatically subscribed?
+ #lda_mailbox_autosubscribe = no
+ 
+ protocol lda {
+   # Space separated list of plugins to load (default is global mail_plugins).
+-  #mail_plugins = $mail_plugins
++  mail_plugins = $mail_plugins sieve
+ }
+---
+
+# vi /etc/dovecot/conf.d/90-sieve.conf
+---
+--- /etc/dovecot/conf.d/90-sieve.conf.org	2015-05-31 17:34:28.000000000 +0000
++++ /etc/dovecot/conf.d/90-sieve.conf	2015-05-31 17:35:06.000000000 +0000
+@@ -8,7 +8,7 @@
+ plugin {
+   # The path to the user's main active script. If ManageSieve is used, this the
+   # location of the symbolic link controlled by ManageSieve.
+-  sieve = ~/.dovecot.sieve
++  sieve = /home/vmail/%d/%n/sieve/.dovecot.sieve
+ 
+   # The default Sieve script when the user has none. This is a path to a global
+   # sieve script file, which gets executed ONLY if user's private Sieve script
+@@ -20,7 +20,7 @@
+ 
+   # Directory for :personal include scripts for the include extension. This
+   # is also where the ManageSieve service stores the user's scripts.
+-  sieve_dir = ~/sieve
++  sieve_dir = /home/vmail/%d/%n/sieve
+ 
+   # Directory for :global include scripts for the include extension.
+   #sieve_global_dir =
+---
+
+# vi /etc/dovecot/conf.d/20-managesieve.conf
+---
+--- /etc/dovecot/conf.d/20-managesieve.conf.org	2015-05-31 17:32:20.000000000 +0000
++++ /etc/dovecot/conf.d/20-managesieve.conf	2015-05-31 17:33:37.000000000 +0000
+@@ -3,14 +3,15 @@
+ ##
+ 
+ # Uncomment to enable managesieve protocol:
+-#protocols = $protocols sieve
++protocols = $protocols sieve
+ 
+ # Service definitions
+ 
+-#service managesieve-login {
+-  #inet_listener sieve {
+-  #  port = 4190
+-  #}
++service managesieve-login {
++  inet_listener sieve {
++    port = 4190
++    ssl = yes
++  }
+ 
+   #inet_listener sieve_deprecated {
+   #  port = 2000
+@@ -26,12 +27,12 @@
+ 
+   # If you set service_count=0, you probably need to grow this.
+   #vsz_limit = 64M
+-#}
++}
+ 
+-#service managesieve {
++service managesieve {
+   # Max. number of ManageSieve processes (connections)
+   #process_limit = 1024
+-#}
++}
+ 
+ # Service configuration
+ 
+---
+
+# vi /etc/dovecot/conf.d/auth-static.conf.ext
+---
+--- /etc/dovecot/conf.d/auth-static.conf.ext.org	2015-05-31 17:38:48.000000000 +0000
++++ /etc/dovecot/conf.d/auth-static.conf.ext	2015-05-31 17:39:13.000000000 +0000
+@@ -18,7 +18,7 @@
+ #  args = password=test
+ #}
+ 
+-#userdb {
+-#  driver = static
+-#  args = uid=vmail gid=vmail home=/home/%u
+-#}
++userdb {
++  driver = static
++  args = uid=200 gid=200 home=/home/vmail/%d/%n
++}
+---
+
+# vi /etc/dovecot/conf.d/auth-sql.conf.ext
+---
+--- /etc/dovecot/conf.d/auth-sql.conf.ext.org	2015-05-31 17:36:55.000000000 +0000
++++ /etc/dovecot/conf.d/auth-sql.conf.ext	2015-05-31 17:37:41.000000000 +0000
+@@ -16,10 +16,10 @@
+ #  driver = prefetch
+ #}
+ 
+-userdb {
+-  driver = sql
+-  args = /etc/dovecot/dovecot-sql.conf.ext
+-}
++#userdb {
++#  driver = sql
++#  args = /etc/dovecot/dovecot-sql.conf.ext
++#}
+ 
+ # If you don't have any user-specific settings, you can avoid the user_query
+ # by using userdb static instead of userdb sql, for example:
+---
+
+# vi /etc/dovecot/dovecot-sql.conf.ext
+---
+--- /etc/dovecot/dovecot-sql.conf.ext.org	2015-05-31 17:14:21.000000000 +0000
++++ /etc/dovecot/dovecot-sql.conf.ext	2015-05-31 17:15:08.000000000 +0000
+@@ -29,7 +29,7 @@
+ # );
+ 
+ # Database driver: mysql, pgsql, sqlite
+-#driver = 
++driver = mysql
+ 
+ # Database connection string. This is driver-specific setting.
+ #
+@@ -68,14 +68,14 @@
+ #   connect = host=sql.example.com dbname=virtual user=virtual password=blarg
+ #   connect = /etc/dovecot/authdb.sqlite
+ #
+-#connect =
++connect = host=sqlmail.corp.yourdomain.com dbname=mail user=postfix password=toto
+ 
+ # Default password scheme.
+ #
+ # List of supported schemes is in
+ # http://wiki2.dovecot.org/Authentication/PasswordSchemes
+ #
+-#default_pass_scheme = MD5
++default_pass_scheme = CRYPT
+ 
+ # passdb query to retrieve the password. It can return fields:
+ #   password - The user's password. This field must be returned.
+@@ -107,6 +107,7 @@
+ #password_query = \
+ #  SELECT username, domain, password \
+ #  FROM users WHERE username = '%n' AND domain = '%d'
++password_query = SELECT email as user, password FROM users WHERE email = '%u'
+ 
+ # userdb query to retrieve the user information. It can return fields:
+ #   uid - System UID (overrides mail_uid setting)
+---
+
+
+Put mail.yourdomain.com.crt, mail.yourdomain.com.key and ca.crt in /etc/dovecot/
+# chown root:root mail.yourdomain.com.{crt,key} ca.crt
+# chmod 400 mail.yourdomain.com.{crt,key}
+# chmod 444 ca.crt
+
+
+# vi /etc/postfix/main.cf
+at the end of file
+---
+# Be sure smtpd_client_restriction is null !! If not every mail will be rejected
+
+# Proxymap
+proxy_read_maps = $local_recipient_maps $mydestination $virtual_alias_maps $virtual_alias_domains $virtual_mailbox_maps $virtual_mailbox_domains $relay_recipient_maps $relay_domains $canonical_maps $sender_canonical_maps $recipient_canonical_maps $relocated_maps $transport_maps $mynetworks $virtual_mailbox_limit_maps
++
++# Dovecot
++virtual_transport = dovecot
++dovecot_destination_recipient_limit = 1
+---
+
+# vi /etc/postfix/master.cf
+at the end of file
+---
+mailman   unix  -       n       n       -       -       pipe
+  flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
+  ${nexthop} ${user}
++dovecot   unix  -       n       n       -       -       pipe
++  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/dovecot-lda -f ${sender} -a ${recipient} -d ${user}@${nexthop}
+---
+
+
+Fix subscriptions, subscribe to all folders:
+---
+for i in `find /home/vmail/domains/ -maxdepth 3 -type d -name 'Maildir'`; do
+ find $i -maxdepth 1 -type d -name ".*" | sed "s|$i/.||g" > $i/subscriptions
+done
+---
+
+Note about SSL:
+Dovecot don't use ssl_ca_file except when using verify client certificate.
+You must add CA certificate in ssl_cert_file at the end (first certificate is mail.yourdomain.com followed by root certificates):
+# cat ca.crt >> mail.yourdomain.com.crt

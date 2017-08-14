@@ -1,0 +1,66 @@
+############################  SAMBA  #########################
+
+# Install samba package
+sudo apt install --no-install-recommends samba
+
+# Edit the Samba configuration file.
+vi /etc/samba/smb.conf
+
+# In the global section, check the name of the workgroup.
+# It might be useful to know it when you'll try to connect from a Windows machine:
+[global]
+   ...
+   workgroup = STURBAIN
+
+# Locate the home share definition:
+[homes]
+
+# In that section you may enable read-write access to the home directories:
+read only = no
+
+# To share files in some other path on the system, add another share definition such as:
+[ourfiles]
+   comment = Some useful files
+   read only = no
+   locking = no
+   path = /path_to_our_files
+   guest ok = no
+
+# Add Samba users
+# Samba uses it's own password system so users need to be added by root.
+# Note that the users have to exist in /etc/passwd
+smbpasswd -a <username>
+
+# To list existing Samba users:
+pdbedit -w -L
+
+# Restart samba service
+/etc/init.d/samba restart
+
+# Try to access the shares (as a normal user)
+# Try locally first, then from another machine on the network which also installed samba client.
+# When prompted, use the password entered when adding the user to Samba.
+
+# To access my share:
+smbclient //ourmachine/me
+
+# To access your share:
+smbclient -U you //ourmachine/you
+
+# To access our shared(!) share:
+smbclient //ourmachine/ourfiles
+
+# To access from MAC OSX: Finder / GO
+smb://<ipv4-addr>/<username>
+
+## Mount samba disk on remote VM
+# create credentials file
+---
+username=<samba-user>
+password=<samba-password-user>
+---
+# Install pasckage
+sudo apt install cifs-utils
+
+# Mount disk
+sudo mount -t cifs //<samba-server-ip>/share /mount/point/local -o credentials=/path/to/credentials/file

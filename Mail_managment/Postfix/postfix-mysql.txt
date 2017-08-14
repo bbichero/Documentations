@@ -1,0 +1,283 @@
+# apt-get install --purge postfix postfix-mysql postfix-cdb postfix-pcre bsd-mailx
+
+General type of configuration? No configuration
+
+
+Set up MySQL for Virtual Domains and Users
+
+# mysql -u root -p
+
+mysql> CREATE DATABASE mail;
+mysql> USE mail;
+
+mysql> GRANT SELECT ON mail.* TO postfix IDENTIFIED BY 'toto';
+mysql> GRANT ALL PRIVILEGES ON mail.* TO mailadmin IDENTIFIED BY 'tata';
+mysql> FLUSH PRIVILEGES;
+
+mysql> CREATE TABLE domains (domain varchar(255) NOT NULL default '', PRIMARY KEY (domain) );
+mysql> CREATE TABLE forwardings (source varchar(255) NOT NULL default '', destination TEXT NOT NULL default '', PRIMARY KEY (source) );
+mysql> CREATE TABLE users (email varchar(255) NOT NULL default '', password varchar(255) NOT NULL default '', quota int(10) NOT NULL default '0', PRIMARY KEY (email) );
+mysql> CREATE TABLE transport ( domain varchar(255) NOT NULL default '', transport varchar(255) NOT NULL default '', UNIQUE KEY domain (domain) );
+
+mysql> quit;
+
+
+The domains table will store each virtual domain that Postfix should receive emails for (e.g. example.com).
+---------------
+| domain      |
+---------------
+| example.com |
+---------------
+
+The forwardings table is for aliasing one email address to another, e.g. forward emails for info@example.com to sales@example.com.
+----------------------------------------
+| source           | destination       |
+----------------------------------------
+| info@example.com | sales@example.com |
+----------------------------------------
+
+The users table stores all virtual users (i.e. email addresses, because the email address and user name is the same) and passwords (in encrypted form!) and a quota value for each mail box (in this example the default value is 10485760 bytes which means 10MB).
+-----------------------------------------------
+| email            | password      | quota    |
+-----------------------------------------------
+| info@example.com | No9.E4skNvGa. | 10485760 |
+-----------------------------------------------
+
+The transport table is optional and is for advanced users. It allows us to forward mails for single users, whole domains or all mails to another server. For example,
+--------------------------------
+| domain      | transport      |
+--------------------------------
+| example.com | smtp:[1.2.3.4] |
+--------------------------------
+would forward all emails for example.com via the smtp protocol to the server with the IP address 1.2.3.4 (the square brackets [] mean "do not make a lookup of the MX DNS record" (which makes sense for IP addresses...). If you use a fully qualified domain name (FQDN) instead you would not use the square brackets.).
+
+Add record to forwarding table
+INSERT INTO `forwardings` (`source`, `destination`) VALUES ('source@exemple.com','destination@exemple.com');
+
+Delete record from forwarding table
+DELETE FROM forwardings WHERE source = 'source@exemple.com' and destination = 'destination@exemple.com';
+
+Show forwarding table
+SELECT * FROM forwardings;
+
+
+# addgroup --gid 200 vmail
+# adduser --home /home/vmail --gecos '' --uid 200 --ingroup vmail --disabled-password vmail
+# chmod 770 /home/vmail
+
+
+Configure Postfix to work with MySQL
+
+# vi /etc/postfix/mysql-virtual_domains.cf
+---
+hosts = sqlmail.corp.yourdomain.com
+user = postfix
+password = toto
+dbname = mail
+query = SELECT domain AS virtual FROM domains WHERE domain='%s'
+---
+
+# vi /etc/postfix/mysql-virtual_forwardings.cf
+---
+hosts = sqlmail.corp.yourdomain.com
+user = postfix
+password = toto
+dbname = mail
+query = SELECT destination FROM forwardings WHERE source='%s'
+---
+
+# vi /etc/postfix/mysql-virtual_mailboxes.cf
+---
+hosts = sqlmail.corp.yourdomain.com
+user = postfix
+password = toto
+dbname = mail
+query = SELECT CONCAT(SUBSTRING_INDEX(email,'@',-1),'/',SUBSTRING_INDEX(email,'@',1),'/') FROM users WHERE email='%s'
+---
+
+# vi /etc/postfix/mysql-virtual_email2email.cf
+---
+hosts = sqlmail.corp.yourdomain.com
+user = postfix
+password = toto
+dbname = mail
+query = SELECT email FROM users WHERE email='%s'
+---
+
+# vi /etc/postfix/mysql-virtual_transport.cf
+---
+hosts = sqlmail.corp.yourdomain.com
+user = postfix
+password = toto
+dbname = mail
+query = SELECT domain FROM transport WHERE domain='%s'
+---
+
+# vi /etc/postfix/mysql-virtual_mailboxes_quota.cf
+---
+hosts = sqlmail.corp.yourdomain.com
+user = postfix
+password = toto
+dbname = mail
+query = SELECT quota FROM users WHERE email='%s'
+---
+
+# chmod 640 /etc/postfix/mysql-virtual_*.cf
+# chown root:postfix /etc/postfix/mysql-virtual_*.cf
+
+Put config files (root:root):
+/etc/postfix/main.cf
+/etc/postfix/master.cf
+/etc/postfix/ca.crt
+/etc/postfix/server.crt
+/etc/postfix/server.key
+# chmod 600 /etc/postfix/server{.crt,.key}
+
+# vi /etc/postfix/master.cf
+Check
+---
+home_mailbox = Maildir/
+---
+#mailbox_command = /usr/bin/procmail
+#mailbox_command = /usr/bin/procmail -a "$EXTENSION"
+---
+-#transport_maps = hash:/etc/postfix/transport
++transport_maps = proxy:mysql:/etc/postfix/mysql-virtual_transport.cf
+---
+# Virtual
+virtual_mailbox_base = /home/vmail
+virtual_uid_maps = static:200
+virtual_gid_maps = static:200
+virtual_alias_domains =
+virtual_alias_maps = proxy:mysql:/etc/postfix/mysql-virtual_forwardings.cf, mysql:/etc/postfix/mysql-virtual_email2email.cf
+virtual_mailbox_domains = proxy:mysql:/etc/postfix/mysql-virtual_domains.cf
+virtual_mailbox_maps = proxy:mysql:/etc/postfix/mysql-virtual_mailboxes.cf
+virtual_mailbox_limit_maps = proxy:mysql:/etc/postfix/mysql-virtual_mailboxes_quota.cf
+
+# Proxymap
+proxy_read_maps = $local_recipient_maps $mydestination $virtual_alias_maps $virtual_alias_domains $virtual_mailbox_maps $virtual_mailbox_domains $relay_recipient_maps $relay_domains $canonical_maps $sender_canonical_maps $recipient_canonical_maps $relocated_maps $transport_maps $mynetworks $virtual_mailbox_limit_maps
+---
+
+# vi /etc/postfix/main.cf
+Check
+---
+smtpd_client_restrictions = hash:/etc/postfix/access, reject
+---
+
+# vi /etc/postfix/access
+---
+# Allow access from MX servers only, don't allow access from other machine !
+# This SMTP server is for internal use only, all external & direct access must be rejected.
+127.0.0.1 OK
+::1 OK
+---
+# postmap /etc/postfix/access
+
+
+Forwarding Options
+
+The forwardings table can have entries as follows:
+
+----------------------------------------------------------------------------------------
+| source 	   | destination 	       | description                           |
+----------------------------------------------------------------------------------------
+| info@example.com | sales@example.com         | Redirects emails for info@example.com |
+|                  |                           | to sales@example.com                  |
+----------------------------------------------------------------------------------------
+| @example.com 	   | thomas@example.com        | Creates a Catch-All account for       |
+|                  |                           | thomas@example.com. All emails to     |
+|                  |                           | example.com will arrive at            |
+|                  |                           | thomas@example.com, except those that |
+|                  |                           | exist in the users table (i.e., if    |
+|                  |                           | sales@example.com exists in the users |
+|                  |                           | table, mails to sales@example.com     |
+|                  |                           | will still arrive at                  |
+|                  |                           | sales@example.com).                   |
+----------------------------------------------------------------------------------------
+| @example.com 	   | @anotherdomain.com        | This redirects all emails to          |
+|                  |                           | example.com to the same user at       |
+|                  |                           | anotherdomain.tld. E.g., emails to    |
+|                  |                           | thomas@example.com will be forwarded  |
+|                  |                           | to thomas@anotherdomain.tld.          |
+----------------------------------------------------------------------------------------
+| info@example.com | sales@example.com,
+|                  | billing@anotherdomain.com | Forward emails for info@example.com   |
+|                  |                           | to two or more email addresses. All   |
+|                  |                           | listed email addresses under          |
+|                  |                           | destination receive a copy of the     |
+|                  |                           | email.                                |
+----------------------------------------------------------------------------------------
+
+Transport Options
+
+The transport table can have entries like these:
+
+----------------------------------------------------------------------------------------
+| domain          | transport 	                     | description                     |
+----------------------------------------------------------------------------------------
+| example.com     | : 	                             | Delivers emails for example.com |
+|                 |                                  | locally. This is as if this     |
+|                 |                                  | record would not exist in this  |
+|                 |                                  | table at all.                   |
+----------------------------------------------------------------------------------------
+| example.com     | smtp:mail.anotherdomain.com      | Delivers all emails for         |
+|                 |                                  | example.com via smtp to the     |
+|                 |                                  | server mail.anotherdomain.com.  |
+----------------------------------------------------------------------------------------
+| example.com     | smtp:mail.anotherdomain.com:2025 | Delivers all emails for         |
+|                 |                                  | example.com via smtp to the     |
+|                 |                                  | server mail.anotherdomain.com,  |
+|                 |                                  | but on port 2025, not 25 which  |
+|                 |                                  | is the default port for smtp.   |
+----------------------------------------------------------------------------------------
+| example.com     | smtp:[1.2.3.4],                  | The square brackets prevent     |
+|                 | smtp:[1.2.3.4]:2025,             | Postfix from doing lookups of   |
+|                 | smtp:[mail.anotherdomain.tld]    | the  MX DNS record for the      |
+|                 |                                  | address in square brackets.     |
+|                 |                                  | Makes sense for IP addresses.   |
+----------------------------------------------------------------------------------------
+| .example.com 	  | smtp:mail.anotherdomain.com      | Mail for any subdomain of       |
+|                 |                                  | example.com is delivered to     |
+|                 |                                  | mail.anotherdomain.com.         |
+----------------------------------------------------------------------------------------
+| *               | smtp:mail.anotherdomain.com      | All emails are delivered to     |
+|                 |                                  | mail.anotherdomain.com.         |
+----------------------------------------------------------------------------------------
+| joe@example.com | smtp:mail.anotherdomain.com      | Emails for joe@example.com are  |
+|                 |                                  | delivered to                    |
+|                 |                                  | mail.anotherdomain.com.
+----------------------------------------------------------------------------------------
+
+Please keep in mind that the order of entries in the transport table is important!
+The entries will be followed from the top to the bottom.
+
+
+Create domains & users
+
+
+# mysql -u root -p
+
+mysql> USE mail;
+mysql> INSERT INTO `domains` (`domain`) VALUES ('example.com');
+mysql> INSERT INTO `users` (`email`, `password`, `quota`) VALUES ('sales@example.com', SHA512('secret'), 0);
+
+Note: 0 mean unlimited quota.
+
+
+On SMTP server
+
+----
+Create domain:
+INSERT INTO `domains` (`domain`) VALUES ('exemple.com');
+
+Create user:
+$ mkpasswd -m sha-512
+mysql> INSERT INTO `users` (`email`, `password`, `quota`) VALUES ('<email address>', '<mktemp return encrypted password>', 0);
+
+Update user password:
+$ mkpasswd -m sha-512
+mysql> UPDATE users SET password='<mktemp return encrypted password>' WHERE email='<email address>';
+----
+
+Test ssl certificate
+$ openssl s_client -connect you.domain.com:587 -starttls smtp

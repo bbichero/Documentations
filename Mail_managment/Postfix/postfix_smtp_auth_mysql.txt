@@ -1,0 +1,110 @@
+On SMTP server
+--------------
+
+### IF ERROR : sql_select option missing
+apt-get remove cyrus-sasl-sql
+###
+
+# apt-get install sasl2-bin libsasl2-modules libsasl2-modules-sql libpam-mysql postfix-mysql bsd-mailx
+
+# /etc/init.d/postfix stop
+# /etc/init.d/saslauthd stop
+
+# vi /etc/default/saslauthd
+---
+-START=no
++START=yes
+---
+-OPTIONS="-c -m /var/run/saslauthd"
++OPTIONS="-r -c -m /var/spool/postfix/var/run/saslauthd"
+---
+
+# dpkg-statoverride --add root sasl 710 /var/spool/postfix/var/run/saslauthd
+
+# adduser postfix sasl
+
+# rm -r -f /var/run/saslauthd
+# ln -s /var/spool/postfix/var/run/saslauthd /var/run/saslauthd
+
+# vi /etc/pam.d/smtp
+---
+auth    required   pam_mysql.so host=sqlmail.corp.yourdomain.com user=postfix passwd=toto db=mail table=users usercolumn=email passwdcolumn=password crypt=1
+account sufficient pam_mysql.so host=sqlmail.corp.yourdomain.com user=postfix passwd=toto db=mail table=users usercolumn=email passwdcolumn=password crypt=1
+---
+# chmod 600 /etc/pam.d/smtp
+
+# chown root:sasl /etc/sasldb2
+# chmod 660 /etc/sasldb2
+
+# cp /etc/sasldb2 /var/spool/postfix/etc/sasldb2
+# chown root:postfix /var/spool/postfix/etc/sasldb2
+# chmod 660 /var/spool/postfix/etc/sasldb2
+
+# /etc/init.d/saslauthd start
+
+Then use testsaslauthd to test authentication against the MySQL server:
+$ testsaslauthd -u mail@test.com -p password -s smtp
+If it's working, you should see: 0: OK "Success."0: OK "Success."
+
+For avoid:
+ postfix/smtpd: sql_select option missing
+ postfix/smtpd: auxpropfunc error no mechanism available
+ postfix/smtpd: _sasl_plugin_load failed on sasl_auxprop_plug_init for plugin: sql
+# apt-get remove --purge libsasl2-modules-sql
+
+New install:
+# put header_checks, helo_restrictions, main.cf, master.cf to /etc/postfix/
+# chown root:root /etc/postfix/{header_checks,helo_restrictions,main.cf,master.cf}
+# postmap /etc/postfix/header_checks
+# postmap /etc/postfix/helo_restrictions
+
+Put smtp.yourdomain.com.crt, smtp.yourdomain.com.key and ca.crt  in /etc/postfix/
+# chown root:root smtp.yourdomain.com.{crt,key} ca.crt
+# chmod 400 smtp.yourdomain.com.{crt,key} ca.crt
+
+Existing install: update Postfix config:
+# vi /etc/postfix/main.cf
+---
+smtpd_tls_security_level = may
++smtpd_tls_auth_only=yes
++
++# SASL
++smtpd_sasl_auth_enable = yes
++smtpd_sasl_authenticated_header = yes
++#smtpd_sasl_exceptions_networks = $mynetworks
++smtpd_sasl_path = smtpd
++smtpd_sasl_security_options = noanonymous
++smtpd_sasl_tls_security_options = noanonymous
++
++smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
+
+---
+
+# Check next value
+
+myhostname = domain.com
+mydestination = mail.$myhostname
+
+---
+
+Note: smtpd_tls_auth_only is very important and must be set to yes in all cases, it force authentification to
+be done on encrypted session !
+
+# vi /usr/lib/sasl2/smtpd.conf
+---
+saslauthd_version: 2
+mech_list: PLAIN LOGIN
+pwcheck_method: saslauthd
+allow_plaintext: true
+---
+# chmod 600 /usr/lib/sasl2/smtpd.conf
+# ln -s /usr/lib/sasl2/smtpd.conf /etc/postfix/sasl/smtpd.conf
+
+# /etc/init.d/postfix start
+
+Check:
+
+# telnet <server> 25
+ehlo localhost
+=> Make sure AUTH line are NOT show !
+

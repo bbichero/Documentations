@@ -1,0 +1,320 @@
+Postfix
+-------
+
+Install Postfix:
+# apt-get install --purge postfix postfix-cdb postfix-pcre bsd-mailx
+General type of configuration? No configuration
+
+Configure Postfix:
+Put config files (root:root):
+/etc/postfix/access.cidr
+/etc/postfix/header_checks
+/etc/postfix/helo_restrictions
+/etc/postfix/main.cf
+/etc/postfix/master.cf
+/etc/postfix/relay_recipients
+/etc/postfix/transport
+/etc/postfix/ca.crt
+/etc/postfix/server.crt
+/etc/postfix/server.key
+# chmod 600 /etc/postfix/server{.crt,.key}
+
+# postmap /etc/postfix/access.cidr
+# postmap /etc/postfix/header_checks
+# postmap /etc/postfix/helo_restrictions
+# postmap /etc/postfix/relay_recipients
+# postmap /etc/postfix/transport
+
+Configure Postfix for send mail to Amavis process:
+Make sure /etc/postfix/master.cf contain:
+---
+smtp      inet  n       -       y       -       -       smtpd
+  -o smtpd_proxy_filter=127.0.0.1:10024
+  -o smtpd_client_connection_count_limit=50
+
+127.0.0.1:10025 inet  n       -       y       -       -       smtpd
+  -o smtpd_authorized_xforward_hosts=127.0.0.0/8
+  -o smtpd_client_restrictions=
+  -o smtpd_helo_restrictions=
+  -o smtpd_sender_restrictions=
+  -o smtpd_recipient_restrictions=permit_mynetworks,reject
+  -o smtpd_data_restrictions=
+  -o mynetworks=127.0.0.0/8
+  -o receive_override_options=no_unknown_recipient_checks
+  -o smtpd_use_tls=no
+---
+
+Note: If no amavisd process is running or Postfix can't connect to amavisd-new, Postfix will return the following temporary error:
+"451 4.3.0 Error: queue file write error"
+
+
+SpamAssassin
+------------
+
+Install SpamAssassin:
+# apt-get install spamassassin
+
+Configure SpamAssassin:
+# vi /etc/spamassassin/local.cf
+---
+#   Use Bayesian classifier (default: 1)
+#
+-# use_bayes 1
++use_bayes 1
+
+
+#   Bayesian classifier auto-learning (default: 1)
+#
+-# bayes_auto_learn 1
++bayes_auto_learn 1
+---
+Add at the end
+---
+
+rbl_timeout 10
+dns_available yes
+
+---
+# vi /etc/default/spamassassin
+---
+-CRON=0
++CRON=1
+---
+
+For learn spam (if need):
+# su amavis
+$ sa-learn --progress --spam cur/* 
+
+Add rules for unused old e-mail address:
+---
+# I get a lot of spam to this address, but haven't
+# used it in several years
+header   TO_RETIRED_E_MAIL      To =~ /retired\@e-mail_address.org/
+describe TO_RETIRED_E_MAIL      Mail to an old retired e-mail address
+score    TO_RETIRED_E_MAIL      3.00
+---
+
+
+amavisd-new
+-----------
+
+Install amavisd-new:
+# apt-get install amavisd-new arc arj cabextract lzop nomarch p7zip-full pax ripole unrar-free zoo snmpd snmp
+
+Configure amavisd-new:
+# /etc/init.d/amavis stop
+
+Put /etc/amavis/conf.d/50-user and /etc/amavis/blacklist_sender, /etc/amavis/local_domains, /etc/amavis/score_sender, /etc/amavis/spam_lovers, /etc/amavis/whitelist_sender
+
+Note: $max_servers value in /etc/amavis/conf.d/50-user must match with smtpd_client_connection_count_limit=50 in /etc/postfix/master.cf
+
+If /var/lib/amavis/tmp don't exist:
+# mkdir /var/lib/amavis/tmp
+# chown amavis:amavis /var/lib/amavis/tmp
+
+Enable SNMP support:
+# vi /etc/snmp/snmpd.conf
+---
+-#agentXSocket    tcp:localhost:705
++agentXSocket    tcp:localhost:705
+---
+# /etc/init.d/snmpd restart
+
+# vi /etc/default/amavisd-snmp-subagent
+---
+-ENABLED="no"
++ENABLED="yes"
+---
+# /etc/init.d/amavisd-snmp-subagent start
+
+Test:
+# $ snmpwalk -v 3 -u <user> -l authPriv -a SHA -A <password> -x AES -X <password> 127.0.0.1 .1.3.6.1.4.1.15312.2.1
+iso.3.6.1.4.1.15312.2.1.1.1.1.0 = STRING: "amavisd-new-2.6.4 (20090625)"
+
+Note: The amavisd-snmp-subagent can be started at any time, either before or after amavisd, and either before or after snmpd. It can also be restarted at any time. Also, amavisd can be restarted without having to restart amavisd-snmp-subagent, as it will automatically notice a database change and connect to a new database. Similarly, a snmpd daemon can be restarted at any time and amavisd-snmp-subagent will reconnect to it if necessary.
+
+
+Use tmpfs for better performance
+--------------------------------
+
+# /etc/init.d/amavis stop
+# rm -r -f  /var/lib/amavis/tmp/*
+
+# id amavis
+uid=105(amavis) gid=109(amavis) groups=109(amavis)
+
+# vi /etc/fstab
+Add at the end
+---
+tmpfs	/var/lib/amavis/tmp	tmpfs	defaults,noexec,nodev,nosuid,size=400m,mode=750,uid=105,gid=109	0	0
+---
+Use the uid and gid of the user your amavisd-new runs as. Also choose the size sufficiently large!
+
+# mount /var/lib/amavis/tmp
+# /etc/init.d/amavis start
+
+Ref: http://www.arschkrebs.de/postfix/amavisd_tmpfs.shtml
+
+
+Clamv
+-----
+
+Install Clamv:
+# apt-get install clamav clamav-daemon clamav-freshclam clamav-testfiles
+
+# mkdir /var/log/amavis
+# chown amavis:amavis /var/log/amavis
+
+# dpkg-reconfigure clamav-base
+->
+Handle the configuration file automatically? Yes
+Socket type: UNIX
+Local (Unix) socket the daemon will listen on: /var/run/amavis/clamd.ctl
+Group owner of clamd local (UNIX) socket: amavis
+Creation mode for clamd local (UNIX) socket: 666
+Gracefully handle left-over Unix socket files? Yes
+Do you want to enable mail scanning? No
+Do you want to enable archive scanning? Yes
+Maximum stream length (unit Mb) allowed: 10
+Maximum directory depth that will be allowed: 15
+Do you want the daemon to follow regular file symlinks? No
+Timeout for stopping the thread-scanner (seconds): 180
+Number of threads for the daemon: 12
+Number of pending connections allowed: 15
+Do you want to use the system logger? Yes
+Log file for clamav-daemon (leave blank for none): /var/log/amavis/clamav.log
+Do you want to log time information with each message? Yes
+Delay in seconds between daemon self checks: 3600
+What user do you want to run clamav-daemon as: amavis
+Groups for clamav-daemon (space-seperated):
+Do you want to load bytecode from the database? Yes
+Security level to apply to the bytecode: TrustSigned
+Bytecode execution timeout in miliseconds: 60000
+->
+
+# /etc/init.d/clamav-daemon stop
+
+# rm /var/log/clamav/clamav.log
+# vi /etc/clamav/clamd.conf
+---
+-PidFile /var/run/clamav/clamd.pid
++PidFile /var/run/amavis/clamd.pid
+---
+
+# dpkg-reconfigure clamav-freshclam
+->
+Virus database update method: daemon
+Local database mirror site: db.local.clamav.net
+HTTP proxy information (leave blank for none):
+Number of freshclam updates per day: 24
+Should clamd be notified after updates? Yes
+->
+
+
+Razor
+-----
+
+WARNING: Must open firewall for client
+
+Install Razor:
+# apt-get install razor
+
+Configure Razor:
+# su amavis
+$ cd
+$ razor-client
+$ razor-admin -home=/var/lib/amavis/.razor -d -create
+$ razor-admin -home=/var/lib/amavis/.razor -register
+$ razor-admin -home=/var/lib/amavis/.razor -discover
+
+
+# vi /var/lib/amavis/.razor/razor-agent.conf
+change from
+>
+debuglevel             = 3
+>
+to
+>
+debuglevel             = 0
+>
+
+# rm /var/lib/amavis/.razor/razor-agent.log
+
+Enable Razor in spamassassin:
+# vi /etc/spamassassin/local.cf
+Add at the end
+---
+
+razor_config /var/lib/amavis/.razor/razor-agent.conf
+
+---
+
+Firewall:
+All 'established,related' incoming TCP connections
+All 'new,established,related' outgoing TCP connections, destination port 2703, source port 1024:65535
+
+
+Pyzor
+-----
+
+WARNING: Must open firewall for client
+
+Install pyzor:
+# apt-get install pyzor
+
+Verification:
+# su amavis -c 'pyzor discover'
+# su amavis -c 'pyzor ping'
+ => You should see OK.
+
+Firewall:
+Allow 'new,established,related' incoming UDP connections, source port 24441
+Allow 'new,established,related' outgoing UDP connections, destination port 24441
+If the command `pyzor ping` says no servers are answering, you may need to adjust your firewall.
+
+
+Test
+----
+
+# wget -O /tmp/gtube.txt http://spamassassin.apache.org/gtube/gtube.txt
+# su amavis -c 'spamassassin -D </tmp/gtube.txt >/tmp/test-report.txt 2>&1'
+# cat /tmp/test-report.txt
+# rm /tmp/gtube.txt /tmp/test-report.txt
+
+
+
+
+Verification
+------------
+
+$ telnet localhost 10024
+220 [127.0.0.1] ESMTP amavisd-new service ready
+HELO localhost
+250 [127.0.0.1]
+MAIL FROM: <>
+250 2.1.0 Sender  OK
+RCPT TO: <postmaster>
+250 2.1.5 Recipient postmaster OK
+DATA
+354 End data with <CR><LF>.<CR><LF>
+From: virus-tester
+To: undisclosed-recipients:;
+Subject: amavisd test - simple - no spam test pattern
+
+
+Headers filtering testing
+-------------------------
+
+Let’s assume that we have a header_checks file with this one line in it:
+
+/etc/postfix/header_checks
+---
+/super new viagra/ REJECT
+---
+
+We can do a test to see if the header checks will catch and reject things:
+
+$ postmap -q 'super new viagra' regexp:/etc/postfix/header_checks
+REJECT
+$ postmap -q 'super new v1agra' regexp:/etc/postfix/header_checks
+$ postmap -q 'super viagra' regexp:/etc/postfix/header_checks

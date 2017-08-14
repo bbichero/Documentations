@@ -1,0 +1,89 @@
+#######################  OWNCLOUD INSTALLATION  ##########################
+
+# Last stable version : 10
+# Download to : https://owncloud.org/install/#edition
+
+tar xf <tar-file>
+
+# Install mandatory package
+apt-get install apache2 mysql-server-5.5 
+
+# Install php7
+echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list
+wget -O- https://www.dotdeb.org/dotdeb.gpg | apt-key add -
+apt update
+apt install php7.0 libapache2-mod-php7.0 php7.0-mysql php7.0-curl php7.0-json php7.0-gd php7.0-mcrypt php7.0-msgpack php7.0-memcached php7.0-intl php7.0-sqlite3 php7.0-gmp php7.0-geoip php7.0-mbstring php7.0-xml php7.0-zip
+
+# Install owncloud
+wget -nv https://download.owncloud.org/download/repositories/stable/Debian_8.0/Release.key -O Release.key
+apt-key add - < Release.key
+
+sh -c "echo 'deb http://download.owncloud.org/download/repositories/stable/Debian_8.0/ /' > /etc/apt/sources.list.d/owncloud.list"
+apt-get update
+apt-get install owncloud
+
+# Create mysql user and table
+mysql -u root -p
+CREATE DATABASE owncloud
+GRANT ALL ON owncloud.* TO 'owncloud'@'localhost' IDENTIFIED BY '<password>'
+quit
+
+# Go to http://<your-ip>/ownlcoud
+Create user for owncloud
+Enter mysql credential
+
+# Create owncloud.conf file in /etc/apache2/sites-available
+<VirtualHost *:80>
+   	ServerName owncloud.bicheron.com
+   	Redirect permanent / https://owncloud.bicheron.com/owncloud
+</VirtualHost>
+
+<VirtualHost *:443>
+	ServerName owncloud.bicheron.com
+    	SSLEngine On
+
+	<IfModule mod_headers.c>
+		Header always set Strict-Transport-Security "max-age=15768000; includeSubDomains; preload"
+	</IfModule>
+
+	<Directory /home/bbicheron>
+		Require all denied
+	</Directory>
+
+	<Directory /var/www/owncloud>
+        	Options Indexes FollowSymLinks MultiViews
+        	AllowOverride All
+        	Require all granted
+		#Require ip 90.28.130.152
+    	</Directory>
+
+	#DocumentRoot /home/bbicheron/owncloud
+	DocumentRoot /var/www/owncloud
+
+	ErrorLog ${APACHE_LOG_DIR}/owncloud.log
+
+    	# Possible values include: debug, info, notice, warn, error,
+    	# crit,
+    	# alert, emerg.
+    	LogLevel warn
+
+	SSLOptions +FakeBasicAuth +ExportCertData +StrictRequire
+    	SSLCipherSuite RC4-SHA:AES128-SHA:HIGH:!aNULL:!MD5
+    	SSLHonorCipherOrder on
+
+	# Path to SSL certificate
+	SSLCertificateFile /etc/ssl/certs/www.owncloud.cert.pem
+	SSLCertificateKeyFile /etc/ssl/private/www.owncloud.key.pem
+</VirtualHost>
+
+# Disabled default apache virtual host
+a2dissite 000-default default-ssl
+
+# Enable new virtual host
+a2enmod owncloud
+
+# Enable ssl module
+a2enmod ssl
+
+# If you move old file to your new owncloud server you must scan new file add, in owncloud dir, execute :
+sudo -u www-data php /var/www/owncloud/console.php files:scan --all

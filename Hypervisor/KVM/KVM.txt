@@ -1,0 +1,85 @@
+############################  KVM VIRT COMMANDS  ###########################
+
+## KVM basic installation for a Debian Jessie VM :
+
+# See kernel version
+uname -mrsn
+
+# qemu-img convert -c -f <format-src-disk> -O <format-dst-disk> -o options <src-disk-name> <dst-disk-name>
+
+- Applies compression on the target disk image. Only qcow and qcow2 formats support
+compression.
+
+- The format of the source disk image. It is autodetected in most cases and can therefore be omitted.	
+
+- The format of the target disk image.
+
+- Specify additional options relevant for the target image format. Use -o ? to view the list of options supported by the target image format:
+
+- Path to the source disk image to be converted.
+
+- Path to the converted target disk image. 
+
+# Snapshot
+qemu-img snapshot -c <snapshot-name> /images/sles11sp1.qcow2
+
+sudo virt-install \
+                  --name <vm-name> \
+                  --ram <memory-number-MB> \
+                  --disk path=/home/bbicheron/<group-name>/<vm-name>-disk/<img-name>.img,size=9 \
+                  --vcpus <vpcu-number> \
+                  --os-type linux \
+                  --os-variant generic \
+                  --network network=default \
+                  --console pty,target_type=serial \
+                  --location 'http://ftp.fr.debian.org/debian/dists/jessie/main/installer-amd64/' \
+                  --extra-args 'console=tty0 console=ttyS0'
+
+
+## Display VM configuration :
+sudo virsh dominfo <vm-name>
+
+### Live method
+
+## Increase VCPU number of VM :
+sudo virsh setvcpus <vm-name> <new-vcpu-number>
+
+## Apply VCPU change :
+sudo virsh setvcpus <vm-name> <new-vcpu-number> --config
+
+## Increase RAM memory of VM :
+sudo virsh setmem <vm-name> <ram-number>M
+
+## Apply RAM change : 
+sudo virsh setmem UAKVM2 <ram-number>M --config
+
+## Decrease VCPU number of VM : (Apply change after)
+sudo virsh setvcpus --live --guest <vm-name> <new-vcpu-number>
+
+### Offline method
+
+## Edit VM configuration :
+sudo virsh edit <vm-name>
+
+## Edit VCPU number :
+<vcpu placement='static'>PLACE number here</vcpu>
+
+## Edit RAM memory :
+sudo virsh edit <vm-name>
+  <memory unit='KiB'>2097152</memory>
+  <currentMemory unit='KiB'>NUMBER to change</currentMemory>
+
+## Change the MAX RAM memory :
+sudo virsh setmaxmem <vm-name> <number>G
+
+## Increase allocated memory
+sudo virsh setmem <vm-name> <number>G
+
+## Apply change
+sudo virsh setmem <vm-name> <number>G --config
+
+## On VM check the RAM memory :
+free -m
+
+## On VM check the VCPU number :
+lscpu

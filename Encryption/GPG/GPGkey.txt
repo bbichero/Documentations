@@ -1,0 +1,51 @@
+#########################  GPG key  ############################
+#tuto : https://docs.abuledu.org/abuledu/mainteneur/creer_une_cle_gpg
+
+# install package for genrerating random number
+sudo apt-get install rng-tools
+
+# Run command
+sudo rngd -r /dev/urandom
+
+# Open a new terminal for generating key
+gpg --gen-key
+
+# List gpg keys
+gpg --list-keys 
+
+# Show fingerprint, this "key" will be used at every gpg exchange
+gpg --fingerprint
+
+# Create revoke certificat gpg key
+gpg --gen-revoke <8-char-id> >.gnupg/revoque.macle
+
+# Revoke key
+gpg --import /.gnupg/revoque.macle
+
+# Send revoke key
+gpg --send-key <8-char-id>
+
+# Send public key on server
+gpg --keyserver hkp://pgp.mit.edu:80 --send-keys <8-char-id>
+
+
+###
+# Donwload gpg key
+gpg --keyserver pgp.mit.edu --recv-keys <8chars-id-user>
+
+# Print it
+gpg --fingerprint <8chars-id-user>
+
+# Now sign key if you trust or not it
+gpg --edit-key <8chars-id-user>
+trust
+sign
+save
+quit
+
+# Send server your last signed key
+gpg --keyserver pgp.mit.edu --send-keys
+
+# Refresh set key
+gpg --keyserver pgp.mit.edu --refresh-keys
+###
