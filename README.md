@@ -46,17 +46,17 @@
 	- [SSL](https://github.com/bbichero/Documentation/tree/master/Encryption/SSL)
 
 * Hypervisor
-	- [Hyper v](https://github.com/bbichero/Documentation/tree/master/Hypervisor/Hyper_v)(TODO)
+	- [Hyper v](https://github.com/bbichero/Documentation/tree/master/Hypervisor/Hyper_v) (TODO)
 	- [KVM](https://github.com/bbichero/Documentation/tree/master/Hypervisor/KVM)
-	- [VMware ESX](https://github.com/bbichero/Documentation/tree/master/Hypervisor/VMware_esx)(TODO)
-	- [Xen](https://github.com/bbichero/Documentation/tree/master/Hypervisor/Xen)(TODO)
+	- [VMware ESX](https://github.com/bbichero/Documentation/tree/master/Hypervisor/VMware_esx) (TODO)
+	- [Xen](https://github.com/bbichero/Documentation/tree/master/Hypervisor/Xen) (TODO)
 
 * Mail managment
-	- [Amavis](https://github.com/bbichero/Documentation/tree/master/Mail_managment/Amavis)(TODO)
+	- [Amavis](https://github.com/bbichero/Documentation/tree/master/Mail_managment/Amavis) (TODO)
 	- [Dovecot](https://github.com/bbichero/Documentation/tree/master/Mail_managment/Dovecot)
-	- [Exim](https://github.com/bbichero/Documentation/tree/master/Mail_managment/Exim)(TODO)
+	- [Exim](https://github.com/bbichero/Documentation/tree/master/Mail_managment/Exim) (TODO)
 	- [Postfix](https://github.com/bbichero/Documentation/tree/master/Mail_managment/Postfix)
-	- [Spamassassin](https://github.com/bbichero/Documentation/tree/master/Mail_managment/Amavis)(TODO)
+	- [Spamassassin](https://github.com/bbichero/Documentation/tree/master/Mail_managment/Amavis) (TODO)
 
 * Network
 	- [Commands](https://github.com/bbichero/Documentation/tree/master/Network/Commands)
@@ -71,30 +71,30 @@
 			* Bind9
 		* [Firewall](https://github.com/bbichero/Documentation/tree/master/Network/Managing/Firewall)
 			* [Iptables](https://github.com/bbichero/Documentation/tree/master/Network/Managing/Firewall/Iptables)
-			* [Ipfw](https://github.com/bbichero/Documentation/tree/master/Network/Managing/Firewall/Ipfw)(TODO)
+			* [Ipfw](https://github.com/bbichero/Documentation/tree/master/Network/Managing/Firewall/Ipfw) (TODO)
 	- [Protocols](https://github.com/bbichero/Documentation/tree/master/Network/Protocols)
 		* [IPv4](https://github.com/bbichero/Documentation/tree/master/Network/Protocols/IPv4)
 		* [IPv6](https://github.com/bbichero/Documentation/tree/master/Network/Protocols/IPv6)
-		* [UDP](https://github.com/bbichero/Documentation/tree/master/Network/Protocols/UDP)(TODO)
-		* [TCP](https://github.com/bbichero/Documentation/tree/master/Network/Protocols/TCP)(TODO)
+		* [UDP](https://github.com/bbichero/Documentation/tree/master/Network/Protocols/UDP) (TODO)
+		* [TCP](https://github.com/bbichero/Documentation/tree/master/Network/Protocols/TCP) (TODO)
 
 * Package manager
-	- Apt
-	- Brew
-	- Composer
-	- Npm
-	- Yum
+	- [Apt](https://github.com/bbichero/Documentation/tree/master/Package_manager/Apt)
+	- [Brew](https://github.com/bbichero/Documentation/tree/master/Package_manager/Brew) (TODO)
+	- [Composer](https://github.com/bbichero/Documentation/tree/master/Package_manager/Composer)
+	- [Npm](https://github.com/bbichero/Documentation/tree/master/Package_manager/Npm)
+	- [Yum](https://github.com/bbichero/Documentation/tree/master/Package_manager/Yum) (TODO)
 
 * Shell interpreter
-	- Bash
-	- Zsh
+	- [Bash](https://github.com/bbichero/Documentation/tree/master/Shell_interpreter/Bash)
+	- [Zsh](https://github.com/bbichero/Documentation/tree/master/Shell_interpreter/Zsh) (TODO)
 
 * Text editor
-	- Vim
-	- Emacs
-	- Nano	
-	- Atom
-	- Sublivim
+	- [Vim](https://github.com/bbichero/Documentation/tree/master/Text_editor/Vim)
+	- [Emacs](https://github.com/bbichero/Documentation/tree/master/Text_editor/Emacs) (TODO)
+	- [Nano](https://github.com/bbichero/Documentation/tree/master/Text_editor/Nano) (TODO)
+	- [Atom](https://github.com/bbichero/Documentation/tree/master/Text_editor/Atom) (TODO)
+	- [Sublivim](https://github.com/bbichero/Documentation/tree/master/Text_editor/Sublvim) (TODO)
 
 * Versionning
 	- git
