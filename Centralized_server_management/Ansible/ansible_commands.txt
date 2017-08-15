@@ -1,0 +1,98 @@
+#########################  Ansible commands  ########################
+
+## For more documentation go to : http://docs.ansible.com
+
+# First we need to define hosts, that will be use
+# by ansible to execute commands in this hosts
+
+# An exemple in /etc/ansible/hosts :
+
+mail.example.com
+
+[webservers]   < -- Group name
+foo.example.com  < -- Hostname
+bar.example.com
+
+[dbservers]
+one.example.com
+two.example.com
+three.example.com
+
+# You must define host port like this :
+badwolf.example.com:5309
+
+# But if hostname given do not resolv, or correspond to ip, do it like this :
+jumper ansible_port=5555 ansible_host=192.0.2.50
+
+-> jumper : hostname
+-> 5555   : port for connection
+-> 192.0.2.50 : ipv4 for connection
+
+# A range of host can be selected like this :
+www[01:50].example.com 
+
+# Group of group must be define :
+[atlanta]
+host1
+host2
+
+[raleigh]
+host2
+host3
+
+[southeast:children]
+atlanta
+raleigh
+
+# Yalm file contain command that ansible will execute in hosts
+
+# This short exemple install apache with apt module
+- hosts: web
+  tasks:
+    - name: Installs apache web server
+      apt: pkg=apache2 state=installed update_cache=true
+      
+# Then we need to tell ansible to execute file
+ansible-playbook -i hosts -l host1.example.org apache.yml
+
+-> ansible-playbook : permet to give yalm file to ansible
+-> -i hosts         : give host file in param
+-> -l host1.example.org : tell ansible to execute yalm file only on specified host
+-> apache.yml       : yalm file
+
+# Description of yalm file :
+- hosts: web            # Group where ansible will execute file
+  tasks:                # List of tasks witch ansible will execute
+   - name: .....        # Not mandatory but very usefull, argument of "name" will be print when execute yalm file
+    apt: pkg=.....      # will make apache2 installed with apt module, and update cache with apt-get update
+    
+# Ansible can do loop for and repeat severals tasks :
+ apt: pkg={{ item }} state=latest 
+  with_items:               # Will list all packahe that must be install
+    - apache2
+    - libapache2-mod-php5
+    - git
+    
+# We must create new file, ex a new virtual host
+ - name: Push future default virtual host configuration
+      copy: src=files/awesome-app dest=/etc/apache2/sites-available/ mode=0640
+
+# Or simply execute a command
+ - name: Push future default virtual host configuration
+      copy: src=files/awesome-app dest=/etc/apache2/sites-available/ mode=0640
+
+# Here we stock our command return in variable
+- name: Check that our config is valid
+  command: apache2ctl configtest
+  register: result              # Stock command result in result variable
+  ignore_errors: True           # Don't stop if error occur
+  
+# Check if variable result contain "failed" word, if it's case, execute given command
+ - name: Rolling back - Restoring old default virtualhost
+  command: a2ensite default
+  when: result|failed
+  
+# Execute task only if a variable is define
+ - name: ...
+   <task-command>: ...
+   when: <variable-name> is defined

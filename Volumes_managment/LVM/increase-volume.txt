@@ -1,0 +1,66 @@
+##########################  Increase KVM VM volume disk  #######################
+
+## From host
+
+# Shutdown VM
+sudo virsh destroy <vm-name>
+
+# Extend logical volume
+sudo lvextend -L+{size}{G|M} /dev/<group-name>/<disk-name>
+
+# Extend VM image
+sudo qemu-img resize /home/bbicheron/vg0/<disk-name>/<vm-name>.img +{size}G
+
+# Check new image size
+ls -lhs /home/bbicheron/<group-name>
+
+# Start VM
+sudo virsh start <vm-name>
+
+# Connection to VM
+sudo virsh console <vm-name>
+OR
+ssh <user>@<ip-VM>
+
+## On VM
+
+# Delete LVM partition and extended
+sudo fdisk /dev/sda
+d 5
+d 2
+
+# Create new partition extended
+n e 2
+n l
+t 5 8e
+
+# Check size of disk
+l
+
+# Write change
+w
+
+# Shutdown VM
+reboot
+
+# Apply resize change on disk
+sudo pvresize /dev/sda5
+
+# See change
+sudo pvs
+
+# Get back VM group volume name
+sudo vgdisplay
+
+# Extend volume size
+sudo lvextend -L +{size}G /dev/<vm-group-name>/<directory>
+
+# Check that free size of volume group is NULL
+sudo vgdisplay
+
+# Resize filesystem size
+sudo resize2fs /dev/<vm-group-name>/<directory>
+
+# Check change
+df -h
+

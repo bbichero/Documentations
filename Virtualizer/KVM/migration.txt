@@ -1,0 +1,25 @@
+#################  MIGRATION OPERATIONS  #################
+
+## How to migrate KVM VM LVM ?
+
+## On source host :
+
+# Move xml vm configuration (debian)
+sudo scp /etc/libvirt/qemu/<vm-name>.xml <user>@<ip-dest>:/etc/libvirt/qemu/
+
+# Move xml vm configuration (Centos)
+sudo scp /var/lib/libvirt/qemu/dump/<vm-name>.xml <user>@<ip-dest>:/var/lib/libvirt/qemu/dump/
+
+# Create new virtual disk on dest on same size that VM source
+# Format virtual disk and mount it
+
+# Copy and copy with dd virtual disk
+sudo dd if=/dev/<group-name>/<disk-name> | pv -ptrb | \
+ssh -p <port> root@<ip-dest>  dd of=/dev/<group-name>/<disk-name> bs=4M
+
+# Restart libvrt to take new XML file in consideration
+sudo systemctl restart libvirtd
+
+# When migrate to centos :
+# Before define xml change emulator line by
+<emulator>/usr/libexec/qemu-kvm</emulator>

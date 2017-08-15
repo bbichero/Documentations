@@ -1,0 +1,16 @@
+@Author: Bicheron
+@Date:   2016-08-01 11:11:38 +02:00
+@Last modified by:   Bicheron
+@Last modified time: 2016-08-01 12:40:45 +02:00
+
+
+
+#########  COMPOSER CONFIG  #########
+
+# Get composer :
+
+- wget https://getcomposer.org/composer.phar
+
+# Ignored platform :
+
+--ignore-platform-reqs (Very usefull)

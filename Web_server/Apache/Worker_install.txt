@@ -1,0 +1,66 @@
+#####################  Worker 1 & 2 ######################
+
+# Install apache2, php and mysql-client mudule
+sudo apt-get install apache2 php5-common mariadb-client php5 libapache2-mod-php5
+
+# Add new virtual host
+sudo vi /etc/apache2/sites-availables/worker1.conf
+
+# Add new directory for worker
+mkdir /home/<username>/worker
+
+# Create new virtual host
+vi /etc/apache2/sites-available/worker.conf
+
++<VirtualHost *:80>
++   	ServerName worker1
++	DocumentRoot /home/<username>/worker
++	<Directory /home/<username>/worker>
++		AllowOverride All
++		Require all granted
++	</Directory>
++</VirtualHost>
+
+# Download adminer in each worker
+cd /path/to/worker
+wget https://github.com/vrana/adminer/releases/download/v4.3.0/adminer-4.3.0-mysql.php
+
+# In the index.php file, initialise PDO connection with the class create previously
+
+# Let www-data be owner of worker directory
+sudo chown bbichero:www-data -R /path/to/worker
+sudo chmod 755 -R /path/to/worker
+
+# Add current user to www-data group
+adduser <user> www-data
+
+# Configure mysqlnd_ms (switch between master and slave SQL databases)
+# Install package
+sudo apt-get install --no-install-recommends php5-mysqlnd php5-mysqlnd_ms
+
+# Add to /etc/php5/cli/php.ini file
++mysqlnd_ms.enable=1
++mysqlnd_ms.config_file=/home/bbichero/mysqlnd_ms_plugin.ini
+
+# Identify you to git
+git config --glocal user.email "<username>@<mail-FQDN>"
+git config --glocal user.name "<username>"
+
+# Git clone repository from local SVN logiciel and create dev branch (if it's no present already)
+git clone <worker-repository>
+git checkout -b dev
+git push --set-upstream origin dev
+
+###################  Load balancer  ###################
+
+# Install  apache2
+apt-get install apache2
+
+# Copy conf_files/worker_loadbalancing.conf in /etc/apache2-sites-available
+vi /etc/apache2/sites-available/worker_loadbalancing.conf
+
+# Enable new virtual host
+sudo a2ensite worker_loadbalancing
+
+# Enable apache2 modules
+sudo a2enmod proxy proxy_http proxy_balancer lbmethod_byrequests slotmem_shm

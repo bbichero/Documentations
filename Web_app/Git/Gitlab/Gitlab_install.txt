@@ -1,0 +1,14 @@
+##########################  Gitlab  ##########################
+
+# Install dependencies
+sudo apt-get install curl openssh-server ca-certificates postfix
+
+# Add gitlab package and install it
+curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
+sudo apt-get install gitlab-ce
+
+# Configure package
+sudo gitlab-ctl reconfigure
+
+# Edit configuration file manualy
+vi /etc/gitlab/gitlab.rb

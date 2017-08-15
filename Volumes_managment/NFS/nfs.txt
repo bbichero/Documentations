@@ -1,0 +1,40 @@
+###################################  NFS  #################################
+#
+# Version of package: 3
+#
+
+## You need a server and a client
+
+## On the server
+# Install nfs server package
+sudo apt install nfs-kernel-server
+
+# Edit /etc/exports file
+sudo vi /etc/exports
+
+---
+/directory/to/share	<ip-client>(rw,root_squash)
+---
+
+# Update nfs-server configuration
+sudo /etc/init.d/nfs-kernel-server reload
+
+## On client side
+
+# Try to mount previous directory shared by server
+sudo mount -t nfs <fqdn-server>:/directory/server/share /local/end-point
+
+# If it success umount end-point
+sudo umount /local/end-point
+
+# Edit /etc/fstab file to mount network disk at every reboot
+<fqdn-server>:/directory/server/share  /local/end-point   nfs    soft,timeo=5,intr,rsize=8192,wsize=8192  0  0
+
+## man nfs
+# soft :    A  so-called "soft" timeout can cause silent data corruption in certain cases
+# timeo :   The time in deciseconds (tenths of a second) the NFS client waits for a response before it retries an NFS request.
+# intr :    ignored since 2.6.25 kernel version
+# rsize :   The maximum number of bytes in each  network  READ  request
+            that  the  NFS  client can receive when reading data from a file on an NFS server 
+# wzise :   The maximum number of bytes per network WRITE request  that
+            the  NFS  client can send when writing data to a file on an NFS server

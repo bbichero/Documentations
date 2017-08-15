@@ -1,0 +1,51 @@
+##############################  GOGS  ####################################
+
+# Install mysql-server and git
+sudo apt-get -y install mysql-server git
+
+# Create new database and user for gogs
+mysql -u root -p
+CREATE DATABASE IF NOT EXISTS gogs CHARACTER SET utf8 COLLATE utf8_general_ci;
+GRANT ALL PRIVILEGES ON gogs.* TO 'gogs'@'localhost' IDENTIFIED BY '<gogs-passwd>';
+FLUSH PRIVILEGES;
+quit
+
+# Add new user git
+sudo adduser git
+sudo chown git:git -R /home/git
+
+# Export some useful variables
+su git
+
+vi ~/.bashrc
++export GOPATH=/home/git/go
++export GOROOT=/usr/local/src/go
++export PATH=${PATH}:$GOROOT/bin
+
+source ~/.bashrc
+
+# Download and untar go
+wget https://storage.googleapis.com/golang/go1.8.1.linux-ppc64le.tar.gz
+tar zxf go1.8.1.linux-ppc64le.tar.gz
+
+# With sudoer user move go content to /usr/local/src/go
+sudo mv /home/git/go /usr/local/src/go
+
+# With git user download gogs source
+su git
+go get -d github.com/gogits/gogs
+cd $GOPATH/src/github.com/gogits/gogs
+mkdir custom/conf
+cp conf/app.ini custom/conf/app.ini
+
+# Configure now you custom/conf/app.ini file with mysql credentials, port listen, …
+
+# Build gogs
+go build
+
+# Copy file conf_files/gogs.service in /etc/systemd/system
+sudo mv gogs.service /etc/systemd/system
+
+# Active and start service
+sudo systemctl enable gogs.service
+sudo systemctl start gogs.service

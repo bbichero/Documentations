@@ -1,0 +1,17 @@
+###################################  MHDDFS  ###################################
+#
+# Fuse plugins for combine several mount point
+#
+
+# Install package (this will install fuse in same time)
+sudo apt install mhddfs
+
+# Create directory for mount end-point
+sudo mhddfs <mount-point-1>,<mount-point-2>,<mount-point-3> /local/end-point
+
+# If it's success edit /etc/fstab file
+
+sudo vi /etc/fstab
+---
+mhddfs#<mount-point-1>,<mount-point-2>,<mount-point-3> /local/end-point fuse defaults,allow_other 0 0
+---

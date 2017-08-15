@@ -1,0 +1,21 @@
+##############################  Snapshot  ######################################
+
+## create new logical volume for write new data
+## while we do backup
+
+sudo lvcreate -L512M -s -n <snapshot-name> /dev/<group-name>/<disk-name>
+
+## Create new dir and mount the new logical volume
+
+sudo mkdir /mnt/<snapshot-name>
+sudo mount /dev/<group-name>/<snapshot-name> /mnt/<snapshot-name>
+
+## Create tar and save it in /home/bbicheron/backup/
+
+tar -cf /home/bbicheron/backup/<disk-name> /mnt/<snapshot-name>
+
+## When tar create umount temp disk and remove temp snapshot
+
+sudo umount /mnt/<snapshot-name>
+sudo lvremove /dev/<group-name>/<snapshot-name>/
+

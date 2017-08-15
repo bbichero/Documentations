@@ -1,0 +1,21 @@
+###################  GUESTFISH  ###############
+
+# List all partition of device
+virt-list-partitions -l <domaine-name>
+virt-list-partitions -l <path/to/domaine.img>
+
+# List all partition +  supplementary information of filesystem
+virt-filesystems -a <path/to/domain.img> --all --long --uuid -h
+
+# Format disk 
+virt-format -a <path/LVM/device>
+
+# Delete a partition in a VM
+guestfish --rw -a  <DISK_PATH>/<VM_NAME>.img \
+		  -i part-del <device-name> <part-num>
+
+# Edit file in a VM (shutdown)
+guestfish --rw -a  <DISK_PATH>/<VM_NAME>.img \   # --rw (Read / Write access) -a (img in parameter)
+		  -i write <path/to/file> <content>		 # -i (mount disk) write (write the content in file)
+
+

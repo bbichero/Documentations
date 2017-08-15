@@ -1,0 +1,59 @@
+@Author: Baptiste Bicheron <bbicheron>
+@Date:   2016-08-20 22:17:29
+@Email:  Baptiste.Bicheron@eu-equinix.com
+@Last modified by:   bbicheron
+@Last modified time: 2016-09-25 16:37:13
+
+#######################  DEDIED SERVER  So You Start   ########################
+
+## User modif :
+
+adduser <username>
+adduser <username> root; adduser <username> adm
+
+## Passphrase ssh-key
+thisismypassphrase
+
+## All information on yann site
+
+ssh -l <username> <ip> (for create authorized_keyz in .ssh)
+
+# In root :
+apt-get update
+apt-get install aptitude
+aptitude update
+aptitude safe-upgrade
+aptitude full-upgrade
+aptitude install sudo qemu-kvm libvirt-bin virt-manager ntp ntpdate git make vim bridge-utils
+(debian 9 libvirt-bin as been split in 2 package, qemu must be installed to) libvirt-daemon-system libvirt-clients
+
+# Comment in : vi /etc/ssh/sshd_config
+Authentication (4 lines, or no)
+
+rm /root/.ssh/authorized_keys2
+rm /root/.p
+rm /root/.email
+vi /etc/hostname (change machine name)
+invoke-rc.d hostname.sh stop
+invoke-rc.d hostname.sh start
+vi /etc/hosts
+
+aptitude install libpam-cracklib wfrench (french dictionary to get quality password)
+vi /etc/pam.d/common-password (uncomment auth required pam_whell.so line)
+pam-auth-update
+visudo (add : %root ALL=(ALL) PASSWD: ALL)
+
+vi /etc/ssh/sshd_config
+port 22000 --> move daemon ssh listen on non standart port
+reboot
+
+## configure LVM on sda2
+
+fdisk /dev/sda
+
+partprobe
+reboot
+
+## Add this line to /etc/apt/sources.list
+
+nameserver 37.187.166.17

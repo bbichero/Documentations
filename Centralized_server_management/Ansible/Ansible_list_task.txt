@@ -1,0 +1,22 @@
+####################  ANSIBEL LIST FEATURE FOR WEB FRONT  ######################
+
+## Admin part, user part
+
+## User part
+- List off all host i have access
+- Server check sanity (ping)
+- Update package
+- restart / stop / reload service
+- see service status
+- see iptables rules
+- add / remove iptables rule
+- see network conf
+- install package
+- see package version
+
+# Repository
+- see tree repository
+- add file
+- add directory
+- change permission
+- move file / dir

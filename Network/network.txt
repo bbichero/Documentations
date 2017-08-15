@@ -1,0 +1,4 @@
+#################  Network command  #############
+
+# See all active term
+netstat -tnpa | grep 'ESTABLISHED.*sshd'

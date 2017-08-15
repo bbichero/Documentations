@@ -1,0 +1,41 @@
+#########################  VIM COMMANDS  #######################
+
+### VIMTUTOR
+
+# Error : Arrow key write Capitalize letter and not what they must
+vim .vimrc => set term=xterm
+
+# To delete the character at the cursor
+x
+
+# To append after the line
+A
+
+# To delete from the cursor up to the next word
+dw
+
+# To delete from the cursor to the end of a line
+d$
+
+# To repeat a motion prepend it with a number:
+2w
+
+# The format for a change command is:
+operator   [number]   motion
+
+# To move to the start of the line use a zero:
+0
+
+# To undo all the changes on a line
+U
+
+# To undo the undo's
+CTRL-R
+
+# To replace the character under the cursor
+r then the character you want to have there
+
+# to change from the cursor to the end of the word
+ce
+# to change to the end of a line
+c$

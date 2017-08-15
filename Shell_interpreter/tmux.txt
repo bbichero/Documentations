@@ -1,0 +1,34 @@
+##########################  TMUX COMMAND  ############################
+
+# the '-s' flag specifies a name (we use to attach to it later on)
+tmux new -s myfirsttmux
+
+# split the screen in half
+Ctrl-a |
+
+# jump over to the right hand split
+Ctrl-a
+
+# split that right hand side pane in half
+Ctrl-a -
+
+# jump down to that lower pane
+Ctrl-a
+
+# Close the window
+Ctrl-d
+
+# Open up another window
+Ctrl-a c
+
+# Go to the next window
+Ctrl-a n
+
+# disconnect from Tmux
+Ctrl-a d
+
+# Check what Tmux sessions are running
+tmux ls
+
+# Attach back into the session
+tmux attach -t myfirsttmux

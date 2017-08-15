@@ -1,0 +1,30 @@
+#######################  UPGRADE DEBIAN  #########################
+
+# Jessie full upgrade
+apt-get update
+apt-get upgrade
+apt-get dist-upgrade
+
+# Performs database sanity and consistency checks
+# for package-name  or  all  packages  if omitted
+sudo dpkg -C
+
+# If no issues are reported, check what packages are held back:
+sudo apt-mark showhold
+
+# Update repository address
+# First copy legacy repository list
+sudo cp /etc/apt/sources.list /etc/apt/sources.list_backup
+
+# Perform a sed to update list
+sudo sed -i 's/jessie/stretch/g' /etc/apt/sources.list
+
+# Make update
+sudo apt-get update
+
+# List upgraddable package
+sudo apt list --upgradable
+
+# Perform real upgrade
+sudo apt-get upgrade
+sudo apt-get dist-upgrade

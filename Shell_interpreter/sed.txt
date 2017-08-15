@@ -1,0 +1,21 @@
+##################  BASH  ##################
+
+# Tuto to add line => http://www.yourownlinux.com/2015/04/sed-command-in-linux-append-and-insert-lines-to-file.html
+
+# Add line before pattern match
+sed '/PATTERN/ i <LINE-TO-BE-ADDED>' FILE.txt
+
+# Ex: Add line before all empty line
+sed '/^$/ i <LINE>' FILE.txt
+
+# Ex: Add line at end of file
+sed '$ a <LINE>' FILE.txt
+
+# Put file content in variable
+VAR_NAME=$(<FILE_NAME)
+
+# Replace a patern in this variable with sed
+VAR_NAME=$(sed "s/old-patern/new-patern/g" <<< "$VAR_NAME")
+
+# Replace first line of file
+sed '1 s/^.*$/<new-line>/'

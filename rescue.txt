@@ -1,0 +1,31 @@
+@Author: Baptiste Bicheron <bbicheron>
+@Date:   2016-08-21 15:59:50
+@Email:  Baptiste.Bicheron@eu-equinix.com
+@Last modified by:   bbicheron
+@Last modified time: 2016-09-24 09:38:48
+
+####################  RESCUE MODE  ###################
+
+# Check if port 22 is open
+
+sudo nmap -sS -p 22 <ip-address>
+
+# For display all disk :
+
+fdisk -l
+
+# For mount bootable disk (RAID 1)
+
+mount /dev/md1 /mnt/ (mount /)
+mount /dev/md2 /mnt/home (mount /home)
+mount /dev/md4 /mnt/var (mount /var)
+
+# Show partition server
+
+cat /mnt/etc/fstab
+
+# Access to file :
+
+chroot /mnt/
+
+# When error fix go to manager SoYouStart and choose hard disk in NetBoot

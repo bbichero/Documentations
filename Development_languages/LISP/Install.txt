@@ -1,0 +1,41 @@
+########################  INSTALL LISP  ##########################
+
+# Install compilator
+apt-get install scbl
+
+# Follow tuto on -> https://www.quicklisp.org/beta/
+
+# Execute file :
+sbcl --script <file-name>
+
+# Tutorial -> https://www.tutorialspoint.com/lisp/lisp_variables.htm
+
+# Install quicklist
+curl -O https://beta.quicklisp.org/quicklisp.lisp
+curl -O https://beta.quicklisp.org/quicklisp.lisp.asc
+
+# Verify signatures
+gpg --verify quicklisp.lisp.asc quicklisp.lisp
+
+# Load quicklisp file
+sbcl --load quicklisp.lisp
+
+# Install it
+(quicklisp-quickstart:install)
+
+# Install vecto and load it
+(ql:system-apropos "vecto")
+(ql:quickload "vecto")
+(ql:add-to-init-file)
+
+## Install library with quick lisp
+sbcl --load quicklisp.lisp
+
+(ql:system-apropos "<library-name>")
+(ql:quickload "<library-name>")
+
+# Install CLIPS
+Download source file from wesite
+
+# Compile to create clips executable (linux)
+gcc -o clips -DLINUX=1 *.c -lm

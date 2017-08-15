@@ -1,19 +1,39 @@
-######################  SCALA INSTALL  ######################
+##########################  SCALA  #######################
 
-# Download last binary on website : https://www.scala-lang.org/download/
+# Download last version of scala (07/2017)
+wget www.scala-lang.org/files/archive/scala-2.13.0-M1.deb
 
-# Install add-repository package
-sudo apt-get install software-properties-common
+# Download java8 recommends packages
+apt-get install dpkg-dev build-essential git debhelper unzip libasound2 unixodbc libxtst6 curl
 
-# Add java 8 repostory source
-sudo add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main"
+# Add repo source link to debian
+vim /etc/apt/sources.list.d/java-8-debian.list
+---
+deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main
+deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main
+---
 
-# Update source
+# Add GPG key
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
+
+# Update and install apt repository and install java8
 sudo apt-get update
-
-# Install oracel JDK 8
 sudo apt-get install oracle-java8-installer
 
-dpkg -i <scalabinary>
+# Check java version
+java -version
 
-# Getting started with tuto : https://www.scala-lang.org/documentation/getting-started.html#your-first-lines-of-code
+# Install scala
+sudo dpkg -i scala-2.13.0-M1.deb
+
+## Install sbt
+# Add repo
+echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+sudo apt install apt-transport-https
+
+# Add GPG key
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
+
+# Install SBT
+sudo apt-get update
+sudo apt-get install sbt

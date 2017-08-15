@@ -1,0 +1,67 @@
+########################  Nagios  #########################
+
+# https://www.linode.com/docs/uptime/monitoring/install-nagios-4-on-ubuntu-debian-8
+
+# Add user and group for nagios
+sudo useradd nagios &&
+sudo groupadd nagcmd &&
+sudo usermod -a -G nagcmd nagios && sudo usermod -a -G nagcmd www-data
+
+# Install dependencies
+sudo apt-get install --no-install-recommends openssl make libssl-dev libgd2-xpm-dev xinetd apache2-utils nagios-plugins gcc unzip apache2 php5
+
+# Download nagios (update 17/05/2017)
+wget https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.3.2.tar.gz
+
+# Untar package
+tar xzvf nagios-4.3.2.tar.gz
+
+# Compile package
+./configure --with-nagios-group=nagios --with-command-group=nagcmd
+make all
+sudo make install
+sudo make install-init
+sudo make install-config
+sudo make install-commandmode
+
+# Copy all plugin file to /etc/local/nagios/libexec so nagios can execute it
+sudo cp /usr/lib/nagios/plugins/check_* /usr/local/nagios/libexec
+
+# Make nagios owner of all new plugin file
+sudo chown nagios:nagios -R /usr/lib/nagios/plugins
+
+# Enable mod rewrite and cgi mode in apache 
+sudo a2enmod rewrite && sudo a2enmod cgi
+
+# Copy sample configuration to apache configuration /etc/apache2/sites-available/
+sudo cp sample-config/httpd.conf /etc/apache2/sites-available/nagios4.conf
+
+# Restrict conf file 
+sudo chmod 644 /etc/apache2/sites-available/nagios4.conf
+
+# Enable site
+sudo a2ensite nagios4.conf
+
+# Create admin account and type password when asked
+htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+
+# Restart apache
+service apache2 restart
+
+# Delete nagios package GZ and directory
+
+## Nagios plugin
+
+# Download nagios plugin 
+wget www.nagios-plugins.org/download/nagios-plugins-2.2.0.tar.gz
+
+# Untar nagios plugin
+tar zxvf nagios-plugins-2.2.0.tar.gz
+cd nagios-plugins-2.2.0
+
+# Copy service file config_files/nagios.service in /etc/system/systemd
+
+# Access nagios service
+sudo systemctl enable /etc/systemd/system/nagios.service
+sudo systemctl start nagios
+systemctl status nagios

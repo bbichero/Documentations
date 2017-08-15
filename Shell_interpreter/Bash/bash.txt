@@ -1,0 +1,46 @@
+##########################  BASH COMMANDS  ################################
+
+## BASH parameter tutorial => http://wiki.bash-hackers.org/syntax/pe
+
+# Split string with delimitor
+IFS='<delimitor>' read -r -a array <<< "$string"
+
+# Trim line
+echo $line | xargs
+
+# Split $variable with '\n'
+readarray -t new_arr <<<"$variable"
+
+# To pass an array as argument of function
+# The [@] suffix makes this an array expansion
+my_function "${my_array[@]}"
+
+- To use this array in function :
+local my_array=("$@")
+
+# Put first charactere in uppercase
+${VAR_NAME^}
+
+# Put all charactere in uppercase
+${VAR_NAME^^}
+
+# Remove first and last charactere of string with cut
+echo "|<string>|" | cut -d "|" -f 2
+result: '<string>'
+
+# Same with lowercase with ',' charactere, and reverse with '~'
+
+# Return array differences between 2 arrays
+printf '%s\n' "${Array1[@]}" "${Array2[@]}" | sort | uniq -u
+
+# Catch exit signal with trap
+trap <function-name-or-command> <SIGANL-NAME>
+
+# Run a second command after the last exit
+<command-one> ; <command-two>
+
+# Run a second command after the first succefully finished
+<command-one> && <command-two>
+
+# Get back public ipv4
+curl ipinfo.io/ip

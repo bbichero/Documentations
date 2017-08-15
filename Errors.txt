@@ -1,0 +1,30 @@
+######################  Common errors  ######################
+
+#### perl: warning: Setting locale failed.
+#### perl: warning: Please check that your locale settings:
+export LANGUAGE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+locale-gen en_US.UTF-8
+dpkg-reconfigure locales
+
+#### pip error : ImportError: cannot import name IncompleteRead
+apt-get remove python-pip
+apt-get purge python-pip
+apt-get autoremove
+
+sudo easy_install pip
+
+#### Error connection reset by pear : Pearhabs ssh keygen must be regen when creating a new vm
+/bin/rm -v /etc/ssh/ssh_host_*
+
+# Reconfigure ssh package
+dpkg-reconfigure openssh-server
+
+# Restart sshd
+/etc/init.d/ssh restart
+
+# Error on centos 7.3 : qemu-kvm: Failed to create chardev
+# Edit /etc/fstab file
+- devpts		/dev/pts	devpts	defaults	0	0
++ devpts 		/dev/pts 	devpts 	gid=5,mode=620 	0 	0

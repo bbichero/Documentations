@@ -1,0 +1,28 @@
+###########################  NUCLIDE INSTALATION  #############################
+
+## On debian arch :
+
+# Installation of NodeJs if you haven't :
+
+curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Installation of NPM
+
+curl -L https://www.npmjs.com/install.sh | sh
+
+# Installation of Nuclide (SERVER SIDE)
+
+npm install -g nuclide
+
+# Watchman is required for editing sync
+
+git clone https://github.com/facebook/watchman.git
+cd watchman
+git checkout v4.7.0  # the latest stable release
+./autogen.sh
+./configure
+make
+sudo make install
+
+# Now create a .watchmanconfig file on the root or your project

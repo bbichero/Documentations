@@ -1,0 +1,43 @@
+@Author: Baptiste Bicheron <bbicheron>
+@Date:   2016-09-23 21:44:10
+@Email:  Baptiste.Bicheron@eu-equinix.com
+@Last modified by:   bbicheron
+@Last modified time: 2016-09-25 11:21:21
+
+##########################  LVM command and config  ############################
+
+## greet tuto : http://www.howtogeek.com/howto/40702/how-to-manage-and-use-lvm-logical-volume-management-in-ubuntu/
+## After creating new virtual disk
+## Add line to /etc/fstab to mount disk after each boot
+
+## Know error on Centos 7.3 : Can't reboot server after creating LVM physical disk: pvcreate /dev/md3 ; vgcreate vg0 /dev/md3
+## In /etc/fstab file change :
+-devpts 		/dev/pts 	devpts 	defaults 	    0 	0
++devpts 		/dev/pts 	devpts 	gid=5,mode=620 	0 	0
+
+## Create physical volume
+sudo pvcreate /dev/md3
+
+## Create group of virtual disk
+sudo vgcreate <group-name> /dev/md3
+
+## Create virtual disk in a virtual group disk
+sudo lvcreate -L {size}{M|G} -n <disk-name> <group-name>
+
+## Rename virtual disk
+sudo lvrename <group-name> <old-disk-name> <new-disk-name>
+
+## Format and add filesystem to virtual disk
+sudo mkfs -t ext4 /dev/<group-name>/<disk-name>
+
+## Mount virtual disk in /home/
+sudo mount -t ext4 /dev/<group-name>/<disk-name> /home/bbicheron/<group-name>/<disk-name>
+
+## apply change
+sudo resize2fs /dev/<group-name>/<disk-name>
+
+## reduce space on disk
+sudo lvreduce -L{size}{G|M} /dev/<group-name>/<disk-name>
+
+## Extend space on disk
+sudo lvextend -L+{size}{G|M} /dev/<group-name>/<disk-name>

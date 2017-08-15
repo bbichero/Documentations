@@ -1,0 +1,25 @@
+#######################  TAR  ##########################
+
+# Creation of TAR archive with multiple file
+tar cvf <name>.tar <file1> <file2>
+
+# Extraction
+tar xvf <name>.tar
+
+# Creation of TAR GZ archive
+tar zcvf <name>.tar.gz <file/directory>
+
+# Extraction TAR GZ
+tar zxvf <name>.tar.gz
+
+# Creation TAB Bzip2
+tar jcvf <name>.tar.bz2 <file/directory>
+
+# Extraction TAR Bzip2
+tar jxvf <name>.tar.bz2
+
+# Creation of TAR XF
+tar Jcvf <name>.tar.xz <file/directory>
+
+# Extraction TAR XF
+tar Jxvf <name>.tar.xz

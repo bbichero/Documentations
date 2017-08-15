@@ -1,0 +1,24 @@
+##########################  SEMAPHORE TASK LIST  ###############################
+
+## APACHE
+- restart apache2
+- install apache2
+- add virtual host
+- remove virtual host
+- disabled virtual host
+- enable virtual host
+- apache status
+
+## MYSQL
+- Restart mysql
+- mysql status
+- list all database
+- perform backup
+- import table
+
+## SYSTEM
+- list iptables rules
+- list open ssh connection
+- system reboot
+- adduser
+- deluser

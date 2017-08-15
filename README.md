@@ -30,6 +30,7 @@
 	- [C](https://github.com/bbichero/Documentation/tree/master/Development_languages/C)
 	- [C++](https://github.com/bbichero/Documentation/tree/master/Development_languages/C%2B%2B) (TODO)
 	- [Hack](https://github.com/bbichero/Documentation/tree/master/Development_languages/Hack)
+	- [LISP]()
 	- [Perl](https://github.com/bbichero/Documentation/tree/master/Development_languages/Perl)
 	- [PHP](https://github.com/bbichero/Documentation/tree/master/Development_languages/PHP)
 	- [Python](https://github.com/bbichero/Documentation/tree/master/Development_languages/Python)
@@ -43,10 +44,6 @@
 	- GPG
 	- RSA
 	- SSL
-
-* Stockage service platform
-	- Owncloud
-	- Samba ?
 
 * Hypervisor
 	- Hyper v
@@ -67,6 +64,9 @@
 			* ISC DHCP server
 		* DNS
 			* Bind9
+		* Firewall
+			* Iptables
+			* Ipfw
 	- Protocols
 		* IPv4
 		* IPv6
@@ -97,19 +97,33 @@
 
 * Versionning
 	- git
-		* Github
-		* Gitlab
-		* Gogs
 	- svn
 	- mvs
 
 * Virtualizer
 	- Virtualbox
 	- Qemu
+	- KVM
 
-* Virtualsation management
+* Virtualisation management
 	- Guestfish (filesystem)
 	- Libvirt
+
+* Volumes managment
+	- LVM
+	- NFS
+	- Samba
+
+* Web App
+	- Audio
+		* Mopidy
+	- Stockage
+		* Owncloud
+	- Git
+		* Gitbucket
+		* Github
+		* Gitlab
+		* Gogs
 
 * Web server
 	- Apache

@@ -1,0 +1,21 @@
+############################  IPTABLES  ###############################
+
+## Delete particular rule : Replace -A with -D
+iptables -A INPUT -i eth0 -p tcp --dport 443 -j ACCEPT
+
+# Become
+iptables -D INPUT -i eth0 -p tcp --dport 443 -j ACCEPT
+
+# List all rules
+iptables -L -n -v --line-number
+
+# Delete specific rule
+iptables -D INPUT <line-number>
+
+# You can specified a table witch rule you want to delete is
+iptables -t <table-name> -D PREROUTING <line-number>
+
+# -j MASQUERADE, -j SNAT
+Both MASQUERADE and SNAT modify a source address of a packet
+SNAT uses an address from --to-source option. MASQUERADE uses an address
+of outgoing interface to which a packet is routed

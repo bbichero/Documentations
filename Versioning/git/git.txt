@@ -1,0 +1,94 @@
+####################  GIT COMMANDS  ####################
+
+## Clone a particular branch
+
+git clone -b <branch-name> --single-branch <remote-git-project-link>
+
+## Copy a particular directory from one branch to another
+git checkout <branch-dest>
+git checkout <branch-src> -- <dirname>
+
+## Merge a particular file from one branch to another
+git checkout <branch-dest>
+git checkout --patch <branch-src> <filename>
+
+## Move a concern Branch to Master and move Master to the concern Branch
+
+git checkout better_branch
+git merge --strategy=ours master    # keep the content of this branch, but record a merge
+git checkout master
+git merge better_branch             # fast-forward master up to the merge
+
+## Configure editor for commit message
+
+# In .bashrc add :
+export GIT_EDITOR='/usr/bin/vim’
+
+# And execute :
+git config --global core.editor "vim"
+
+## Create subtree, to use a git repository or gist, in multiple others git repository => https://git-scm.com/book/en/v1/Git-Tools-Subtree-Merging
+# Add remote project to you current project
+git remote add <remote-repo-name-to-add> git@github.com:<pseudo>/<repo-name-to-add>.git
+git fetch <remote-repo-name-to-add>
+
+# Get new repository in his own branch
+git checkout -b <repo-name>_branch <remote-repo-name-to-add>/master
+
+# Pull the new branch into the new subdirectory of your master branch of your main project
+git read-tree --prefix=<repo-name>/ -u <repo-name>_branch
+
+# To pull new commit from new repository
+git checkout <subtree-branch>
+git pull
+
+# To see difference with your sub tree local and remote, do not use basic git diff but :
+git checkout <subtree-branch>
+git diff-tree -p <subtree-name>/master
+
+# See diff of a single filename
+git log -p -1 <file-name>
+
+## Create new branch
+git checkout -b <branch-name>
+OR
+git branch <branch-name>
+git checkout <branch-name>
+
+# Push on particular branch
+git push origin <branch-name>
+
+# Remove local branch
+git branch -D <branch-name>
+
+# Remove remote branch
+git push origin :<branch-name>
+
+## Undo last commit
+git reset --hard HEAD~1
+
+## Make local branch identic with origin/master
+git reset --hard origin/master
+
+### Update forked git repository
+# Add the remote, call it "upstream":
+git remote add upstream https://github.com/whoever/whatever.git
+
+# Fetch all the branches of that remote into remote-tracking branches,
+# such as upstream/master:
+git fetch upstream
+
+# Make sure that you're on your master branch:
+git checkout master
+
+# Rewrite your master branch so that any commits of yours that
+# aren't already in upstream/master are replayed on top of that
+# other branch:
+git rebase upstream/master
+
+# Force the push in order to push it to your own forked repository on GitHub
+git push -f origin master
+
+### Make local repository exactly like remote repository
+git fetch origin
+git reset --hard origin/master

@@ -1,0 +1,63 @@
+###########################  Gitbucket  ##############################
+
+# SVN frontend
+
+# Gitbucket require java8, so install it
+echo "deb http://httpredir.debian.org/debian/ jessie main contrib" >> /etc/apt/sources.list
+apt-get update && apt-get install java-package
+apt-get install libgl1-mesa-glx libxslt1.1 libxtst6 libxxf86vm1
+
+# Get jdk-8u121-linux-x64.tar.gz on oracle website
+
+# Compile tar gz
+make-jpkg jdk-8u121-linux-x64.tar.gz
+
+# Install package
+sudo dpkg -i oracle-java8-jdk_8u121_amd64.deb
+
+# Download gitbucket package on github
+wget https://github.com/gitbucket/gitbucket/releases/download/4.11/gitbucket.war
+
+# Launch gitbucket
+java -jar gitbucket.war
+
+## Run gitbucket as a service
+# Add user gitbucket
+sudo adduser --gecos 'Gitbucket User' gitbucket
+
+# Move gitbucket.war file
+mv gitbucket.war ../gitbucket
+
+# Create service file
+sudo nano /etc/systemd/system/gitbucket.service
++ [Unit]
++ Description=GitBucket service
++ After=syslog.target
++ After=network.target
++
++ [Service]
++ User=gitbucket
++ ExecStart=/usr/bin/java -jar /home/gitbucket/gitbucket.war
++
++ [Install]
++ WantedBy=multi-user.target
+
+# Enable service
+sudo systemctl enable gitbucket.service
+
+# Start new service
+sudo systemctl start gitbucket.service
+
+# Install apache2
+apt-get install apache2
+
+# Create new virtual host
+vi /etc/apache2/sites-available/gitbucket.conf
++ <VirtualHost <hostname>:80>
++  	ServerName <ServerName>
++  	Redirect permanent / http://localhost:8080
++ </VirtualHost>
+
+# Enable virtualhost
+sudo a2ensite gitbucket
+sudo service apache2 restart

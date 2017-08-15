@@ -1,0 +1,12 @@
+############################  IPV6  ################################
+
+# https://www.jumpingbean.co.za/blogs/mark/set-up-ipv6-lan-with-linux
+# https://wiki.ubuntu.com/DHCPv6
+
+-> 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+-> 2001:db8:85a3:0:0:8a2e:370:7334 -> leading 0 are dropped & groups of zeros (0000) become 0,
+-> 2001:db8:85a3::8a2e:370:7334 -> lastly consecutive zeros are  replaced with an empty double colon ::
+
+# The first 4 group of hexadecimal numbers of an address, 64 bits of the 128 bits, 
+# is the network prefix (network mask). All IPv6 networks have a 64 bit network prefix,
+# The remaining 64 bits are the host identifier

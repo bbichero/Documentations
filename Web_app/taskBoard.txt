@@ -1,0 +1,48 @@
+###############################  TASKBOARD  #################################
+## TODO: Update with maria DB and php7
+# Task board php app for projects
+
+# Clone git repository
+git clone https://github.com/kiswa/TaskBoard.git
+
+# Install mandatory package (php5, apache2, mysql)
+sudo apt install --no-install-recommends php5 libapache2-mod-php5 php5-mysql apache2 mysql-server openjdk-7-jre curl php5-cli
+
+# Build package
+cd TaskBoard
+./build/composer.phar self-update
+./build/build-all
+
+# Make www-data group owner of TaskBoard directory
+sudo chown bbichero:www-data -R /path/to/taskBoard
+sudo chmod 755 -R /path/to/taskBoard
+
+# Copy task_board.conf file to /etc/apache2/sites-available
+vi /etc/apache2/sites-available/task-board.conf
+
+# Make apache listen on 8000
+vi /etc/apaches/ports.conf
+
++Listen 8000
+
+# Active mandatory apache2 modules
+sudo a2enmod rewrite expires
+
+# Active new virtual host
+sudo a2ensite task-board.conf
+sudo service apache2 restart
+
+# Forward port from gate to new 8000 port
+sudo ./ft_forward_ports.sh -s 8000 -d <port-gate> -i <ipv4-task-board-vm>
+
+# Return on task VM and create database
+CREATE DATABASE IF NOT EXISTS task_board CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+# Add task-board user
+GRANT ALL PRIVILEGES ON task_board.* TO 'task-board'@'localhost' IDENTIFIED BY '<task-board-passwd>';
+FLUSH PRIVILEGES;
+quit;
+
+# Edit line in api/api.php to use MySQL instead of SQLite
+-R::setup('sqlite:'.__DIR__.'/taskboard.db');
++R::setup( 'mysql:host=localhost;dbname=task_board', 'task-board', '<task-board-passwd>' ); //for both mysql or mariaDB

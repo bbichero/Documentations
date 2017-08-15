@@ -1,0 +1,94 @@
+#########################  RAID INSTALLATION  #############################
+
+## Debian jessie
+
+## Tuto : https://drpetervoigt.de/weblog/convert_to_mdraid/index.html
+
+## Remove mdadm RAID array
+sudo mdadm --detail /dev/md0
+
+# Stop device
+sudo mdadm --stop /dev/md0
+
+# Remove array
+sudo mdadm --zero-superblock /dev/sda1
+sudo mdadm --zero-superblock /dev/sda...
+
+## We want :
+
+- /dev/md0 (made up of /dev/sda1 and /dev/sdb1): /boot partition, ext3;
+- /dev/md1 (made up of /dev/sda2 and /dev/sdb2): swap;
+- /dev/md2 (made up of /dev/sda3 and /dev/sdb3): / partition, ext3
+
+# Install MDADM
+apt-get install initramfs-tools mdadm
+
+# Enable kernel modules
+modprobe raid1
+
+# Be sure everythink is install
+cat /proc/mdstat
+
+# Copy the partition table from /dev/sda to /dev/sdb so that both disks have exactly the same layout:
+sfdisk -d /dev/sda | sfdisk /dev/sdb
+
+# execute fdisk with futur raid disk
+fdisk /dev/sdb
+
+# Change all partition to fd except partition 1 (boot) to BIOS boot partition
+# Check all parititon in /dev/sdb and /dev/sda are sticly the same (sectors)
+
+# Check if there are no remains from previous RAID installations on /dev/sdb
+mdadm --zero-superblock /dev/sdb2
+mdadm --zero-superblock /dev/sdb3
+mdadm --zero-superblock /dev/sdb4
+
+# Now let's create our RAID arrays /dev/md0, /dev/md1, and /dev/md2, and more if you are more partitions
+mdadm --create /dev/md0 --level=1 --raid-disks=2 missing /dev/sdb2
+mdadm --create /dev/md1 --level=1 --raid-disks=2 missing /dev/sdb3
+mdadm --create /dev/md2 --level=1 --raid-disks=2 missing /dev/sdb4
+
+# Check everything fine
+cat /proc/mdstat
+
+# Copy information of new RAID disk in file
+cp /etc/mdadm/mdadm.conf /etc/mdadm/mdadm.conf.bak
+mdadm --examine --scan >> /etc/mdadm/mdadm.conf
+
+# Lets create filesystem, create and mount new partitions
+mkfs.ext4 /dev/md0
+mkdir /mnt/md0
+mount /dev/md0 /mnt/md0
+
+# Modify /etc/fstab
+vi /etc/fstab
+# Replace /dev/sda1 with /dev/md0
+/dev/md0  /  ext4 errors=remount-ro  0  1
+
+# Install grub2 to the new disk
+grub-install --target=i386-pc --debug /dev/sdb
+
+# Update initial ram file system
+update-initramfs -uvt
+
+# Open grub configuration file and add a new grub menu boot
+# In the firt menutry replace /dev/sda2 by /dev/md0
+
+# Copy the root filesystem to the new raid array
+cd /
+umount /home
+cp --preserve=xattr -dpRxv . /mnt/md0/
+
+# Copy a la mano ping (because error with previous command)
+getcap /bin/ping
+getcap /mnt/md0/bin/ping
+
+## Create lvm volume group
+pcreate /dev/md2
+vgcreate vg0 /dev/md2
+
+# Active volume group
+vgchange -ay vg0
+
+# Now you can create logical volume 
+

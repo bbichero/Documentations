@@ -1,0 +1,219 @@
+#######################  DNS Install and configuration  ########################
+
+# Change in /etc/hosts.conf
+$ vi /etc/hosts.conf
+
++ order hosts, bind
++ multi on
+
+# in /etc/hosts, write all client of DNS server, example :
++ 192.168.57.11 gate.slash16.local
+
+# Intall bind9 (DNS package)
+$ apt-get install bind9
+
+# Go to new directory created
+$ cd /etc/bind/
+
+# Create new file and modify it
+$ cp /etc/bind/db.local /etc/bind/dns.slash16.local
+
+--- db.local	2017-02-26 01:48:56.000000000 +0100
++++ dns.slash16.local	2017-05-05 00:05:30.863999522 +0200
+@@ -2,13 +2,14 @@
+ ; BIND data file for local loopback interface
+ ;
+ $TTL	604800
+-@	IN	SOA	localhost. root.localhost. (
++@	IN	SOA	dns.slash16.local. root.slash16.local. (
+ 			      2		; Serial
+ 			 604800		; Refresh
+ 			  86400		; Retry
+ 			2419200		; Expire
+ 			 604800 )	; Negative Cache TTL
+ ;
+-@	IN	NS	localhost.
++@	IN	NS	dns.slash16.local.
+ @	IN	A	127.0.0.1
+ @	IN	AAAA	::1
++dns	IN 	A 	192.168.57.13
+
+# Create new file
+$ cp /etc/bind/db.127 /etc/bind/db.192
+
+--- db.127	2017-02-26 01:48:56.000000000 +0100
++++ db.192	2017-05-05 00:11:30.847998256 +0200
+@@ -2,12 +2,12 @@
+ ; BIND reverse data file for local loopback interface
+ ;
+ $TTL	604800
+-@	IN	SOA	localhost. root.localhost. (
++@	IN	SOA	dns.slash16.local. root.slash16.local. (
+ 			      1		; Serial
+ 			 604800		; Refresh
+ 			  86400		; Retry
+ 			2419200		; Expire
+ 			 604800 )	; Negative Cache TTL
+ ;
+-@	IN	NS	localhost.
+-1.0.0	IN	PTR	localhost.
++@	IN	NS	dns.
++13	IN	PTR	dns.slash16.local
+
+# Configure /etc/bind/named.conf.local, configure here, zone and reverse zone
+$ vi /etc/bind/named.conf.local
+
++ zone "slash16.local" {
++         type master;
++         file "/etc/bind/db.slash16.local";
++         allow-query { any; };
++ };
++ zone "57.168.192.in-addr.arpa" {
++         type master;
++         file "/etc/bind/db.192";
++ };
+
+# Configure /etc/bind/named.conf.options, add trusted IP in top of file
+$ vi /etc/bind/named.conf.options
+
+--- named.conf.options.bak	2017-05-05 00:23:24.027912332 +0200
++++ named.conf.options	2017-05-05 02:07:15.759999922 +0200
+@@ -1,6 +1,15 @@
++acl trusted {
++    192.168.57.0/24;
++    localhost;
++    localnets;
++};
++
+ options {
+ 	directory "/var/cache/bind";
+
++    	recursion yes;
++    	allow-query { trusted; };
++
+ 	// If there is a firewall between you and nameservers you want
+ 	// to talk to, you may need to fix the firewall to allow multiple
+ 	// ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+@@ -10,9 +19,11 @@
+ 	// Uncomment the following block, and insert the addresses replacing
+ 	// the all-0's placeholder.
+
+-	// forwarders {
+-	// 	0.0.0.0;
+-	// };
++        forwarders {
++               192.168.57.13;
++               208.67.222.220;
++               208.67.222.220;
++        };
+
+ 	//========================================================================
+ 	// If BIND logs error messages about the root key being expired,
+@@ -21,6 +32,8 @@
+ 	dnssec-validation auto;
+
+ 	auth-nxdomain no;    # conform to RFC1035
++        version none;
++        forward only;
+ 	listen-on-v6 { any; };
+ };
+
+
+# Restart bind9 service
+$ service bind9 restart
+
+## On client shell
+$ vi /etc/host.conf
+
++ order hosts,bind  # Tell order, first host file, then if fail /etc/resolv.conf file 
+multi on            # Muliple IP address may be name one host
++ nospoof on        # address and host must be concorde when resolving reverse ip
+
+### TEST
+
+## On DNS server shell, ex :
+$ nslookup gate
+---
+Server:		192.168.57.13
+Address:	192.168.57.13#53
+
+Name:	gate.slash16.local
+Address: 192.168.57.11
+
+# Test with IP
+$ nslookup 192.168.57.13
+---
+Server:		192.168.57.13
+Address:	192.168.57.13#53
+
+13.57.168.192.in-addr.arpa	name = dns.slash16.local.57.168.192.in-addr.arpa.
+
+# Test with hostname
+$ dig gate
+---
+; <<>> DiG 9.9.5-9+deb8u10-Debian <<>> gate
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 50225
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;gate.				IN	A
+
+;; Query time: 7 msec
+;; SERVER: 192.168.57.13#53(192.168.57.13)
+;; WHEN: Fri May 05 01:30:56 CEST 2017
+;; MSG SIZE  rcvd: 33
+
+# Test with domain name
+$ dig slash16.local
+---
+
+; <<>> DiG 9.9.5-9+deb8u10-Debian <<>> slash16.local
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 54951
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;slash16.local.			IN	A
+
+;; ANSWER SECTION:
+slash16.local.		604800	IN	A	127.0.0.1
+
+;; AUTHORITY SECTION:
+slash16.local.		604800	IN	NS	dns.slash16.local.
+
+;; ADDITIONAL SECTION:
+dns.slash16.local.	604800	IN	A	192.168.57.13
+
+;; Query time: 0 msec
+;; SERVER: 192.168.57.13#53(192.168.57.13)
+;; WHEN: Fri May 05 01:33:07 CEST 2017
+;; MSG SIZE  rcvd: 92
+
+## Client side
+
+# Check if client know dns
+$ host -a dns.slash16.local
+---
+Trying "dns.slash16.local"
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 34046
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;dns.slash16.local.		IN	ANY
+
+;; ANSWER SECTION:
+dns.slash16.local.	604800	IN	A	192.168.57.13
+
+;; AUTHORITY SECTION:
+slash16.local.		604800	IN	NS	dns.slash16.local.
+
+Received 65 bytes from 192.168.57.13#53 in 0 ms
+
+# Generate RNDC key to remotely configure bind9 => http://debian-facile.org/atelier:chantier:dns-bind9-sur-wheezy

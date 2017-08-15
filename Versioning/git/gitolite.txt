@@ -1,0 +1,11 @@
+##########################  GITOLITE3  ##########################
+# Managment of git permission
+
+# Git tuto : http://maxime.sh/2012/06/utiliser-git-avec-son-site-web-et-son-stagiaire/
+
+# Install package
+sudo apt install gitolite3
+
+# Setup admin settings
+gitolite -pk /home/<user>/.ssh/id_rsa.pub
+

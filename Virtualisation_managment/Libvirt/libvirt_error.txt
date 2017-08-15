@@ -1,0 +1,23 @@
+#########################  LIBVIRT  ######################
+
+# sudo virsh net-start default
+
+error: Failed to start network default
+error: internal error: Failed to initialize a valid firewall backend
+
+=> sudo apt install ebtables dnsmasq firewalld
+sudo systemctl start firewalld
+sudo systemctl enable firewalld
+sudo systemctl restart libvirtd
+
+# Error when trying to create VM : sudo virt-install ...
+ERROR    unsupported configuration: CPU mode 'custom' for x86_64 kvm domain on x86_64 host is not supported by hypervisor
+
+=> Reboot server work
+
+# Arrow key doesn't work in grub terminal
+Grub uses Emacs-like key bindings:
+
+Ctrl+B = Left, Ctrl+F = Right (mnemonic: backward/forward)
+Ctrl+P = Up, Ctrl+N = Down (mnemonic: up/down)
+Ctrl+A = Home, Ctrl+E = End (mnemonic: A=beginning/end)

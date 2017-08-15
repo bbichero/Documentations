@@ -1,0 +1,15 @@
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+
+auto br0
+iface br0 inet static
+	address <ip>
+	netmask 255.255.255.0
+	network 188.165.206.0
+	broadcast <ip-broadcast>
+	gateway <ip-gataway>
+	bridge_ports eth0

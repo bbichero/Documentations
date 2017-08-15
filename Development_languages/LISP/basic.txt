@@ -1,0 +1,77 @@
+########################  LISP BASIC  #####################
+
+# Tutorial : https://www.tutorialspoint.com/lisp/lisp_case_construct.htm
+
+# Lauch proper SBCl prompt with proper cursor
+
+rlwrap sbcl
+
+# Set variable :
+
+setq <var-name> <value>
+
+# Define variable type :
+
+defvar <var-name> <value>
+
+# Define constants
+
+defconstant <name> <value>
+
+# Define macro : 
+
+(defmacro <macro-name> (<parameter-list>))
+"Optional documentation string."
+body-form
+
+# Print atom
+("~%") => \n
+
+(print <name>)
+
+# Cut string : (substr)
+
+(subseq "<string>" <start> <end>)
+
+# Is number ?
+
+(numberp <number>)
+
+## Decisions :
+
+# IF :
+(if <expression>
+then <expression>
+else <expression>)
+
+# Cond : if one test fail all are skipped
+(cond   (<test1> <action1>)
+   (<test2> <action2>)
+   ...
+   (<testn> <actionn>))
+   
+# Case
+(case  (<atom>)
+((<key1>)   (<action1>   <action2> ...) )
+...
+((<keyn>)   (<action1>   <action2> ...) ))
+
+# Group expression :
+
+(progn <expr1> <expr2> <expr3> <...>)
+
+# Operator :
+B : 20
+A : 10
+
+Modulo : (mod B A) => 0
+increment : (incf A 3) => 13
+decrement : (decf A 4) => 9
+
+## Defun macro for define functions :
+
+# Name of the function
+# Parameters of the function
+# Body of the function
+
+(defun <function-name> (<parameter-list>) "Optional documentation string." <body>)

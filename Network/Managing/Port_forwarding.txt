@@ -1,0 +1,33 @@
+############################  PORT FORWARDING  ##############################
+
+# TODO : script to parse and check iptables rule syntax and validity
+# Allow ipv4 forwarding, edit file /etc/sysctl.conf
+- #net.ipv4.ip_forward=1
++ net.ipv4.ip_forward=1
+
+# This rule gives systems behind the firewall/gateway access to 192.168.122.3 on
+# port 22 by interface eth0
+iptables -A FORWARD -i eth0 -p tcp -s 192.168.122.3 --sport 22 -j ACCEPT
+iptables -A FORWARD -i eth0 -p tcp -d 192.168.122.3 --dport 22 -j ACCEPT
+
+# Forward packet from eth0 port 2222 to ip 192.168.122.3 port 22
+iptables -t nat -I PREROUTING -p tcp -i eth0 --dport 2222 -j DNAT --to 192.168.122.3:22
+
+# Allow internal ip to communique with external network on port 22
+iptables -t nat -A POSTROUTING -p tcp -d 192.168.122.3 --dport 22 -j MASQUERADE
+
+# Create iptables file for saving rules and put all previous rule inside
+vi /etc/iptables.ssh-forward.rules
+
+# Execute new file created (If you have already execute all iptables, skip next command)
+iptables-restore < /etc/iptables.test.rules
+
+# Save all rule
+iptables-save > /etc/iptables.up.rules
+
+# For being shure that your rules are executed on boot, create file :
+echo "#!/bin/bash
+/sbin/iptables-restore < /etc/iptables.up.rules" > /etc/network/if-pre-up.d/iptables
+
+# Add executing permission to file
+chmod +x /etc/network/if-pre-up.d/iptables

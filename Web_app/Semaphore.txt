@@ -1,0 +1,29 @@
+#########################  SEMAPHORE COMMANDS  #########################
+
+## How to use semphore ?
+
+# Task template
+It's here where task are launch
+To create a new task you will need :
+- Alias
+- Playbook
+- SSH key
+- Inventory
+- Repository
+
+# Inventory
+Import hosts from file, where host definition are made
+
+# Environment
+Here you define your extra var you want to send in yours playback
+JSON format are forbidden
+Check you JSON validity -> http://jsonlint.com/
+In playback var are define like this : {{ var_name }}
+in you json :
+{
+	"var_name": "var_value"
+}
+
+Git repository where playbook are store, in Playbook project of this site.
+Each directory corresponding to a service, apache, mysql, ssh, ...
+Argument are use to add flexibility to our playbook.
