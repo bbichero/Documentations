@@ -1,0 +1,5 @@
+##############################  VIM ERRORS  ###########################
+
+# Error in header with norminette :
+# Must convert DOS line ending to linux line ending
+:set fileformat=unix
