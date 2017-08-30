@@ -1,0 +1,27 @@
+####################  GRAFANA  ###################
+
+# install apt repo by https
+sudo apt install apt-transport-https curl
+
+# add repo link to /etc/apt/source.list file
+sudo sh -c "echo 'deb https://packagecloud.io/grafana/stable/debian/ jessie main' > /etc/apt/source.list "
+
+# Get GPG key
+curl https://packagecloud.io/gpg.key | sudo apt-key add -
+
+# Install grafana
+sudo apt-get update
+sudo apt-get install grafana
+
+# Start server
+sudo service grafana-server start
+
+# Configure to start at boot time
+sudo update-rc.d grafana-server defaults
+
+# Environment variables are stock at /etc/default/grafana-server
+
+# Configuration file is located at : /etc/grafana/grafana.ini.
+
+# Default port is 3000, if you want to use port 80, give permission to binary ?
+sudo setcap 'cap_net_bind_service=+ep' /usr/sbin/grafana-server
