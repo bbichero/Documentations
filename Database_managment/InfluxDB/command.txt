@@ -1,0 +1,27 @@
+######################  INFLUXDB  ####################
+
+# measurement == table
+# tags => indexed
+# fields => not indexed (slower than tags)
+
+# connection
+influx -host <ip-host> -username <username>
+
+# Get all "tables"
+use <database>;
+SHOW SERIES;
+
+# Insert data in serie
+INSERT <serie-name>,<column1>=<value1>,<column2>=<value2> <field1>=<value1> timestamp
+
+# Sample query with tags and fields
+measurement,tag1=foo,tag2=bar value_a=1,value_b=2 timestamp
+
+# Drop entrie
+DROP SERIES FROM <measurement_name[,measurement_name]> WHERE <tag_key>='<tag_value>'
+
+# Having readable timestamp
+influx -precision rfc3339
+
+# Check type from tags / field in series
+SHOW FIELD KEYS FROM <serie>
