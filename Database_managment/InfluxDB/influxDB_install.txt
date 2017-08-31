@@ -1,0 +1,20 @@
+###################  INFLUXDB INSTALL  ################
+
+# Add repository to source.list
+curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+source /etc/os-release
+
+# Condition evalutation return 0 if true
+test $VERSION_ID = "9" && echo "deb https://repos.influxdata.com/debian stretch stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+
+# Install package with apt
+sudo apt-get update && sudo apt-get install influxdb
+sudo service influxdb start
+
+# In systemd influxDB file comment this 2 line :
+[Service]
+# User=influxdb
+# Group=influxdb
+
+# Now start influxDB service
+sudo service influxdb start
