@@ -25,3 +25,37 @@ sudo update-rc.d grafana-server defaults
 
 # Default port is 3000, if you want to use port 80, give permission to binary ?
 sudo setcap 'cap_net_bind_service=+ep' /usr/sbin/grafana-server
+
+# Create SSL certificate
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/grafana/cert.key -out /etc/grafana/cert.crt
+
+# change certifications permission
+sudo chwon grafana /etc/grafana/cert.crt
+sudo chwon grafana /etc/grafana/cert.key
+
+# Install apache2
+sudo apt install apache2
+
+# Dissable default site
+sudo a2dissite 000-default
+
+# Create conf
+sudo vi /etc/apache2/grafana.conf
+---
+<VirtualHost *:80>
+	ServerName <FQND>
+
+	RewriteEngine on
+	RewriteCond %{SERVER_NAME} =<FQND>
+	RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,QSA,R=permanent]
+</VirtualHost>
+---
+
+# Active virtualhost
+sudo a2ensite grafana
+
+# Add rewrite module
+sudo a2enmod rewrite
+
+# Restart apache2
+sudo service apache2 restart
