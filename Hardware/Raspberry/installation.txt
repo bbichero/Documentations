@@ -1,0 +1,69 @@
+####################  INSTALLATION  ##################
+
+# Requirement for setting up by screen:
+ - Raspberry pi 3
+ - SD card 8GB (Min)
+ - SD card adaptator for laptop
+ - HDMI cable
+ - screen with HDMI port
+ - Alimentation cable (OUTPUT: 2,5 A,5 V)
+ - keyboard
+ - computer (OSX, WIN, LINUX)
+
+# Requirement for setting without screen:
+ - Raspberry pi 3
+ - SD card 8GB (Min)
+ - SD card adaptator for laptop
+ - Ethernet cable
+ - Alimentation cable (OUTPUT: 2,5 A,5 V)
+ - computer (OSX, WIN, LINUX) with wifi connectivity
+
+# Download raspbian from the following link (you can choose desktop or lite version)
+https://www.raspberrypi.org/downloads/raspbian/
+
+# Unzip image
+
+## Format SD card and burn image previously unziped
+# On windows you can use : windiskimg
+# On mac osx you can use Pi filler
+# On linux you can do on CLI
+
+### For screen set up
+# Remove SD card from computer and put it on raspberry
+
+# Plug power cable on micro usb port (raspberry side) and plug power cable to sector
+# Plug HDMI cable to raspberry and screen
+# Plug keyboard on usb port to raspberry
+
+# Wait raspbian ask you credentials
+# defaults are :
+login : pi
+password : raspberry
+
+# You need to activate ssh
+sudo raspi-config
+
+# Select : Configuration tool
+# Select : P2 SSH
+
+# Now ssh is actived
+
+### For set up by ethernet port
+# Create file named 'ssh' in boot partition and ssh will be actived
+# Remove SD card from computer and put it on raspberry
+
+# Plug ethernet cable to rasberry and to computer 
+# Active sharing connection from WIFI to ethernet
+# run folowing command to find reaspberry ip (mac osx / linux) (normaly : 192.168.2.2)
+apr -a
+
+# Connect throw ssh to raspberry
+# defaults credentials :
+login : pi
+password : raspberry
+
+# You need active ssh at start
+sudo raspi-config
+
+# Select : Configuration tool
+# Select : P2 SSH

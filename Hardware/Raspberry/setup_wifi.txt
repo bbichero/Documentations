@@ -1,0 +1,24 @@
+#######################  WIFI  ########################
+
+# open wpa_supplicant file
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+# Go to bottom of file and add this line
+# Replace ssid and psk of course
+---
+network={
+    ssid="testing"
+    psk="testingPassword"
+}
+---
+
+# List wifi
+sudo iwlist wlan0 scan
+
+# Get ESSID from wanted wifi point
+# Replace ssid from wpa_supplicant.conf file from prevously ESSID saved
+
+# restart network service
+sudo /etc/init.d/networking restart
+
+# List all network interface and check wlan0 have an ipv4 addr
