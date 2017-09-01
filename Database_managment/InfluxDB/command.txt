@@ -25,3 +25,8 @@ influx -precision rfc3339
 
 # Check type from tags / field in series
 SHOW FIELD KEYS FROM <serie>
+
+# Add username via curl api
+curl -XPOST "http://localhost:8086/query" --data-urlencode "q=CREATE USER <username> WITH PASSWORD '<password>' WITH ALL PRIVILEGES"
+
+# To execute authentified request add argument '-u username:password' after curl -XPOST ""http://localhost:8086/query"

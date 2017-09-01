@@ -18,3 +18,10 @@ sudo service influxdb start
 
 # Now start influxDB service
 sudo service influxdb start
+
+# To enable authentification
+# In /etc/influxdb/influxdb.conf, in section [http]
+# uncomment line
+auth-enabled = true
+
+# And restart influxDB
