@@ -1,0 +1,14 @@
+#########################  POSTFIX MACOSX  ###########################
+
+# Edit in root /etc/postfix/sasl_passwd
+# Enter server smtp credential and address like :
+<smtp-server-hostname>:<smtp-port> <email-addr>:<password>
+
+# Create postfix lookup for new SASL password
+sudo postmap /etc/postfix/sasl_passwd
+
+# Save main postfix config
+sudo cp /etc/postfix/main.cf /etc/postfix/main.cf.orig
+
+# Edit main.cf file
+sudo vi /etc/postfix/main.cf
