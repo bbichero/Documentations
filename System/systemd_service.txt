@@ -1,0 +1,23 @@
+#####################  SYSTEMD SERVICE  ##############
+
+# How to create service on linux ?
+
+# Create service file
+sudo vi /etc/systemd/system/<service-name>.service
++ [Unit]
++ Description=<service-name> service
++ After=syslog.target
++ After=network.target
++
++ [Service]
++ User=<user-who-will-run-service>
++ ExecStart=<execusion-path> <argument> <file-to-execute>
++
++ [Install]
++ WantedBy=multi-user.target
+
+# Enable service
+sudo systemctl enable <service-name>.service
+
+# Start new service
+sudo systemctl start <service-name>.service
