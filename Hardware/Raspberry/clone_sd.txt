@@ -1,0 +1,44 @@
+##############################  CLONE SD  ##########################
+
+## On linux
+## Backup
+# Check sd disk name
+sudo fdisk -l
+
+# Write disk to img
+sudo dd if=/dev/<sd-name> of=~/raspbian_backup.img bs=4M
+
+## Restore
+# Umount sd card disk
+sudo umount /dev/<sd-name>
+
+# Restore img to sd disk (!!! DOUBLE CHECK parameter !!!)
+sudo dd if=~/raspbian_backup.img of=/dev/<sd-name> bs=4M
+
+## On mac osx
+# Check sd disk name
+diskutil list
+
+# Umount sd disk
+diskutil unmountDisk /dev/<sd-name>
+
+# Copy sd disk to img
+sudo dd if=/dev/<sd-name> of=~/raspbian_backup.img bs=4m
+
+## Restore sd disk storage
+# Umount sd disk
+diskutil unmountDisk /dev/<sd-name>
+
+# Restore img to sd card
+sudo dd if=~/raspbian_backup.img of=/dev/<sd-name> bs=4m
+
+### Shrinks a Pi image that will then automatically resize to the max size of the SD card on boot
+# Download script and make it executable
+wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
+chmod +x ./pishrink.sh
+
+# Run script on image
+sudo ./pishrink.sh ./raspbian_backup.img
+
+# Restore skrinked img to sd card
+sudo dd if=~/raspbian_backup.img of=/dev/<sd-name>
