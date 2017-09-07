@@ -18,6 +18,12 @@
  - Alimentation cable (OUTPUT: 2,5 A,5 V)
  - computer (OSX, WIN, LINUX) with wifi connectivity
 
+# Get sd disk name (mac osx)
+diskutil list
+
+# Format it (macosx)
+sudo newfs_msdos -F 16 /dev/<sd-name>
+
 # Download raspbian from the following link (you can choose desktop or lite version)
 https://www.raspberrypi.org/downloads/raspbian/
 
