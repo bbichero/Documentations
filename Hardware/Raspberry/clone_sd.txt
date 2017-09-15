@@ -32,6 +32,11 @@ diskutil unmountDisk /dev/<sd-name>
 # Restore img to sd card
 sudo dd if=~/raspbian_backup.img of=/dev/<sd-name> bs=4m
 
+### To see progress during dd
+tap on : Ctrl + Shift + T
+OR
+run dd with argument : status=progress
+
 ### Shrinks a Pi image that will then automatically resize to the max size of the SD card on boot
 # Download script and make it executable
 wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
