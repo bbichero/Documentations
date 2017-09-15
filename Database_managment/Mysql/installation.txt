@@ -24,6 +24,9 @@ sudo apt-get install mysql-server-5.7 -y
 
 apt-get install mysql-server-5.5
 
+# Set password
+sudo mysql_secure_installation
+
 ## Phpmyadmin
 apt-get install phpmyadmin (choose apache2)
 
