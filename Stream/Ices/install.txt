@@ -1,0 +1,18 @@
+###################  ICES  ####################
+
+# Instal done on Debian Stretch
+
+# Download and untar package from website
+wget downloads.us.xiph.org/releases/ices/ices-2.0.2.tar.bz2
+tar jxvf ices-2.0.2.tar.bz2
+cd ices-2.0.2
+
+# Install mandator package
+sudo apt install gcc libxml2-dev libshout-dev
+
+# Run configure file
+./configure
+
+# Compile and install package
+make
+sudo make install

@@ -1,0 +1,29 @@
+########################  ICECAST  #######################
+
+# Package install on Debian stretch
+
+# Download package
+wget downloads.xiph.org/releases/icecast/icecast-2.4.3.tar.gz
+
+# Download last version of libxslt (https://packages.debian.org/source/stretch/libxslt)
+wget http.debian.net/debian/pool/main/libx/libxslt/libxslt_1.1.29.orig.tar.gz
+tar xvf libxslt_1.1.29.orig.tar.gz
+cd libxslt_1.1.29.orig
+
+# Compile and install it
+./configure
+make
+sudo make install
+
+# Untar package
+tar xvf icecast-2.4.3.tar.gz
+cd cd icecast-2.4.3
+
+# Install mandatory package
+sudo apt install libxslt curl vorbis-tools libxml2
+
+# Configure, compile and install icecast
+cd icecast-2.4.3
+./configure
+make
+sudo make install
