@@ -1,0 +1,4 @@
+##########################  COMMANDS  #######################
+
+# Check disk space of eachs directory
+cd / && sudo du -sh */
