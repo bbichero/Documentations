@@ -11,6 +11,12 @@ influx -host <ip-host> -username <username>
 use <database>;
 SHOW SERIES;
 
+# Create user with all access
+CREATE USER <username> WITH PASSWORD '<password>' WITH ALL PRIVILEGES
+
+# Add particular grant for user
+GRANT [READ,WRITE,ALL] ON <database_name> TO <username>
+
 # Insert data in serie
 INSERT <serie-name>,<column1>=<value1>,<column2>=<value2> <field1>=<value1> timestamp
 
