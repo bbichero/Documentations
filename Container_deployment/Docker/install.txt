@@ -1,0 +1,48 @@
+####################  INSTALL DOCKER  #####################
+# Debian stretch
+
+# Install mandatory dependencies
+sudo apt-get install \
+     apt-transport-https \
+     ca-certificates \
+     curl \
+     gnupg2 \
+     software-properties-common
+
+# Download GPG key
+curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg | sudo apt-key add -
+
+# Check GPG key (you must have fingerprint : 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88)
+sudo apt-key fingerprint 0EBFCD88
+
+# Set stable repository in apt source
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+   $(lsb_release -cs) \
+   stable"
+
+# Update repository source and install Docker
+sudo apt-get update
+sudo apt-get install docker-ce
+
+# Install and run hello world container
+sudo docker run hello-world
+sudo docker run -it ubuntu bash
+
+## change docker image emplacement
+# Create new directory where docker image will be
+mkdir docker
+
+# Stop docker service
+sudo service docker stop
+
+# Edit docker start configuration
+sudo vi /etc/default/docker
+
+# Edit line where you will se 'DOCKER_OPTS'
+---
+DOCKER_OPTS="-g /path/to/new/docker/dir"
+---
+
+# Start docker service
+sudo service docker start
