@@ -1,0 +1,13 @@
+##################  INFLUXDB BACKUP  ##################
+
+# Backup up metastor information
+influxd backup <path-to-backup>
+
+# backup Database
+influxd backup -database <mydatabase> <path-to-backup>
+
+# Restore metadata
+influxd restore -metadir <dest-directory>/meta <src-directory>/<database-name>
+
+# Restore a database
+influxd restore -database <database-name> -datadir <dest-directory> <src-directory>
