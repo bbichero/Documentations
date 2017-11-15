@@ -1,0 +1,27 @@
+#########################  GRAFANA  ##########################
+
+# Add repo to source list
+sudo sh -c 'echo "deb https://packagecloud.io/grafana/stable/debian/ jessie main" >> /etc/apt/source.list'
+
+# Add package cloud key
+curl https://packagecloud.io/gpg.key | sudo apt-key add -
+
+# Add repo
+sudo apt-add-repository https://packagecloud.io/grafana/stable/debian/
+
+# Update repo
+sudo apt update
+sudo apt-get install -y apt-transport-https
+
+# Update install grafana
+sudo apt-get install grafana
+
+# Enable service grafana
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable grafana-server
+
+# Enable at boot time
+sudo update-rc.d grafana-server defaults
+
+# Start it
+sudo /bin/systemctl start grafana-server
