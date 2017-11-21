@@ -25,3 +25,82 @@ sudo update-rc.d grafana-server defaults
 
 # Start it
 sudo /bin/systemctl start grafana-server
+
+## Edit configuration
+sudo vi /etc/grafana/grafana-server/grafana.ini
+
+# You can change data, log and plugins localtion
+-------
+#################################### Paths ####################################
+[paths]
+# Path to where grafana can store temp files, sessions, and the sqlite3 db (if that is used)
+#
+;data = /var/lib/grafana
+#
+# Directory where grafana can store logs
+#
+;logs = /var/log/grafana
+#
+# Directory where grafana will automatically scan and look for plugins
+#
+;plugins = /var/lib/grafana/plugins
+-------
+
+# You can also active https
+-------
+#################################### Server ####################################
+[server]
+# Protocol (http, https, socket)
+protocol = https
+
+# The ip address to bind to, empty will bind to all interfaces
+;http_addr =
+
+# The http port  to use
+http_port = 443
+
+# The public facing domain name used to access grafana from a browser
+domain = grafana.stationf.co
+
+# Redirect to correct domain if host header does not match domain
+# Prevents DNS rebinding attacks
+enforce_domain = false
+
+# The full public facing url you use in browser, used for redirects and emails
+# If you use reverse proxy and sub path specify full url (with sub path)
+root_url = %(protocol)s://%(domain)s:%(http_port)s/
+
+# Log web requests
+;router_logging = false
+
+# the path relative working path
+;static_root_path = public
+
+# enable gzip
+;enable_gzip = false
+
+# https certs & key file
+cert_file = /etc/grafana/grafana.crt
+cert_key = /etc/grafana/grafana.key
+-------
+
+# Or change intern database type
+-------
+#################################### Database ####################################
+[database]
+# You can configure the database connection by specifying type, host, name, user and password
+# as seperate properties or as on string using the url propertie.
+
+# Either "mysql", "postgres" or "sqlite3", it's your choice
+;type = sqlite3
+;host = 127.0.0.1:3306
+;name = grafana
+;user = root
+type = mysql
+host = 127.0.0.1:3306
+
+name = grafana
+user = grafana
+# If the password contains # or ; you have to wrap it with trippel quotes. Ex """#password;"""
+password = 5PdXE8sXvQVK7fgq
+-------
