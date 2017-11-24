@@ -1,0 +1,20 @@
+##################  Install nginx  #################
+
+# Download last nginx source
+wget nginx.org/download/nginx-1.9.9.tar.gz
+
+# Untar it
+tar xf nginx-1.9.9.tar.gz
+cd nginx-1.9.9
+
+# Install dependencies
+sudo apt install libpcre3 libpcre3-dev
+
+# configure installation
+./configure
+
+# Compile
+make
+sudo make install
+
+#
