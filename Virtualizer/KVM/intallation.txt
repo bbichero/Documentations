@@ -1,0 +1,39 @@
+########################  KVM  LIBVIRT  INSTALL  ##############################
+
+# install package
+sudo apt install qemu-kvm libvirt-clients libvirt-daemon-system
+
+# Add current user KVM / libvirt group to manage VM
+sudo adduser bbichero libvirt
+sudo adduser bbichero libvirt-qemu
+
+# install bridge-utils package to manage bridge
+sudo apt install bridge-utils
+
+# You must replace your main network interface name by br0 ad create a brige
+
+----------
+auto eth0
+iface eth0 inet static
+
+auto br0
+iface br0 inet static
+        address <ip>
+        netmask 255.255.255.0
+        network 188.165.206.0
+        broadcast <ip-broadcast>
+        gateway <ip-gataway>
+        bridge_ports eth0
+----------
+
+# Restart network interface
+sudo /etc/init.d/networking restart
+
+# check libvirt default network interface
+sudo virsh net-list --all
+
+# Active libvirt network interface
+sudo virsh net-start default
+
+# Autostart this interface
+sudo virsh net-autostart default

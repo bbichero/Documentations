@@ -1,0 +1,27 @@
+#########################  LIBVIRT VIRTUALIZATION  ######################
+
+# Create directory for stock image
+mkdir /home/<username>/vg0/<disk-name>/<img-name>
+
+# Create LVM disk
+sudo lvcreate -L <disk-space>G -n <disk-name> <volume-group-name>
+
+# Format new disk previously created
+sudo mkfs.ext4 /dev/<volume-group-name>/<disk-name>
+
+# Mount disk
+sudo mount -t ext4 /dev/<volume-group-name>/<disk-name> /home/<username>/<volume-group>/<disk-name>
+
+virt-install \
+	--name <vm-name> \
+	--ram <ram-memory> \
+	--disk path=<path-to-dst-img>,size=<size-disk> \
+	--vcpus <vcpu-number> \
+	--os-type linux \
+	--os-variant debian9 \
+	--network bridge=br0 \
+	--graphics none \
+	--console pty,target_type=serial \
+	--location 'http://ftp.jaist.ac.jp/pub/Linux/debian/dists/stretch/main/installer-amd64/' \
+	--extra-args 'console=ttyS0,115200n8 serial'
+
