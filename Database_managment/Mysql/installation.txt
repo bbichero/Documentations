@@ -27,6 +27,10 @@ apt-get install mysql-server-5.5
 # Set password
 sudo mysql_secure_installation
 
+# Now connect to mysql and change plugin mode
+update mysql.user set plugin = 'mysql_native_password' where User='root';
+FLUSH PRIVILGES;
+
 ## Phpmyadmin
 apt-get install phpmyadmin (choose apache2)
 

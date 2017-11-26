@@ -1,0 +1,4 @@
+###################  USEFULL REQUEST  #################
+
+# Select average for day of the week
+SELECT MEAN(revenue) FROM revenue_count WHERE time > now() - 7d GROUP BY time(1d)

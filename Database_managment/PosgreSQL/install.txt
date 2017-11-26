@@ -1,0 +1,34 @@
+####################  INSTALL  ###################
+# Debian stretch
+
+# Install package
+sudo apt install postgresql
+
+# Connecte to postgresql
+sudo su - postgres
+psql
+\q
+
+# Create Roles (users)
+createuser --interactive
+
+# Add password to user
+alter user <username> with encrypted password '<password>';
+
+# Create a DB
+createdb discourse
+
+# Useful commands
+\?: Get a full list of psql commands, including those not listed here.
+\h: Get help on SQL commands. You can follow this with a specific command to get help with the syntax.
+\q: Quit the psql program and exit to the Linux prompt.
+\d: List available tables, views, and sequences in current database.
+\du: List available roles
+\dp: List access privileges
+\dt: List tables
+\l: List databases
+\c: Connect to a different database. Follow this by the database name.
+\password: Change the password for the username that follows.
+\conninfo: Get information about the current database and connection.
+
+# If problem after 
