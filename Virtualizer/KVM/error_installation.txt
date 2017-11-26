@@ -1,0 +1,17 @@
+###########################  ERROR  ############################
+
+# When executing : sudo virsh net-start default
+# error: internal error: Failed to initialize a valid firewall backend
+
+# Need to install package
+sudo apt install firewalld
+sudo apt-get install ebtables
+sudo service libvirtd restart
+
+# When executing : sudo virsh net-start default
+# error: Cannot check dnsmasq binary /usr/sbin/dnsmasq: No such file or directory
+
+# Need to install dnsmasq
+sudo apt install dnsmasq
+
+
