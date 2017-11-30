@@ -10,3 +10,13 @@ sudo apt install wireguard-dkms wireguard-tools
 
 # Add interface with ip
 sudo ip link add dev wg0 type wireguard
+
+# On server set ipv4 VPN address for host and peer
+sudo ip address add dev wg0 192.168.2.1 peer 192.168.2.2
+
+# Generate private key on server
+umask 077
+wg genkey > privatekey
+
+# Generate public key
+wg pubkey < privatekey > publickey

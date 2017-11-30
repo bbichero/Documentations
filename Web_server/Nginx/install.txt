@@ -1,7 +1,0 @@
-#########################  NGINX  ########################
-
-# Install package
-sudo apt install nginx
-
-# Configuration file are in /etc/nginx/site-availables
-:

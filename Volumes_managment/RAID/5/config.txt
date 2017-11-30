@@ -1,0 +1,11 @@
+######################  RAID 5 CONF  ########################
+
+# Need at monimum 3 disk with the same disks space
+
+# Install mdadm
+sudo apt install mdadm
+
+# Examine 3 disk
+sudo mdadm -E /dev/sd[a-c]
+
+
