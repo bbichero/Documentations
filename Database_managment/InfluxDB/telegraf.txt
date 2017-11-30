@@ -1,0 +1,33 @@
+############################  TELEGRAF  ############################
+
+# Need InfluxDB
+
+# Connect to influxDB
+influx
+
+# Create new database
+create database telegraf
+
+# Create new username with password
+create user telegraf with password '<password>'
+GRANT ALL ON telegraf TO telegraf
+
+# Create retention policy on databse (remove all data older that 30 days)
+CREATE RETENTION POLICY thirty_days ON telegraf DURATION 30d REPLICATION 1 DEFAULT
+
+# Add apt repo link to debian
+curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+echo "deb https://repos.influxdata.com/debian jessie stable" > /etc/apt/sources.list.d/influxdb.list
+sudo apt update
+
+# Install telegraf now
+sudo apt install telegraf
+
+# Save default configuration file
+sudo mv /etc/telegraf/telegraf.conf /etc/telegraf/telegraf.conf.orig
+
+# Remove all from /etc/telegraf/telegraf.conf and write conf you want
+# Go to => https://github.com/influxdata/telegraf/blob/master/docs/CONFIGURATION.md to help you
+
+# Now test configuration
+sudo telegraf -test -config /etc/telegraf/telegraf.conf -config-directory /etc/telegraf/telegraf.d
