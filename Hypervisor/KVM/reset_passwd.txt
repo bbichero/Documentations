@@ -1,3 +1,0 @@
-##########################  Reset kvm password  ######################
-
-https://paolozaino.wordpress.com/2013/08/07/how-to-recover-kvm-virtual-machine-root-password/
