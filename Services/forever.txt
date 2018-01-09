@@ -1,0 +1,10 @@
+######################  FOREVER  ###########################
+
+# Can't watch all script launch
+Error: watch /.../node_modules/async/node_modules/lodash/pullAt.js ENOSPC
+    at _errnoException (util.js:1024:11)
+    at FSWatcher.start (fs.js:1374:19)
+    at Object.fs.watch (fs.js:1400:11)
+
+# Solution => Need more script watch
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
