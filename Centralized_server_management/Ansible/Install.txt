@@ -1,0 +1,4 @@
+###################  INSTALL  ################
+
+# Install from pip
+sudo pip install ansible
