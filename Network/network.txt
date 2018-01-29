@@ -5,3 +5,8 @@ netstat -tnpa | grep 'ESTABLISHED.*sshd'
 
 # Ping IP in script (fast)
 timeout 0.05 ping -c1 $ip || echo 1
+
+# OSX change hostname / computer name
+sudo scutil --set ComputerName "newname"
+sudo scutil --set LocalHostName "newname"
+sudo scutil --set HostName "newname"
