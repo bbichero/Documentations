@@ -1,0 +1,9 @@
+#########################  STERTCH  ########################
+
+# Debian stretch installation OS from iso
+
+## Error :
+debootstrap error : failed to determine the codename for the release
+
+# You must to mount your usb key in /cdrom
+mount /dev/sdc1 /cdrom
