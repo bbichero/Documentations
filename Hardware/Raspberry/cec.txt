@@ -1,0 +1,12 @@
+###############################  CEC CONTROL  ################################
+
+# Install package from apt
+sudo apt install cec-utils
+
+# Active CEC protocols on TV
+
+# Power on TV
+echo "on 0" | cec-client -s -d 1
+
+# Power off tv
+echo "standby 0" | cec-client -s -d 1
