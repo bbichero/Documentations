@@ -1,0 +1,13 @@
+######################   CONF   ##########################
+
+# create web server file listing
+
+server {
+	...
+	...
+
+	location ~ /test {
+		autoindex on;
+		alias /home/test;
+	}
+}
