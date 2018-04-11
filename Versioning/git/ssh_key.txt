@@ -1,0 +1,15 @@
+########################  SSH KEY  ##########################
+
+# Configure ssh
+vi ~/.ssh/config
+
+Host gitnameServer
+    Hostname remote.server.com
+    IdentityFile ~/.ssh/id_rsa.github
+    IdentitiesOnly yes
+
+# Add git key to ssh agent
+ssh-agent bash -c 'ssh-add ~/.ssh/id_git'
+
+# Clone repository
+git clone git@github.com:whatever/wtf.git
