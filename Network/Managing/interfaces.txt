@@ -1,0 +1,20 @@
+#####################  NETWORK INTERFACE  ########################
+# Show all network interface
+ip link show
+
+# List all interface with IP
+sudo ifconfig
+
+## create new interface
+# Active network module
+sudo modprobe dummy
+sudo lsmod | grep dummy
+
+# Create interface
+sudo ip link set name <network-interface-name> dev dummy0
+
+# Show new interface
+ip link show <network-interface-name>
+
+# Forward all traffic from outside to new interface
+sysctl -w net.ipv4.conf.<network-interface-name>.forwarding=1
