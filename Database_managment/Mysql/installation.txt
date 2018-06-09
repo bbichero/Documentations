@@ -31,6 +31,9 @@ sudo mysql_secure_installation
 update mysql.user set plugin = 'mysql_native_password' where User='root';
 FLUSH PRIVILGES;
 
+#### IMPORTANT ####
+# You must connect with sudo and create new user to connect without sudo
+
 ## Phpmyadmin
 apt-get install phpmyadmin (choose apache2)
 
