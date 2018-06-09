@@ -1,0 +1,65 @@
+#####################  CRYPT LVM  ###################
+
+# Setup crypt device
+cryptsetup luksFormat /dev/<device-name>
+
+# Open new crypt device
+cryptsetup open /dev/<device-name> <new-device-name>
+
+# Create LVM physical device
+pvcreate /dev/mapper/<new-device-name>
+
+# Create volume group
+vgcreate vg0 /dev/mapper/<new-device-name>
+
+# Now create all volume you want ..
+lvcreate -L 8G vg0 -n <volume-name-1>
+lvcreate -L 8G vg0 -n <volume-name-2>
+
+## for root disk
+
+# first format to luksFormat
+cryptsetup luksFormat -c aes-xts-plain64 -s 512 /dev/mapper/<group-name>-<disk-name>
+
+# open the crypted disk
+cryptsetup open /dev/mapper/<volume-group>-<disk-name> <short-name>
+
+# format to mkfs
+mkfs.ext4 /dev/mapper/<volume-group>-<volume-name>
+
+# mount it
+mount /dev/mapper/<volume-group>-<volume-name> /home/<path-dest>
+
+# Fill the /etc/fstab like this
+-----
+/dev/mapper/<disk-name>	/       ext4            defaults        0       1
+/dev/mapper/tmp		/tmp    tmpfs           defaults        0       0
+/dev/mapper/swap        none    swap            sw              0       0
+-----
+
+# In /etc/crypttab you must fill like this (only for swap of tmp disk)
+-----
+swap	/dev/mapper/MyVol-swap	/dev/urandom	swap,cipher=aes-xts-plain64,size=256
+tmp	/dev/mapper/MyVol-tmp	/dev/urandom	tmp,cipher=aes-xts-plain64,size=256
+-----
+
+
+## For home disk
+
+# Create directory to store random value
+mkdir -m 700 /etc/luks-keys
+
+# Copy random value in directory
+dd if=/dev/random of=/etc/luks-keys/home bs=1 count=256 status=progress 
+
+# Like for root dir crypt, open, format and mount
+
+# In /etc/crypttab
+-----
+home	/dev/mapper/<volume-group>-<home-disk>   /etc/luks-keys/home
+-----
+
+# And in /etc/fstab
+-----
+/dev/mapper/<home-disk>        /home   ext4        defaults        0       2
+-----
