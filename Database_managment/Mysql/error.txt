@@ -1,0 +1,13 @@
+#########################  ERROR  ########################
+
+# After installing mysql OR mariadb you can't connect
+# to db with root credentials
+# ERROR 1698 (28000): Access denied for user 'root'@'localhost'
+
+# You must connect with sudo
+sudo mysql -u root
+UPDATE user SET plugin='mysql_native_password' WHERE User='root';
+FLUSH PRIVILEGES;
+
+# Then restart mysql
+sudo systemctl restart mariadb
