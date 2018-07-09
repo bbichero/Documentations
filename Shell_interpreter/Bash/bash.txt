@@ -44,3 +44,6 @@ trap <function-name-or-command> <SIGANL-NAME>
 
 # Get back public ipv4
 curl ipinfo.io/ip
+
+# set directory / file permission to 700 and 600
+umask 077
