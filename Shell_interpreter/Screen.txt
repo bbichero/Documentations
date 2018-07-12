@@ -4,10 +4,10 @@
 
 # Create a new "screen"
 screen
-<ESC> <SP>
+<Esc> <SP>
 
 # Detach screen
-<CTRL> a d
+<Ctrl> a d
 
 # List all screen
 screen -ls
@@ -17,3 +17,8 @@ screen -r <screen-name>
 
 # How to terminate a scree ?
 Quit all command or process in the screen then type: exit
+
+# Put all log of screen in a file
+<Ctrl> + A and : to get to command mode
+
+hardcopy -h <filename>
