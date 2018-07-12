@@ -1,0 +1,19 @@
+#####################  SCREEN  ########################
+
+# Screen command permit to detach, create and manag shell in backgound
+
+# Create a new "screen"
+screen
+<ESC> <SP>
+
+# Detach screen
+<CTRL> a d
+
+# List all screen
+screen -ls
+
+# Reconnect to a screen
+screen -r <screen-name>
+
+# How to terminate a scree ?
+Quit all command or process in the screen then type: exit
