@@ -1,0 +1,39 @@
+#################  CISCO DEBUG CLI COMMANDS  ###############
+
+# Show port disabled
+show errdisable recovery
+
+# Increase log buffer size (switch)
+logging buffered <new-buffer-size>
+
+# disable log paging
+config paging disable
+
+# increase session timeout
+config session timeout 0
+
+# Active debug console for given mac addr
+debug client <mac-addr>
+
+# Display all log for given mac addr
+show client detail <mac-addr>
+
+# Display router log
+show msglog
+
+# Display trap log
+show traplog
+
+# disable all log
+debug disable-all
+
+## Debug radius
+debug dot1x aaa enable
+debug dot1x events enable
+
+### Debug on AP wifi
+# display config
+show tech
+
+# display log
+show log
