@@ -10,3 +10,6 @@ timeout 0.05 ping -c1 $ip || echo 1
 sudo scutil --set ComputerName "newname"
 sudo scutil --set LocalHostName "newname"
 sudo scutil --set HostName "newname"
+
+# flush dns cache
+sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder; say cache flushed
