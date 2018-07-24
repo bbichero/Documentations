@@ -1,0 +1,45 @@
+##########################   MOCHAJS  ########################
+
+# Global installation
+sudo npm install --global mocha
+
+# Go to project you want
+# Create test dir
+mkdir test
+
+# create test file
+vi test/test.js
+
+---
+var assert = require('assert');
+describe('Array', function() {
+  describe('#indexOf()', function() {
+    it('should return -1 when the value is not present', function() {
+      assert.equal([1,2,3].indexOf(4), -1);
+    });
+  });
+});
+---
+
+# Execute mocha
+./node_modules/mocha/bin/mocha
+
+# Return should be like this :
+
+ Array
+    #indexOf()
+      ✓ should return -1 when the value is not present
+
+
+  1 passing (9ms)
+
+# In your package.json add mocha command
+
+---
+"scripts": {
+    "test": "mocha"
+  }
+---
+
+# Then test
+npm test
