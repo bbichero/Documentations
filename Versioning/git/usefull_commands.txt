@@ -1,0 +1,68 @@
+###############  GIT USEFULL COMMANDS  ############
+
+## Keywork :
+
+# blob :	compressed file content
+# tree :	compressed file with: mode, type, name and sha of each entry (blop and tree)
+# object :	git object file container
+# commit :	compressed file pointing to a tree and keeps an author, committer,
+		message and any parent commits that directly preceded it
+# branch :	40 char SHA-1 of the commit it point to
+# tag :		compressed file object that provides a permanent shorthand name for a
+		particular commit.
+		It contains an object, type, tag, tagger and a message
+
+## Git log
+
+# Show where the branchs poiters are pointing
+git log --oneline --decorate
+
+# Add --graph --all to see branchs schemas
+
+## Git add
+# Add a file to next commit
+git add <filename>
+
+## Git commit
+
+# Change last commit
+# Permit to merge stages change with previus commit
+git commit --amend -m "New message"
+
+--no-edit option permit to keep the last commit message
+
+## Git tag
+
+# Add a tag (lightweight version)
+git tag <tag-name>
+
+# Add a tag with a specific message (and create an object for the tag)
+git tag -a <tag-name> -m "tag message"
+
+# Show tag content
+git show <tag-name>
+
+# Share tag
+git push origin <tag-name>
+
+## Git push
+# Push work to remote server
+git push
+
+## Git pull
+# Retrive work from all remote branchs
+git pull
+
+## Git remote
+# Add new remote repository
+git add remote <remote-url>
+
+## Git merge
+# Merge 2 branchs together, fast forward if possible (if no conflict occured)
+git merge <branch-source> <branch-dest>
+
+# Abort conflicting merge (can only be run after the merge conflics occured)
+git merge --abort
+
+# Conclude conflicting merge
+git merge --continue
