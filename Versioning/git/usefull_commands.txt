@@ -55,7 +55,10 @@ git pull
 
 ## Git remote
 # Add new remote repository
-git add remote <remote-url>
+git add remote <collaborator-name> <remote-url>
+
+# retrive collaborator branch
+git fetch <collaborator-name>
 
 ## Git merge
 # Merge 2 branchs together, fast forward if possible (if no conflict occured)
@@ -66,3 +69,8 @@ git merge --abort
 
 # Conclude conflicting merge
 git merge --continue
+
+## Git rebase
+# Edit only few last commits
+git rebase -i HEAD~<nb-commits>
+
