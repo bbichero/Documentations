@@ -85,3 +85,39 @@ git merge --continue
 # Edit only few last commits
 git rebase -i HEAD~<nb-commits>
 
+## Git diff
+# Show diff between commit rev given and HEAD
+git diff <commit-rev>...
+
+# Show diff between 2 commit
+git diff <commit-rev>...<other-commit-rev>
+You can add the --stat option to only print diff stats
+
+# show diff for a particular file
+git diff <commit-rev>... -- <filename>
+
+# Generating path from 2 diff branchs
+git diff master..<branch-1> > <filename>.patch
+
+# Apply a patch to your project
+patch -p1 < ~/<filename>.patch
+
+## Git reset
+# Reset your working directory to HEAD (undo a merge for example)
+git reset --hard HEAD
+
+# Reset your working directory to previous state of HEAD
+git reset --hard HEAD
+
+## Git stash
+# Save all you uncommited work before checkout to another branch
+git stash
+
+# see stashed work
+git stash list
+
+# See stashed file diff
+git diff stash@{1}
+
+# Apply stash file (after this, all is back to normal, you can git add, commit ...)
+git stash apply stash@{1}
