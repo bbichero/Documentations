@@ -1,0 +1,40 @@
+######################  GIT ARC  ###################
+
+# .git/config
+Main configuration file for git, like, branch, remote ...
+
+# .git/index
+Default location of your git project
+
+# .git/objects/
+This is the main directory that holds the data of the project
+
+# .git/refs/
+Contain files that corresponding to your local branch
+
+# .git/HEAD
+Contain reference of the branch you are currently on
+
+# .git/hooks
+Contain shell script that are invoked after the git command
+
+## Git cat-file
+# Print the content of a blop file
+git cat-file -p <object-file-hash>
+
+## Git ls-tree
+# Print information form tree object
+git ls-tree <object-file-hash>
+Add -r to be recursive
+
+# Compress all your object into delta file (increase speed of certains commands)
+git gc
+
+# Set it automatic
+git config --global gc.auto 1
+
+# Check project sanity
+git fsck
+
+# Remove unreachable or corrupted objects
+git prune -n

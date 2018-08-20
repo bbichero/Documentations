@@ -13,11 +13,23 @@
 		It contains an object, type, tag, tagger and a message
 
 ## Git log
-
 # Show where the branchs poiters are pointing
 git log --oneline --decorate
 
 # Add --graph --all to see branchs schemas
+
+## Git show
+# Show commit details
+git show <commit-rev>
+
+# Show parent of commit
+git show <commit-rev>^<parent-number>
+
+# Show git grand-parent
+git show <commit-rev>~<grand-parent-number>
+
+# Show commit tree
+git show <commit-rev>^{tree}
 
 ## Git add
 # Add a file to next commit
@@ -32,7 +44,6 @@ git commit --amend -m "New message"
 --no-edit option permit to keep the last commit message
 
 ## Git tag
-
 # Add a tag (lightweight version)
 git tag <tag-name>
 
@@ -55,7 +66,10 @@ git pull
 
 ## Git remote
 # Add new remote repository
-git add remote <remote-url>
+git add remote <collaborator-name> <remote-url>
+
+# retrive collaborator branch
+git fetch <collaborator-name>
 
 ## Git merge
 # Merge 2 branchs together, fast forward if possible (if no conflict occured)
@@ -66,3 +80,44 @@ git merge --abort
 
 # Conclude conflicting merge
 git merge --continue
+
+## Git rebase
+# Edit only few last commits
+git rebase -i HEAD~<nb-commits>
+
+## Git diff
+# Show diff between commit rev given and HEAD
+git diff <commit-rev>...
+
+# Show diff between 2 commit
+git diff <commit-rev>...<other-commit-rev>
+You can add the --stat option to only print diff stats
+
+# show diff for a particular file
+git diff <commit-rev>... -- <filename>
+
+# Generating path from 2 diff branchs
+git diff master..<branch-1> > <filename>.patch
+
+# Apply a patch to your project
+patch -p1 < ~/<filename>.patch
+
+## Git reset
+# Reset your working directory to HEAD (undo a merge for example)
+git reset --hard HEAD
+
+# Reset your working directory to previous state of HEAD
+git reset --hard HEAD
+
+## Git stash
+# Save all you uncommited work before checkout to another branch
+git stash
+
+# see stashed work
+git stash list
+
+# See stashed file diff
+git diff stash@{1}
+
+# Apply stash file (after this, all is back to normal, you can git add, commit ...)
+git stash apply stash@{1}
