@@ -39,7 +39,8 @@ sudo wg show
 ## On server if you want to add more peer
 sudo wg set wg0 peer <CLIENT_PUB_KEY> allowed-ips <CLIENT_VPN_IP>/32
 
-# If you want to route all traffic please aftive ipv4 forwarding on server and client
+## On server AND client
+# If you want to route all traffic, active ipv4 forwarding
 sudo vi /etc/sysctl.conf
 
 - #net.ipv4.ip_forward=1
