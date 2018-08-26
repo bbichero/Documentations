@@ -6,7 +6,14 @@ printf 'Package: *\nPin: release a=unstable\nPin-Priority: 150\n' > /etc/apt/pre
 
 # Install wireguard
 sudo apt update
-sudo apt install wireguard-dkms wireguard-tools
+sudo apt install wireguard wireguard-dkms wireguard-tools
+sudo apt install linux-headers-$(uname -r)
+
+# Restart VM to enable change
+sudo reboot
+
+# Active kernel module
+sudo modprobe wireguard
 
 # check if module is enable
 lsmod | grep wireguard
