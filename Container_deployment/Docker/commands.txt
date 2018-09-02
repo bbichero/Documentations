@@ -5,35 +5,37 @@
 ====> Know his distribution : cat /proc/version | sudo /etc/debian_version
 
 ## Create a VM with virtual box :
-
 - docker-machine create --driver virtualbox <VM name>
 
 ## Get back distrib image :
-
 - docker pull <distribution name>
 
 ## Run bash from the selected image :
-
 - docker run -i -t <distribution name> /bin/bash
 
 ## Commit change when exit :
-
 - docker commit <image hash> <image name>
 
 ## Remove a specified image :
-
 - docker rmi <image name>
 
 ## Some usefull command line -> http://linuxfr.org/news/docker-tutoriel-pour-manipuler-les-conteneurs
 
 ## Docker port use for port map :
-
 - docker port <ID container> <port use>
 
 ## View logs :
-
 - docker port <ID container> <port use>
 
 ## View proccess on container running :
-
 - docker top <ID container>
+
+# Get log file location
+docker inspect --format='{{.LogPath}}' <container-id>
+
+# Stop and Remove all containers
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+
+# Rmove all images
+docker rmi -f $(docker ps -a -q)
