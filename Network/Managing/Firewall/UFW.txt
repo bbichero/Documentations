@@ -1,0 +1,62 @@
+#####################  UFW  #######################
+## Uncomplicated Firewall
+
+## install UFW
+sudo apt install ufw
+
+# Disable IPv6 handle
+vi /etc/default/ufw
+
+# Comment ipv6=YES
+
+# Enable ufw
+sudo ufw enable
+
+# Check ufw status
+sudo ufw status verbose
+
+# Show detailed firewall rules
+sudo ufw show raw
+
+# Disable ufw
+sudo ufw disable
+
+## Allow and Deny (specific rules)
+# Allow rule
+sudo ufw allow <port>/<optional: protocol>
+EX: sudo ufw allow 53/tcp
+
+# If you want to add numbered rule add "insert <number>" after ufw
+EX: sudo ufw insert 1 allow 53/tcp
+
+# Delete rule
+# Add delete to existing rule
+EX: sudo ufw delete allow 53/tcp
+
+# Deny rule
+sudo ufw allow <port>/<optional: protocol>
+EX: sudo ufw deny 53/tcp
+
+## Services
+# All services, they can be allow or deny from ufw
+less /etc/services
+
+# Allow service name
+sudo ufw allow <service name>
+
+# Same for deny
+sudo ufw deny <service name>
+
+# Check rules enable
+sudo ufw status
+
+# Check numbered rules
+
+## Avanced syntax
+# Allow by specific port and IPv4
+sudo ufw allow from <target> to <destination> port <port number> proto <protocol name>
+EX: sudo ufw allow from 192.168.0.4 to any port 22 proto tcp
+
+# Same for deny
+sudo ufw deny from <target> to <destination> port <port number> proto <protocol name>
+EX: sudo ufw deny from 192.168.0.4 to any port 22 proto tcp
