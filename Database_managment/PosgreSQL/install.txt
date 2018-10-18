@@ -15,6 +15,9 @@ createuser --interactive
 # Add password to user
 alter user <username> with encrypted password '<password>';
 
+# Add grant command
+GRANT ALL PRIVILEGES ON DATABASE "my_db" to my_user;
+
 # Create a DB
 createdb discourse
 
