@@ -1,0 +1,4 @@
+#############     ERRORS     ###############
+
+# permission denied for relation <table-name>
+GRANT ALL PRIVILEGES ON TABLE <table-name> TO <username>;

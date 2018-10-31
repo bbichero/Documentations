@@ -34,4 +34,18 @@ createdb discourse
 \password: Change the password for the username that follows.
 \conninfo: Get information about the current database and connection.
 
-# If problem after 
+## for opening datbase to outside world (or specific vm)
+# edit config file
+sudo vi /etc/postgresql/9.6/main/pg_hba.conf
+
+# Add auth line
+host	all	all	<ipv4-remote-server>/32	md5
+
+# Listen on public interface
+sudo vi /etc/postgresql/9.6/main/postgresql.conf
+
+# Edit listen_addresses variable
+listen_addresses = '0.0.0.0'
+
+# Restart postgresql
+sudo service postgresql restart

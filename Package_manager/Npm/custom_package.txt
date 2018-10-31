@@ -1,0 +1,18 @@
+####################  CUSTOM PACKAGE  #################
+
+# If your package code isn't versionned, do it
+# Go to package code and init npm
+cd <package-name>
+npm init
+
+# Add private tag in package.json
+
+"private": true,
+
+# In new project where you want to include you package, init npm
+cd <project>
+npm init
+
+# In package.json add package location
+
+"<package-name>": "git+ssh://git@github.com:<user>/<package-name>.git#<branch-or-tag-name>"
