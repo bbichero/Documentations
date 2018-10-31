@@ -47,3 +47,6 @@ curl ipinfo.io/ip
 
 # set directory / file permission to 700 and 600
 umask 077
+
+# Clean history
+cat /dev/null > ~/.bash_history && history -c && exit
