@@ -1,0 +1,14 @@
+#################  INSTALL  ################
+
+# Download binary -> https://www.terraform.io/downloads.html
+# Or clone repository -> https://github.com/hashicorp/terraform.git
+
+# Create file for stocking variable : variables.tf
+# Create file for the main config : <project>.tf
+# Create file for stocking secret var : secret.ftvars
+
+# Init projetc
+terraform init
+
+# Show next plan without creation
+terraform plan

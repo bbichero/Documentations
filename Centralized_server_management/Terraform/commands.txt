@@ -1,0 +1,10 @@
+######################  COMMANDS  ######################
+
+# Execute plan (with variable fie)
+terraform apply -var-file="secret.tfvars"
+
+# List information for current state plan
+terraform show
+
+# List ressource list for current plan
+terraform state list
