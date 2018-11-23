@@ -46,3 +46,12 @@ DOCKER_OPTS="-g /path/to/new/docker/dir"
 
 # Start docker service
 sudo service docker start
+
+# Use docker with non root user
+sudo groupadd docker
+
+# Add the connected user to the group 
+sudo gpasswd -a $USER docker
+
+# Apply change group
+newgrp docker
