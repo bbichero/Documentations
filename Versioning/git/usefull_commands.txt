@@ -121,3 +121,7 @@ git diff stash@{1}
 
 # Apply stash file (after this, all is back to normal, you can git add, commit ...)
 git stash apply stash@{1}
+
+# Point branch HEAD to previous commit
+git reset --hard <commit-id>
+git push origin branch --force
