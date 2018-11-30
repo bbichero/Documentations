@@ -1,0 +1,7 @@
+################  ERRORS  ################
+
+# HTTP CODE error 413, Request entity too large
+Put this line in your virtual host conf
+---
+client_max_body_size 100M; #100mb
+---
