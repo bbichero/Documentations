@@ -1,0 +1,4 @@
+####################   OSX   ##################
+
+# exfat disk can't be read
+fsck_exfat -d /disk/path/s0
