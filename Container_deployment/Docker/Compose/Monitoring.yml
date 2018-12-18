@@ -1,0 +1,40 @@
+version: "3.5"
+services:
+  db:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./DockerInflux
+    restart: always
+    ports:
+      - 8086:8086
+    volumes:
+    # sudo mkdir -p /srv/docker/influxdb/data
+    - /srv/docker/influxdb:/var/lib/influxdb
+
+  telegraf:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./DockerTelegraf
+    restart: always
+    ports:
+      - 127.0.0.1:8088:$TELEGRAF_EX_PORT
+    links:
+      - db
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+
+  grafana:
+    image: grafana/grafana:5.1.0
+    env_file:
+      - .env
+    ports:
+      - 127.0.0.1:3000:$GF_EX_PORT
+    links:
+      - db
+    volumes:
+    # sudo mkdir -p /srv/docker/grafana/data; chown 472:472 /srv/docker/grafana/data
+      - /srv/docker/grafana/data:/var/lib/grafana
