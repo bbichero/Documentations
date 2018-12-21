@@ -1,0 +1,2 @@
+# Semantic rules for patch
+https://semver.org/

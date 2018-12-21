@@ -1,0 +1,2 @@
+# Git and patch workflow
+https://blog.intracto.com/how-to-save-a-puppy-by-creating-a-clean-git-repo
