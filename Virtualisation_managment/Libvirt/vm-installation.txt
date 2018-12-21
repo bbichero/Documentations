@@ -11,65 +11,50 @@
 apt install sudo net-tools vim
 
 ## DNS /etc/resolv.conf
-
 nameserver 80.67.169.12
 nameserver 80.67.169.40
 
 ## Add this to grub conf at VM guest boot :  console=ttyS0,115200n8 (between line linux and echo)
-
 systemctl enable serial-getty@ttyS0.service
 systemctl start serial-getty@ttyS0.service
 
 # In guest VM in /etc/default/grub replace
-
 GRUB_CMDLINE_LINUX_DEFAULT="quiet"
 #GRUB_TERMINAL=console
 
 # By
-
 GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console=ttyS0"
 GRUB_TERMINAL="serial console"
 
 # In guest VM run the following
-
 update-grub
 
 # The VM console for running VM can be get by
-
 sudo virsh console VM
 
 # Dowload image of debian Jessie or simply go to /home/bbicheron/vm/iso
-
 wget -c http://cdimage.debian.org/debian-cd/8.5.0/amd64/iso-cd//debian-8.5.0-amd64-CD-1.iso
 
 ## Check if server can virtualise VM
-
 egrep -c '(vmx|svm)' /proc/cpuinfo (this return command must be superior than 1)
 
 # List all you domaine :
-
 virsh list --all
 
 # KNOW disk space
-
 df -h
 
 # KNOW disk munt list
-
 cat /etc/fstab
 
 # Default xml configuration
-
 /etc/libvirt/qemu/networks/default.xml
 
 # Restart network
-
 sudo /etc/init.d/networking restart
 
 # List bridge
-
 brctl show
 
 # List all network
-
 virsh net-list
