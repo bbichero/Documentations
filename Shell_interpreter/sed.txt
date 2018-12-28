@@ -19,3 +19,9 @@ VAR_NAME=$(sed "s/old-patern/new-patern/g" <<< "$VAR_NAME")
 
 # Replace first line of file
 sed '1 s/^.*$/<new-line>/'
+
+# Get all lines between 2 patern (<patern-1> and <patern-2>)
+sed -n '/<patern-1>/,/<patern-2>/p' /path/to/file
+
+# Remove lines between 2 patern (<patern-1> and <patern-2>)
+sed '/^<patern-1>/,/^<patern-2>/{/^<patern-1>/!{/^\<patern-2>/!d}}' /path/to/file
