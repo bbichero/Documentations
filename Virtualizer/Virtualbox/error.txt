@@ -1,0 +1,4 @@
+############################  ERRORS  ##############################
+
+# Cannot register the hard disk '/path/to/.vhd' {XXX-XXXX} because a hard disk '/path/to/.vhd' with UUID {XXXX-XXXX} already exists.
+VBoxManage internalcommands sethduuid /path/to/.vhd
