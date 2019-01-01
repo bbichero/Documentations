@@ -11,3 +11,8 @@ server {
 		alias /home/test;
 	}
 }
+
+# Change default log permission file
+# Edit /etc/logrotate.d/nginx
+- 	create 0640 www-data adm
++ 	create 0644 www-data adm
