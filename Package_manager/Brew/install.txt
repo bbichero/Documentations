@@ -1,0 +1,7 @@
+########################  INSTALL  ######################
+
+# Install brew on MacOS
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+# Install package without dependencies
+brew install <package-name> --ignore-dependencies
