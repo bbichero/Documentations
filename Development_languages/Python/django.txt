@@ -1,0 +1,31 @@
+#######################  DJANGO  #######################
+
+# Make sure virtualenv and python are installed
+# create python env
+virtualenv <my-project-dirs>
+de <my-project-dirs>
+
+# Install django
+pip install django
+
+# Create django project
+django-admin startproject <my-new-project>
+cd <my-new-project>
+
+# Create new django app
+django-admin startproject <my-django-app>
+
+# If you want to use a database in you app / project (posgresql here)
+# Edit <my-new-project>/settings.py and add :
+---------------
+DATABASES = {
+	'default': {
+		'ENGINE': 'django.db.backends.postgresql',
+		'NAME': 'djangogirls',
+		'USER': 'name',
+		'PASSWORD': '',
+		'HOST': 'localhost',
+		'PORT': '',
+	}
+}
+---------------
