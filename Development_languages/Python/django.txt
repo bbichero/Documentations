@@ -34,5 +34,8 @@ DATABASES = {
 ---------------
 
 # Apply migration and add superuser
-python manage.py migrate
+python manage.py migrate <app-name>
+python manage.py makemigrations
 
+# If table have been drop manually, you must delete save migration
+DELETE FROM django_migrations WHERE app = '<app-name>'
