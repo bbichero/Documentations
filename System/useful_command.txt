@@ -2,3 +2,6 @@
 
 # Check disk space of eachs directory
 cd / && sudo du -sh */
+
+# Get largest dir size
+du -hd 1 ~

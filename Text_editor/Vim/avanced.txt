@@ -1,0 +1,16 @@
+#################  AVANCED VIM COMMANDS  ################
+## Edit current file (in current path)
+:edit .
+# Go to current file
+SHIFT + r
+# Change filename
+
+## Vim sessions
+# Save current vim session
+:mksession mysession.vim
+
+# Start new session from saved vim session
+vim -S mysession.vim
+
+# Or inside vim
+:source mysession.vim

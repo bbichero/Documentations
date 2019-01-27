@@ -1,0 +1,13 @@
+##################  MacOSX  ###################
+
+# Install postgresql
+brew install postgresql
+
+# Init DB (with path)
+initdb ~/.brew/usr/local/var/postgres
+
+# Start postgresql (with postgresql database path)
+pg_ctl -D /Users/bbichero/.brew/usr/local/var/postgres -l logfile start
+
+# Stop postgresql
+pg_ctl stop

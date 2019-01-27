@@ -1,0 +1,4 @@
+##############  INSTALL  #############
+
+# Install client and server package
+sudo apt-get --no-install-recommends install mariadb-server mariadb-client

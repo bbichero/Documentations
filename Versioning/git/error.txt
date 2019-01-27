@@ -1,0 +1,6 @@
+#################  ERROR  ##################
+
+# When editing current commit with vim, erorr:
+# error: There was a problem with the editor 'vi'.
+# Please supply the message using either -m or -F option.
+git config --global core.editor /usr/bin/vim

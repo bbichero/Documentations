@@ -1,0 +1,41 @@
+#######################  DJANGO  #######################
+
+# Make sure virtualenv and python are installed
+# create python env
+virtualenv <my-project-dirs>
+de <my-project-dirs>
+
+# If you want a specific installed python version
+virtualenv --python=/usr/bin/python3
+
+# Install django
+pip install django
+
+# Create django project
+django-admin startproject <my-new-project>
+cd <my-new-project>
+
+# Create new django app
+django-admin startproject <my-django-app>
+
+# If you want to use a database in you app / project (posgresql here)
+# Edit <my-new-project>/settings.py and add :
+---------------
+DATABASES = {
+	'default': {
+		'ENGINE': 'django.db.backends.postgresql',
+		'NAME': 'djangogirls',
+		'USER': 'name',
+		'PASSWORD': '',
+		'HOST': 'localhost',
+		'PORT': '',
+	}
+}
+---------------
+
+# Apply migration and add superuser
+python manage.py migrate <app-name>
+python manage.py makemigrations
+
+# If table have been drop manually, you must delete save migration
+DELETE FROM django_migrations WHERE app = '<app-name>'
