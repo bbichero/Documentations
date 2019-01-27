@@ -1,2 +1,5 @@
 # tech news
 https://www.reddit.com/r/programming/
+
+# Blog new decentraliser
+-[] https://blog.imirhil.fr/
