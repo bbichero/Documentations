@@ -1,3 +1,4 @@
 ##  Language talk 
 ### Loop in game
--[] http://gameprogrammingpatterns.com/game-loop.html
+
+- [ ] http://gameprogrammingpatterns.com/game-loop.html
