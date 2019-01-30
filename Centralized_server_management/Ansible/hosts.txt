@@ -1,0 +1,21 @@
+## Ansible hosts definition
+
+Host file must be in `inventory/hosts` file
+
+### Vars
+variables can be defined
+ 
+```
+[host]
+hostname
+
+[host:vars]
+var1=value1
+```
+
+Now in the playbook you can access you variable with `"{{ var1 }}"`
+
+### Inventory host definition
+- `inventory_hostname` contain current hostname
+- `hostsvars` variable contain a lot of information about current inventory definition
+	. You can access to ssh port of current hostname with : `{{ hostvars[inventory_hostname]["ansible_port"] }}`
