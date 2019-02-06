@@ -31,3 +31,15 @@ dpkg-reconfigure openssh-server
 
 # Ssh isn't lauch at boot
 sudo update-rc.d ssh defaults
+
+## Keyboard do not respond after booting ?
+# Edit file /etc/initramfs-tools/modules and add
+---
+hid
+usbhid
+hid_generic
+ohci_pci
+---
+
+# Update initramfs
+sudo update-initramfs -u
