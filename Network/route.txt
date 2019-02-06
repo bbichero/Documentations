@@ -1,0 +1,10 @@
+############  ROUTE  ############
+
+# List all route
+route -n
+
+# Delete route
+sudo route del -net 0.0.0.0 gw 192.168.178.1 netmask 0.0.0.0 dev eth0
+
+# Add route
+sudo route add -net 10.10.10.0 gw 192.168.1.1 netmask 255.255.255.0 dev eth
