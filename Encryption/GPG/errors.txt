@@ -1,0 +1,4 @@
+#########  GPG ERRORS  #########
+
+# gpg: signing failed: Inappropriate ioctl for device
+export GPG_TTY=$(tty)
