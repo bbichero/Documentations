@@ -4,3 +4,7 @@
 # error: There was a problem with the editor 'vi'.
 # Please supply the message using either -m or -F option.
 git config --global core.editor /usr/bin/vim
+
+# Clone from a remove selfsigned git repository
+# gnutls_handshake() failed: An unexpected TLS packet was received.
+git config --global http.sslVerify false
