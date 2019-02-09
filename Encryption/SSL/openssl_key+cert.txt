@@ -1,5 +1,12 @@
 #######################  ON LINE CERT KEY GEN  ####################
 
+# Key and crt
 openssl req \
        -newkey rsa:4096 -nodes -keyout domain.key \
        -x509 -days 365 -out domain.crt
+
+# CRT to PER
+openssl x509 -in cert.crt -outform der -out cert.der
+
+# DER to PEM
+openssl x509 -in cert.crt -inform der -outform pem -out cert.pem
