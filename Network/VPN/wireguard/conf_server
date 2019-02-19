@@ -1,9 +1,0 @@
-[Interface]
-Address = 192.168.2.1/32 # VPN IPv4 of your server
-ListenPort = 51820
-PrivateKey = # Private key of your server
-
-[Peer]
-PublicKey = # Public key of VPN peer
-AllowedIPs = # VPN IPv4 of your peer
-Endpoint = <Public-IPv4-Peer>:51820

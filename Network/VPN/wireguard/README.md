@@ -13,7 +13,11 @@ Packages
 Wireguard: 0.0.20181018-1
 ```
 
+**privates ipv4 are only used if server and client are in the same private network**
+If it's not the case replace with public IPv4
+
 ### Variables:
+#### Global
 Name of the wireguard network interface   
 `wg_net`
 
@@ -22,6 +26,9 @@ Name of the main network interface (with public ipv4)
 
 Listen port for wiregard server service   
 `wg_port`
+
+Client IPv4 to communique with server
+`client_private_ipv4`
 
 Server IPv4 to communique with client   
 `server_private_ipv4`
@@ -34,6 +41,9 @@ Wireguard server IPv4
 
 Wireguard client IPv4   
 `client_wg_ipv4`
+
+DNS ipv4 used by resolver
+`dns_ipv4`
 
 #### Port forwarding
 External use by client to receive connection   
