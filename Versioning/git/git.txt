@@ -89,6 +89,8 @@ git rebase upstream/master
 # Force the push in order to push it to your own forked repository on GitHub
 git push -f origin master
 
-### Make local repository exactly like remote repository
-git fetch origin
-git reset --hard origin/master
+## Remove last pushed commit
+# Remove local commit
+git reset HEAD^
+# Force push new HEAD pointer
+git push origin +HEAD
