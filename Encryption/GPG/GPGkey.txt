@@ -2,7 +2,7 @@
 #tuto : https://docs.abuledu.org/abuledu/mainteneur/creer_une_cle_gpg
 
 # install package for genrerating random number
-sudo apt-get install rng-tools
+sudo apt-get install rng-tools pinentry-tty
 
 # Run command
 sudo rngd -r /dev/urandom
@@ -49,3 +49,8 @@ gpg --keyserver pgp.mit.edu --send-keys
 # Refresh set key
 gpg --keyserver pgp.mit.edu --refresh-keys
 ###
+
+## Configure gpg passphrase prompt mode
+sudo apt install pinentry-tty
+sudo update-alternatives --config pinentry
+Choose `tty`
