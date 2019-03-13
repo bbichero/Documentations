@@ -26,20 +26,20 @@ cockpit: 176.4
 Installation
 ------
 ### Ovirt-engine installation
-Add official repository of ovirt and update
+Add official repository of ovirt and update   
 ```
 yum install http://resources.ovirt.org/pub/yum-repo/ovirt-release43.rpm
 yum update
 ```
 
-Install ovirt-engine package
+Install ovirt-engine package   
 `yum install ovirt-engine`
 
-Configure ovirt
+Configure ovirt   
 `engine-setup`
 
-You can use default settings for all question except this one:
-`Host fully qualified DNS name of this server []:`
+You can use default settings for all question except this one:   
+`Host fully qualified DNS name of this server []:`   
 Enter your FQND (if not in `/etc/hosts`) or enter your public IPv4
 
 Then you can access you admin panel to: `https://${FQDN}`
@@ -54,7 +54,7 @@ yum update
 Configuration
 ------
 ### Add host
-On engine host admin panel you must follow theses steps:
+On engine host admin panel you must follow theses steps:   
 - Click on compute then hosts
 - Click on 'New' button for configure your first host
 - Configure a name, a hostname, tick ssh_key
@@ -66,12 +66,12 @@ On engine host admin panel you must follow theses steps:
 ![ovirt-interface](https://gitlab.com:bbichero/Documentation.git/Virtualisation_managment/Ovirt/assets/ovirtmgmt-interface.png)
 
 ### Add storage
-Storage must be on another server than engine and host in a good environment
+Storage must be on another server than engine and host in a good environment   
 But you can install it along ovirt-engine.
 NFS will be the storage type used here (ovirt handle more)
 
 #### NFS server
-Install NFS package
+Install NFS package   
 `yum -y install nfs-utils`
 
 Enable and start service
@@ -81,10 +81,10 @@ systemctl start nfs-server.service
 systemctl start nfs
 ```
 
-Create the group kvm
+Create the group kvm   
 `groupadd kvm -g 36`
 
-Create user vdsm in group `kvm`
+Create user vdsm in group `kvm`   
 `useradd vdsm -u 36 -g 36`
 
 Create exports directory for host's vm
@@ -108,23 +108,23 @@ chmod 0755 /exports/export
 chmod 0755 /exports/iso
 ```
 
-NFS use a file placed in `/etc/exports` to list mounted volumes
+NFS use a file placed in `/etc/exports` to list mounted volumes   
 Fill file with:
 ```
 /exports        ${NFS_CLIENT_IP}(rw,sync,no_root_squash,no_subtree_check)
 ```
 
-Each time you edit the files you must run
+Each time you edit the files you must run   
 `exportfs -a`
 
 After this listed volumes will be available for clients
 
 #### NFS client
-Install NFS package
+Install NFS package   
 `yum -y install nfs-utils`
 
-Create destination directory for NFS serveur mounted volumes
+Create destination directory for NFS serveur mounted volumes   
 `mkdir /exports`
 
-Mount remote directory
+Mount remote directory   
 `mount ${NFS_SERVER_IP}:/exports /exports`
