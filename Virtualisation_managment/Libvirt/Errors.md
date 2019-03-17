@@ -25,3 +25,11 @@ And now start the created pool:
 virsh pool-start default
 ```
 virsh pool-autostart default
+
+When starting VM with `virsh start ${VM_NAME}`:
+```
+internal error: process exited while connecting to monitor: 2019-03-17T13:45:55.762999Z qemu-system-x86_64: -enable-kvm: unsupported machine type
+Use -machine help to list supported machines
+```
+This happen because the attribute `machine` in XML definition of VM is invalid   
+`pc` is the  most generic value and you must use it.
