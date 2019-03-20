@@ -1,6 +1,8 @@
 Erros
 ------
 
+*For adding additionnal debug add LIBVIRT_DEBUG=1 to your command*
+
 When starting a new VM if you see:
 ```
 sudo virsh start test-debian
