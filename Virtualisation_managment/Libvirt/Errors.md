@@ -2,6 +2,7 @@ Erros
 ------
 
 *For adding additionnal debug add LIBVIRT_DEBUG=1 to your command*
+[Debug virtualisation problems](https://fedoraproject.org/wiki/How_to_debug_Virtualization_problems?rd=Virtualization_tips)
 
 When starting a new VM if you see:
 ```
