@@ -13,6 +13,9 @@ gpg --gen-key
 # List gpg keys
 gpg --list-keys 
 
+# Export publickey
+gpg --armor --export email@example.com
+
 # Show fingerprint, this "key" will be used at every gpg exchange
 gpg --fingerprint
 
