@@ -6,7 +6,7 @@ Unlink last timezone
 `sudo unlink /etc/localtime`
 
 Link new timezone
-`sudo ln -s /usr/share/zoneinfo/${CURRENT_REGION}/${CURRENT_UTC_CITY}`
+`sudo ln -s /usr/share/zoneinfo/${CURRENT_REGION}/${CURRENT_UTC_CITY} /etc/locatime`
 
 Check that time match with local time
 `Watch your watch`
