@@ -12,7 +12,7 @@ Clone git repository:
 `git clone https://github.com/kiswa/TaskBoard.git`
 
 Install mandatory package (php7, nginx / apache, mysql):   
-`sudo apt install --no-install-recommends php7 php7-fpm php7.0-mbstring php7-mysql nginx maridb-server mariadb-client openjdk-8-jre`
+`sudo apt install --no-install-recommends php7 php7-fpm php7.0-mbstring php7-mysql nginx maridb-server mariadb-client openjdk-8-jre phpunit composer bzip2`
 
 Build package:   
 ```
