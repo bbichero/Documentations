@@ -12,13 +12,13 @@ Clone git repository:
 `git clone https://github.com/kiswa/TaskBoard.git`
 
 Install mandatory package (php7, nginx / apache, mysql):   
-`sudo apt install --no-install-recommends php7 php7-fpm php7.0-mbstring php7-mysql nginx maridb-server mariadb-client openjdk-8-jre phpunit composer bzip2`
+`sudo apt install --no-install-recommends php7 php7-fpm php7.0-mbstring php7-mysql nginx maridb-server mariadb-client openjdk-8-jre phpunit composer bzip2 g++ make`
 
 Build package:   
 ```
 cd TaskBoard
-./build/composer.phar self-update
-./build/build-all
+npm i
+npm build:prod
 ```
 
 Make www-data group owner of TaskBoard directory:   
