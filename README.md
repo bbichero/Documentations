@@ -1,8 +1,18 @@
-## Documentation
-#### Fews documentation for software use (git, package installation, bash, AdminSys, compilation, etc ...)
+Documentation
+------
+Documentation for software and hardware use (git, package installation, bash, AdminSys, compilation, etc ...)
 
-### This repository must contain as much documentation it can, please if you have small part of documentation on any linux  soft for installation or just few commented commands, make a pull request.
-### Each subdirectory, for example 'C' or 'KVM' must contain, an install_process, commented_commands and common_issues text file
+This repository must contain as much documentation as it can, please if you have small part of documentation on any linux  soft for installation or just few commented commands, make a pull request.
+Each subdirectory must contain:
+ - README.md (with environment variables)
+ - Errors.md (contain error resolution)
+ - SomeAction.md (Steps describing some action)
+
+* Automatisation
+    - [Ansible](https://github.com/bbichero/Documentation/tree/master/Automatisation/Ansible)
+    - [Terraform](https://github.com/bbichero/Documentation/tree/master/Automatisation/Terraform)
+
+* [Awesome](https://github.com/bbichero/Documentation/tree/master/Awesome)
 
 * Centralized authentification
 	- [LDAP](https://github.com/bbichero/Documentation/tree/master/Centralized_authentification/LDAP)
@@ -11,6 +21,11 @@
 	- [Ansible](https://github.com/bbichero/Documentation/tree/master/Centralized_server_management/Ansible)
 	- [Puppet](https://github.com/bbichero/Documentation/tree/master/Centralized_server_management/Puppet)
 	- [Salt](https://github.com/bbichero/Documentation/tree/master/Centralized_server_management/Salt) (TODO)
+
+* Compilator
+    - [Compilator](https://github.com/bbichero/Documentation/tree/master/LLVM)
+
+* [Contribute](https://github.com/bbichero/Documentation/tree/master/Contribute)
 
 * Container deployment
 	- [Docker](https://github.com/bbichero/Documentation/tree/master/Container_deployment/Docker)
