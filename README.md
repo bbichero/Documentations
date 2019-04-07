@@ -31,9 +31,11 @@ Each subdirectory must contain:
 	- [Docker](https://github.com/bbichero/Documentation/tree/master/Container_deployment/Docker)
 
 * Database managment
+    - [InfluxDB](https://github.com/bbichero/Documentation/tree/master/Database_managment/InfluxDB)
+    - [MariaDB](https://github.com/bbichero/Documentation/tree/master/Database_managment/MariaDB)
 	- [MongoDB](https://github.com/bbichero/Documentation/tree/master/Database_managment/MongoDB) (TODO)
 	- [Mysql](https://github.com/bbichero/Documentation/tree/master/Database_managment/Mysql)
-	- [PosgreSQL](https://github.com/bbichero/Documentation/tree/master/Database_managment/PosgreSQL) (TODO)
+	- [PosgreSQL](https://github.com/bbichero/Documentation/tree/master/Database_managment/PosgreSQL)
 
 * Development languages
 	- [Framwork](https://github.com/bbichero/Documentation/tree/master/Development_languages/Framwork)
@@ -41,6 +43,7 @@ Each subdirectory must contain:
 		* [Socket IO](https://github.com/bbichero/Documentation/tree/master/Development_languages/Framwork/Socket_IO) (TODO)
 	- [Library](https://github.com/bbichero/Documentation/tree/master/Development_languages/Library)
 		* [React](https://github.com/bbichero/Documentation/tree/master/Development_languages/Library/React)
+		* [NodeSas](https://github.com/bbichero/Documentation/tree/master/Development_languages/Library/NodeSas)
 			
 	- [C](https://github.com/bbichero/Documentation/tree/master/Development_languages/C)
 	- [C++](https://github.com/bbichero/Documentation/tree/master/Development_languages/C%2B%2B) (TODO)
@@ -60,11 +63,20 @@ Each subdirectory must contain:
 	- [RSA](https://github.com/bbichero/Documentation/tree/master/Encryption/RSA)
 	- [SSL](https://github.com/bbichero/Documentation/tree/master/Encryption/SSL)
 
+* File Managment
+	- [DAT](https://github.com/bbichero/Documentation/tree/master/File_managment/DAT)
+
+* Hardware
+	- [Cisco](https://github.com/bbichero/Documentation/tree/master/Hardware/Cisco)
+	- [DAT](https://github.com/bbichero/Documentation/tree/master/Hardware/OSX)
+	- [DAT](https://github.com/bbichero/Documentation/tree/master/Hardware/Raspberry)
+
 * Hypervisor
 	- [Hyper v](https://github.com/bbichero/Documentation/tree/master/Hypervisor/Hyper_v) (TODO)
-	- [KVM](https://github.com/bbichero/Documentation/tree/master/Hypervisor/KVM)
 	- [VMware ESX](https://github.com/bbichero/Documentation/tree/master/Hypervisor/VMware_esx) (TODO)
 	- [Xen](https://github.com/bbichero/Documentation/tree/master/Hypervisor/Xen) (TODO)
+* Kernel
+    - [Linux](https://github.com/bbichero/Documentation/tree/master/Kernel/Linux)
 
 * Mail managment
 	- [Amavis](https://github.com/bbichero/Documentation/tree/master/Mail_managment/Amavis) (TODO)
@@ -73,7 +85,11 @@ Each subdirectory must contain:
 	- [Postfix](https://github.com/bbichero/Documentation/tree/master/Mail_managment/Postfix)
 	- [Spamassassin](https://github.com/bbichero/Documentation/tree/master/Mail_managment/Amavis) (TODO)
 
+* Messaging
+    - [Matrix](https://github.com/bbichero/Documentation/tree/master/Messaging/Matrix)
+
 * Network
+ 	- [Debian](https://github.com/bbichero/Documentation/tree/master/Network/Debian)
 	- [Commands](https://github.com/bbichero/Documentation/tree/master/Network/Commands)
 		* [nc](https://github.com/bbichero/Documentation/tree/master/Network/Commands/nc)
 		* [nmap](https://github.com/bbichero/Documentation/tree/master/Network/Commands/nmap)
@@ -92,6 +108,8 @@ Each subdirectory must contain:
 		* [IPv6](https://github.com/bbichero/Documentation/tree/master/Network/Protocols/IPv6)
 		* [UDP](https://github.com/bbichero/Documentation/tree/master/Network/Protocols/UDP) (TODO)
 		* [TCP](https://github.com/bbichero/Documentation/tree/master/Network/Protocols/TCP) (TODO)
+	- [VPN](https://github.com/bbichero/Documentation/tree/master/Network/VPN)
+		* [wireguard](https://github.com/bbichero/Documentation/tree/master/Network/VPN/wireguard) (TODO)
 
 * Package manager
 	- [Apt](https://github.com/bbichero/Documentation/tree/master/Package_manager/Apt)
