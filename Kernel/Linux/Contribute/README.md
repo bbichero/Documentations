@@ -40,3 +40,17 @@ A patch file will be generated in the current directory
 
 Always check your patch integrity with the kernel script `checkpatch.pl`   
 `/usr/src/$(uname -r)/scripts/checkpatch.pl ${KERNEL_PATH}/${PATCH_NAME_FILE}`
+
+#### Create New kernel module
+You must compile your module with the current kernel build binary   
+Compile your work with:
+```
+make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+```
+
+And check your syntax with:
+```
+/usr/src/$(uname -a)/scripts/checkpatch.pl --no-tree -f ${ROOT_PATH_TO_FILE}/${FILENAME}.c
+```
+
+To enable your module:
