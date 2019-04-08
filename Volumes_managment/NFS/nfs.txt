@@ -13,7 +13,7 @@ sudo apt install nfs-kernel-server
 sudo vi /etc/exports
 
 ---
-/directory/to/share	<ip-client>(rw,root_squash)
+/directory/to/share	<ip-client>(rw,sync,no_subtree_check)
 ---
 
 # Update nfs-server configuration
