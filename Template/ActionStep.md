@@ -9,14 +9,10 @@ Example:
 
 Install ssh server package:   
 ```
-\```
 sudo apt install openssh-server
-\```
 ```
 
 Restart service:   
 ```
-\```
 sudo systemctl restart sshd
-\```
 ```
