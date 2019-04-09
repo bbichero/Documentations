@@ -1,5 +1,6 @@
 #########################  GPG key  ############################
 #tuto : https://docs.abuledu.org/abuledu/mainteneur/creer_une_cle_gpg
+#tuto export: https://www.debuntu.org/how-to-importexport-gpg-key-pair/
 
 # install package for genrerating random number
 sudo apt-get install rng-tools pinentry-tty
