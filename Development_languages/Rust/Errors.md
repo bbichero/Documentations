@@ -54,3 +54,11 @@ note: Run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
 ```
 
 `?` operator, shortcut for propagation Errors
+The `?` placed after a Result value is defined to work in almost the same way as the match expressions, but you can use it only in function that return a `Result`
+```Rust
+File::open("hello.txt")?.read_to_string(&mut s)?;
+```
+
+### Use case
+- Use `panic!` for alerting person (or you) to the bug in the code (for invalid use of the function / method).
+- Use Result when failure is expected
