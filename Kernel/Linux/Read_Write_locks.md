@@ -1,7 +1,7 @@
 Read / Write locks
 ------
 
-[Article](https://stackoverflow.com/questions/932197/whats-the-best-linux-kernel-locking-mechanism-for-a-specific-scenario)
+[Source StackOverflow article](https://stackoverflow.com/questions/932197/whats-the-best-linux-kernel-locking-mechanism-for-a-specific-scenario)
 
 When you need to operate on critical variables / buffer you need to lock
 access to a memory region.
