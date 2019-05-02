@@ -21,3 +21,20 @@ Push all pulled data to newly created repository:
 ```
 git push origin master
 ```
+
+### Sync forked repository
+
+fetch new changes:
+```
+git fetch upstream
+```
+
+Make sure you are on `master` branch:
+```
+git checkout master
+```
+
+Rewrite master branch with upstream commit:
+```
+git rebase upstream/master
+```
