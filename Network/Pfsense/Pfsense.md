@@ -1,15 +1,16 @@
 Pfsense configuration
 ------
 
-First you need to configure interface.
+First you need to configure interface.   
 Let default value and do not configure VLAN right now
 
-Then set interface IP,
-IPv4: ${YOUR_FAILOVER_OPV4}
-NETMASK: 31
+Then set interface IP,   
+IPv4: ${YOUR_FAILOVER_OPV4}   
+NETMASK: 31   
 Gateway: BLANK
 
-Now enter in a shell and execute following commands:
+Now enter in a shell and execute following commands:   
+`62.210.0.1` is the default gateway of Online provider.
 ```
 route del default
 route add -net 62.210.0.1/32 -iface ${VM_INT_NAME}
@@ -30,3 +31,6 @@ route add -net 62.210.0.1/32 -iface ${VM_INT_NAME} && route add default 62.210.0
 ```
 
 Restart Pfsense to assure everything works
+
+After editing a lot of settings, you can export it in case of   
+Go to `Diagnostics` => `Backup and Restore` => `Download configuration as XML`
