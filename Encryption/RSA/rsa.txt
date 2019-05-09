@@ -1,5 +1,0 @@
-########################  RSA  #######################
-
-# Create couple rsa public / private key with custom encryption
-# Here key lenght is 4096
-ssh-keygen -t rsa -b 4096

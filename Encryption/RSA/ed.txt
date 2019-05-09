@@ -1,3 +1,0 @@
-
-# Generate an ED key, similar to 4096 bit rsa key but faster
-ssh-keygen -t ed25519 -a 100
