@@ -19,10 +19,10 @@ gpgkey=https://download.ceph.com/keys/release.asc
 EOM
 ```
 
-Update repository and install ceph deploy (install ntp too):
+Update repository and install ceph deploy (install ntp and setuptools too):
 ```
 sudo yum update
-sudo yum install ceph-deploy ntp ntpdate ntp-doc
+sudo yum install ceph-deploy ntp ntpdate ntp-doc python-setuptools
 ```
 
 Create ceph user and assign him a password (no to call if `ceph`) on ALL nodes    
@@ -68,4 +68,9 @@ Open port 6789 for monitor and range 6800:7300  for OSDs between nodes
 then saves your rules:
 ```
 sudo service iptables save
+```
+
+On each nodes ensute package manager has priority/preferences installed and enabled:
+```
+sudo yum install yum-plugin-priorities --enablerepo=rhel-7-server-optional-rpms
 ```
