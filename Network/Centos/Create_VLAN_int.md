@@ -14,3 +14,8 @@ NETMASK=${NETMASK_ADDR}
 VLAN=yes
 -----
 ```
+
+Restart networking service:
+```
+sudo systemctl restart networking
+```
