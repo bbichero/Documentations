@@ -1,9 +1,24 @@
 Installation
 -----
 
-Install ceph deploy and other dependencies from debian repository:
+Install ceph dependencies from debian repository:
 ```
-sudo apt install ceph-deploy ntp ntpdate ntp-doc python-setuptools
+sudo apt install ntp ntpdate ntp-doc python-setuptools
+```
+
+Add release key from ceph:
+```
+wget -q -O- 'https://download.ceph.com/keys/release.asc' | sudo apt-key add -
+```
+
+Add ceph package repository to apt list:
+```
+echo deb https://download.ceph.com/debian-luminous/ stretch main | sudo tee /etc/apt/sources.list.d/ceph.list
+```
+
+Install ceph deploy:
+```
+sudo apt install ceph-deploy
 ```
 
 Create ceph user and assign him a password (no to call if `ceph`) on ALL nodes    
