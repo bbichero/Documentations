@@ -1,4 +1,5 @@
 ######  DOCKER COMMAND  ######
+*Always restart docker service after reloading iptables rules*
 
 # Root conection to the VM ====> docker-machine ssh default
 
