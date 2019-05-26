@@ -2,7 +2,7 @@ Ganeti
 ------
 Requirements:
 - 2 serveurs with ceph cluster [configured](../../Volumes_managment/Ceph/Debian/README.md)
-- Hardware requirement are listed in [Ceph documentation](../../Volumes_management/Ceph/Debian/Storage_cluster.md)
+- Hardware requirement are listed in [Ceph documentation](../../Volumes_managment/Ceph/Debian/Storage_cluster.md)
 
 General:
 ```
