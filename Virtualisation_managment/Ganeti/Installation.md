@@ -2,7 +2,7 @@ Installation
 ------
 
 ### On ceph admin node
-On cluster creation directory (home from `ceph-user`), edit `ceph.conf`:
+On cluster creation directory edit `/home/ceph-user/ceph.conf`:
 ```
 vi ceph.conf
 ------
@@ -19,7 +19,7 @@ vi ceph.conf
 
 Install ganeti packages:
 ```
-sudo apt install ganeti
+sudo apt install ganeti --no-install-recommends
 ```
 
 Configure hosts files:
