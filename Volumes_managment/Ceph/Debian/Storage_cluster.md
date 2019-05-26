@@ -67,13 +67,13 @@ sudo vgcreate ceph-block-0 /dev/sda
 
 Create logical volume for block:
 ```
-lvcreate -l 100%FREE -n block-0 ceph-block-0
+sudo lvcreate -l 100%FREE -n block-0 ceph-block-0
 ```
 
 Create Volume group and logical disk for SSD:
 ```
-vgcreate ceph-db-0 /dev/sda
-lvcreate -L 15GB -n db-0 ceph-db-0
+sudo vgcreate ceph-db-0 /dev/sda
+sudo lvcreate -L 15GB -n db-0 ceph-db-0
 ```
 
 On admin node:
