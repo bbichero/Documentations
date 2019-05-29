@@ -9,125 +9,125 @@ Each subdirectory must contain:
  - SomeAction.md (Steps describing some action)
 
 * Automatisation
-    - [Ansible](https://gitlab.com/bbichero/Documentation/tree/master/Automatisation/Ansible)
-    - [Terraform](https://gitlab.com/bbichero/Documentation/tree/master/Automatisation/Terraform)
+    - [Ansible](Automatisation/Ansible)
+    - [Terraform](Automatisation/Terraform)
 
-* [Awesome](https://gitlab.com/bbichero/Documentation/tree/master/Awesome)
+* [Awesome](Awesome)
 
 * Centralized authentification
-	- [LDAP](https://gitlab.com/bbichero/Documentation/tree/master/Centralized_authentification/LDAP)
+	- [LDAP](Centralized_authentification/LDAP)
 
 * Centralized server managment
-	- [Ansible](https://gitlab.com/bbichero/Documentation/tree/master/Centralized_server_management/Ansible)
-	- [Puppet](https://gitlab.com/bbichero/Documentation/tree/master/Centralized_server_management/Puppet)
-	- [Salt](https://gitlab.com/bbichero/Documentation/tree/master/Centralized_server_management/Salt) (TODO)
+	- [Ansible](Centralized_server_management/Ansible)
+	- [Puppet](Centralized_server_management/Puppet)
+	- [Salt](Centralized_server_management/Salt) (TODO)
 
 * Compilator
-    - [Compilator](https://gitlab.com/bbichero/Documentation/tree/master/LLVM)
+    - [Compilator](LLVM)
 
-* [Contribute](https://gitlab.com/bbichero/Documentation/tree/master/Contribute)
+* [Contribute](Contribute)
 
 * Container deployment
-	- [Docker](https://gitlab.com/bbichero/Documentation/tree/master/Container_deployment/Docker)
+	- [Docker](Container_deployment/Docker)
 
 * Database managment
-    - [InfluxDB](https://gitlab.com/bbichero/Documentation/tree/master/Database_managment/InfluxDB)
-    - [MariaDB](https://gitlab.com/bbichero/Documentation/tree/master/Database_managment/MariaDB)
-	- [MongoDB](https://gitlab.com/bbichero/Documentation/tree/master/Database_managment/MongoDB) (TODO)
-	- [Mysql](https://gitlab.com/bbichero/Documentation/tree/master/Database_managment/Mysql)
-	- [PosgreSQL](https://gitlab.com/bbichero/Documentation/tree/master/Database_managment/PosgreSQL)
+    - [InfluxDB](Database_managment/InfluxDB)
+    - [MariaDB](Database_managment/MariaDB)
+	- [MongoDB](Database_managment/MongoDB) (TODO)
+	- [Mysql](Database_managment/Mysql)
+	- [PosgreSQL](Database_managment/PosgreSQL)
 
 * Development languages
-	- [Framwork](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Framwork)
-		* [NodeJS](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Framwork/NodeJS)
-		* [Socket IO](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Framwork/Socket_IO) (TODO)
-	- [Library](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Library)
-		* [React](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Library/React)
-		* [NodeSas](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Library/NodeSas)
+	- [Framwork](Development_languages/Framwork)
+		* [NodeJS](Development_languages/Framwork/NodeJS)
+		* [Socket IO](Development_languages/Framwork/Socket_IO) (TODO)
+	- [Library](Development_languages/Library)
+		* [React](Development_languages/Library/React)
+		* [NodeSas](Development_languages/Library/NodeSas)
 			
-	- [C](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/C)
-	- [C++](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/C%2B%2B) (TODO)
-	- [Hack](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Hack)
-	- [LISP](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/LISP)
-	- [Perl](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Perl)
-	- [PHP](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/PHP)
-	- [Python](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Python)
-	- [Ruby](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Ruby) (TODO)
-	- [Scala](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Scala)
-	- [Shell](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Shell)
-	- [TypeScript](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/TypeScript)
-	- [Yaml](https://gitlab.com/bbichero/Documentation/tree/master/Development_languages/Yaml) (TODO)
+	- [C](Development_languages/C)
+	- [C++](Development_languages/C%2B%2B) (TODO)
+	- [Hack](Development_languages/Hack)
+	- [LISP](Development_languages/LISP)
+	- [Perl](Development_languages/Perl)
+	- [PHP](Development_languages/PHP)
+	- [Python](Development_languages/Python)
+	- [Ruby](Development_languages/Ruby) (TODO)
+	- [Scala](Development_languages/Scala)
+	- [Shell](Development_languages/Shell)
+	- [TypeScript](Development_languages/TypeScript)
+	- [Yaml](Development_languages/Yaml) (TODO)
 
 * Encryption
-	- [GPG](https://gitlab.com/bbichero/Documentation/tree/master/Encryption/GPG)
-	- [RSA](https://gitlab.com/bbichero/Documentation/tree/master/Encryption/RSA)
-	- [SSL](https://gitlab.com/bbichero/Documentation/tree/master/Encryption/SSL)
+	- [GPG](Encryption/GPG)
+	- [RSA](Encryption/RSA)
+	- [SSL](Encryption/SSL)
 
 * File Managment
-	- [DAT](https://gitlab.com/bbichero/Documentation/tree/master/File_managment/DAT)
+	- [DAT](File_managment/DAT)
 
 * Hardware
-	- [Cisco](https://gitlab.com/bbichero/Documentation/tree/master/Hardware/Cisco)
-	- [DAT](https://gitlab.com/bbichero/Documentation/tree/master/Hardware/OSX)
-	- [DAT](https://gitlab.com/bbichero/Documentation/tree/master/Hardware/Raspberry)
+	- [Cisco](Hardware/Cisco)
+	- [DAT](Hardware/OSX)
+	- [DAT](Hardware/Raspberry)
 
 * Hypervisor
-	- [Hyper v](https://gitlab.com/bbichero/Documentation/tree/master/Hypervisor/Hyper_v) (TODO)
-	- [VMware ESX](https://gitlab.com/bbichero/Documentation/tree/master/Hypervisor/VMware_esx) (TODO)
-	- [Xen](https://gitlab.com/bbichero/Documentation/tree/master/Hypervisor/Xen) (TODO)
+	- [Hyper v](Hypervisor/Hyper_v) (TODO)
+	- [VMware ESX](Hypervisor/VMware_esx) (TODO)
+	- [Xen](Hypervisor/Xen) (TODO)
 * Kernel
-    - [Linux](https://gitlab.com/bbichero/Documentation/tree/master/Kernel/Linux)
+    - [Linux](Kernel/Linux)
 
 * Mail managment
-	- [Amavis](https://gitlab.com/bbichero/Documentation/tree/master/Mail_managment/Amavis) (TODO)
-	- [Dovecot](https://gitlab.com/bbichero/Documentation/tree/master/Mail_managment/Dovecot)
-	- [Exim](https://gitlab.com/bbichero/Documentation/tree/master/Mail_managment/Exim) (TODO)
-	- [Postfix](https://gitlab.com/bbichero/Documentation/tree/master/Mail_managment/Postfix)
-	- [Spamassassin](https://gitlab.com/bbichero/Documentation/tree/master/Mail_managment/Amavis) (TODO)
+	- [Amavis](Mail_managment/Amavis) (TODO)
+	- [Dovecot](Mail_managment/Dovecot)
+	- [Exim](Mail_managment/Exim) (TODO)
+	- [Postfix](Mail_managment/Postfix)
+	- [Spamassassin](Mail_managment/Amavis) (TODO)
 
 * Messaging
-    - [Matrix](https://gitlab.com/bbichero/Documentation/tree/master/Messaging/Matrix)
+    - [Matrix](Messaging/Matrix)
 
 * Network
- 	- [Debian](https://gitlab.com/bbichero/Documentation/tree/master/Network/Debian)
-	- [Commands](https://gitlab.com/bbichero/Documentation/tree/master/Network/Commands)
-		* [nc](https://gitlab.com/bbichero/Documentation/tree/master/Network/Commands/nc)
-		* [nmap](https://gitlab.com/bbichero/Documentation/tree/master/Network/Commands/nmap)
-		* [ping](https://gitlab.com/bbichero/Documentation/tree/master/Network/Commands/ping)
+ 	- [Debian](Network/Debian)
+	- [Commands](Network/Commands)
+		* [nc](Network/Commands/nc)
+		* [nmap](Network/Commands/nmap)
+		* [ping](Network/Commands/ping)
 
-	- [Managing](https://gitlab.com/bbichero/Documentation/tree/master/Network/Managing)
-		* [DHCP](https://gitlab.com/bbichero/Documentation/tree/master/Network/Managing/DHCP)
+	- [Managing](Network/Managing)
+		* [DHCP](Network/Managing/DHCP)
 			* ISC DHCP server
-		* [DNS](https://gitlab.com/bbichero/Documentation/tree/master/Network/Managing/DNS)
+		* [DNS](Network/Managing/DNS)
 			* Bind9
-		* [Firewall](https://gitlab.com/bbichero/Documentation/tree/master/Network/Managing/Firewall)
-			* [Iptables](https://gitlab.com/bbichero/Documentation/tree/master/Network/Managing/Firewall/Iptables)
-			* [Ipfw](https://gitlab.com/bbichero/Documentation/tree/master/Network/Managing/Firewall/Ipfw) (TODO)
-	- [Protocols](https://gitlab.com/bbichero/Documentation/tree/master/Network/Protocols)
-		* [IPv4](https://gitlab.com/bbichero/Documentation/tree/master/Network/Protocols/IPv4)
-		* [IPv6](https://gitlab.com/bbichero/Documentation/tree/master/Network/Protocols/IPv6)
-		* [UDP](https://gitlab.com/bbichero/Documentation/tree/master/Network/Protocols/UDP) (TODO)
-		* [TCP](https://gitlab.com/bbichero/Documentation/tree/master/Network/Protocols/TCP) (TODO)
-	- [VPN](https://gitlab.com/bbichero/Documentation/tree/master/Network/VPN)
-		* [wireguard](https://gitlab.com/bbichero/Documentation/tree/master/Network/VPN/wireguard) (TODO)
+		* [Firewall](Network/Managing/Firewall)
+			* [Iptables](Network/Managing/Firewall/Iptables)
+			* [Ipfw](Network/Managing/Firewall/Ipfw) (TODO)
+	- [Protocols](Network/Protocols)
+		* [IPv4](Network/Protocols/IPv4)
+		* [IPv6](Network/Protocols/IPv6)
+		* [UDP](Network/Protocols/UDP) (TODO)
+		* [TCP](Network/Protocols/TCP) (TODO)
+	- [VPN](Network/VPN)
+		* [wireguard](Network/VPN/wireguard) (TODO)
 
 * Package manager
-	- [Apt](https://gitlab.com/bbichero/Documentation/tree/master/Package_manager/Apt)
-	- [Brew](https://gitlab.com/bbichero/Documentation/tree/master/Package_manager/Brew) (TODO)
-	- [Composer](https://gitlab.com/bbichero/Documentation/tree/master/Package_manager/Composer)
-	- [Npm](https://gitlab.com/bbichero/Documentation/tree/master/Package_manager/Npm)
-	- [Yum](https://gitlab.com/bbichero/Documentation/tree/master/Package_manager/Yum) (TODO)
+	- [Apt](Package_manager/Apt)
+	- [Brew](Package_manager/Brew) (TODO)
+	- [Composer](Package_manager/Composer)
+	- [Npm](Package_manager/Npm)
+	- [Yum](Package_manager/Yum) (TODO)
 
 * Shell interpreter
-	- [Bash](https://gitlab.com/bbichero/Documentation/tree/master/Shell_interpreter/Bash)
-	- [Zsh](https://gitlab.com/bbichero/Documentation/tree/master/Shell_interpreter/Zsh) (TODO)
+	- [Bash](Shell_interpreter/Bash)
+	- [Zsh](Shell_interpreter/Zsh) (TODO)
 
 * Text editor
-	- [Vim](https://gitlab.com/bbichero/Documentation/tree/master/Text_editor/Vim)
-	- [Emacs](https://gitlab.com/bbichero/Documentation/tree/master/Text_editor/Emacs) (TODO)
-	- [Nano](https://gitlab.com/bbichero/Documentation/tree/master/Text_editor/Nano) (TODO)
-	- [Atom](https://gitlab.com/bbichero/Documentation/tree/master/Text_editor/Atom) (TODO)
-	- [Sublivim](https://gitlab.com/bbichero/Documentation/tree/master/Text_editor/Sublvim) (TODO)
+	- [Vim](Text_editor/Vim)
+	- [Emacs](Text_editor/Emacs) (TODO)
+	- [Nano](Text_editor/Nano) (TODO)
+	- [Atom](Text_editor/Atom) (TODO)
+	- [Sublivim](Text_editor/Sublvim) (TODO)
 
 * Versionning
 	- git
