@@ -52,3 +52,9 @@ ohci_pci
 
 Update initramfs
 `sudo update-initramfs -u`
+
+Error with ssh-agent:
+```
+Error connecting to agent: Connection refused
+```
+Remove all ssh-agent before executing again `eval $(ssh-agent -s)`
